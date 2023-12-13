@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Card</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="icon" type="image/png" href="{% static 'static/images/fav3.png' %}" />    <style>
+        body {
+            background-image: url('{% static "images/b5.jfif" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            backdrop-filter: blur(4px); 
+            height: 150vh; 
+            margin: 0;
+        }
+        .navbar {
+            background: rgb(251, 255, 0);
+            box-shadow: 0 2px 5px rgb(0, 0, 0);
+            padding: 1rem;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 1;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ff8f00;
+        }
+        @media (min-width: 992px) {
+            .navbar {
+                position: fixed;
+            }
+        }
+        .custom-navbar-toggler {
+            background-color: #0d0d0d; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 5px; 
+            color: white;
+            transition: background-color 0.3s ease-in-out; 
+
+            
+            .navbar-toggler-icon {
+                background-color: white; 
+                border-radius: 50%; 
+                padding: 2px; 
+            }
+        }
+
+        
+        .custom-navbar-toggler:hover .navbar-toggler-icon {
+            background-color: #ddd;
+        }
+        .custom-card {
+            width: 100%;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            color: black; /* Adjust text color for readability */
+        }
+        
+        .custom-image {
+            max-width: 100%;
+            max-height: 300px;
+            width: auto;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .custom-caption {
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+        }
+        
+        .status-box {
+            background-color: #f3f3f3;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .btn-group {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="{% static 'images/logo.jpg' %}" height="50px" width="50px" class="rounded-circle"> CARMEL LIBRARY</a>
+            <button class="navbar-toggler custom-navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'userhome' %}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Profile
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
+                            <a class="dropdown-item" href="{% url 'edit_user'  %}">Edit Profile</a>
+                            <a class="dropdown-item" href="{% url 'view_profile' %}">View Profile</a>
+                            
+                            
+                        </div></li>
+                
+              <!--                    <li class="nav-item active">-->
+<!--                    <!--                    <a class="nav-link" href="{% url 'user_penalty_details' %}">Payment</a>-->-->
+<!--             </li>-->
+             
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            My Products
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
+                            <a class="dropdown-item" href="{%  url 'show_requestedbook' %}">Requested Book</a>
+                            <a class="dropdown-item" href="{% url 'show_issuedbook' %}">Issued Books</a>
+                           
+                            
+                        </div></li>
+                        
+               
+             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Category
+                </a>
+                <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
+                    {% for category in ca %}
+                    <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{ category.cat_name }}</a>
+                    {% endfor %}
+
+                    
+                    
+                </div></li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+             </li>
+                
+             <li class="nav-item active">
+                <a class="nav-link" href="{% url 'logout1' %}">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+         </li>
+
+
+                 </ul>
+            </div>
+        </div>
+        
+    </nav>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+ {% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="row" >
+            <div class="col-md-6 mx-auto " style="margin-top: 100px;">
+                <div class="custom-card">
+                    <div class="text-center">
+                        <img src="{{bk.image.url}}" class="img-fluid custom-image" alt="">
+                    </div>
+                    
+                    <p><strong>Book Name:</strong> {{bk.book_name}}</p>
+                    <p><strong>Author:</strong> {{bk.author_name}}</p>
+                    <p><strong>Category:</strong> {{bk.add.cat_name}}</p>
+                    <p><strong>Language:</strong> {{bk.language}}</p>
+                    <p><strong>Price:</strong> {{bk.price}}</p>
+                    <p><strong>Available Copies</strong> {{bk.qty}}</p>
+        
+                    {% if bk.qty > 0 %}
+                    <div class="status-box">
+                        <p>Status: In Stock</p>
+                    </div>
+                    {% else %}
+                    <div class="status-box">
+                        <p>Status: Out of Stock</p>
+                    </div>
+                    {% endif %}
+                    <form method="post" action="{% url 'request_issue' bk.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="rental_period">Rental Period (in days):</label>
+                            <input type="number" name="rental_period" id="rental_period" class="form-control" required>
+
+
+                        </div>
+                        
+                        <input type="hidden" name="book_id" value="{{ bk.id }}">
+                        {% if bk.issued == 'Requested' or bk.status == 'Issued' %}
+                            <!-- Disable button if book is already requested or issued -->
+                            <button type="submit" class="btn btn-success" disabled>Request Issue</button>
+                        {% else %}
+                            <!-- Enable button if book is available -->
+                            <button type="submit" class="btn btn-success">Request Issue</button>
+                        {% endif %}
+                        
+                    </form>
+                     <form method="post" action="{% url 'chat_message_view' bk.id %}">
+                         {% csrf_token %}
+                          <label for="rental_period">Ask Questions:</label>
+                          <input type="hidden" name="book_id" value="{{ bk.id }}">
+                         <input type="text" name="chat_box" class="form-control" required>
+                         <button type="submit" class="btn btn-success">Send Message</button>
+                     </form>
+</div></div></div></div></body>
+ {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+        </div>
+{% endif %}
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>

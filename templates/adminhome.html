@@ -1,0 +1,873 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OLX Admin home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="icon" type="image/png" href="{% static 'images/fav3.png' %}"/>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+      :root {
+        --header-height: 3rem;
+        --nav-width: 68px;
+        --first-color: #1a2c63;
+        --first-color-light: #cbddf7;
+        --white-color: #f7f6fb;
+        --body-font: "Nunito", sans-serif;
+        --normal-font-size: 1rem;
+        --z-fixed: 100;
+      }
+
+      *,
+      ::before,
+      ::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        position: relative;
+        margin: var(--header-height) 0 0 0;
+        padding: 0 1rem;
+        font-family: var(--body-font);
+        font-size: var(--normal-font-size);
+        transition: 0.5s;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .header {
+        width: 100%;
+        height: var(--header-height);
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+        background-color: var(--white-color);
+        z-index: var(--z-fixed);
+        transition: 0.5s;
+      }
+
+      .header_toggle {
+        color: var(--first-color);
+        font-size: 1.5rem;
+        cursor: pointer;
+
+      }
+
+      .header_img {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .header_img img {
+        width: 40px;
+      }
+
+      .l-navbar {
+        position: fixed;
+        top: 0;
+        left: -30%;
+        width: var(--nav-width);
+        height: 100vh;
+        background-color: var(--first-color);
+        padding: 0.5rem 1rem 0 0;
+        transition: 0.5s;
+        z-index: var(--z-fixed);
+      }
+
+      .nav {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+
+      .nav_logo,
+      .nav_link {
+        display: grid;
+        grid-template-columns: max-content max-content;
+        align-items: center;
+        column-gap: 1rem;
+        padding: 0.5rem 0 0.5rem 1.5rem;
+      }
+
+      .nav_logo {
+        margin-bottom: 2rem;
+      }
+
+      .nav_logo-icon {
+        font-size: 1.25rem;
+        color: var(--white-color);
+      }
+
+      .nav_logo-name {
+        color: var(--white-color);
+        font-weight: 700;
+      }
+
+      .nav_link {
+        position: relative;
+        color: var(--first-color-light);
+        margin-bottom: 1.5rem;
+        transition: 0.3s;
+      }
+
+      .nav_link:hover {
+        color: var(--white-color);
+      }
+
+      .nav_icon {
+        font-size: 1.25rem;
+      }
+
+      .show {
+        left: 0;
+      }
+
+      .body-pd {
+        padding-left: calc(var(--nav-width) + 1rem);
+      }
+
+      .active {
+        color: var(--white-color);
+      }
+
+      .active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 2px;
+        height: 32px;
+        background-color: var(--white-color);
+      }
+
+      .height-100 {
+        height: 100vh;
+      }
+
+      @media screen and (min-width: 768px) {
+        body {
+          margin: calc(var(--header-height) + 1rem) 0 0 0;
+          padding-left: calc(var(--nav-width) + 2rem);
+        }
+
+        .header {
+          height: calc(var(--header-height) + 1rem);
+          padding: 0 2rem 0 calc(var(--nav-width) + 2rem);
+        }
+
+        .header_img {
+          width: 40px;
+          height: 40px;
+        }
+
+        .header_img img {
+          width: 45px;
+        }
+
+        .l-navbar {
+          left: 0;
+          padding: 1rem 1rem 0 0;
+        }
+
+        .show {
+          width: calc(var(--nav-width) + 156px);
+        }
+
+        .body-pd {
+          padding-left: calc(var(--nav-width) + 188px);
+        }
+      }
+ /* Style for the header content */
+.header_content {
+  display: flex;
+  align-items: flex-start; 
+padding: 0px;
+}
+
+
+.header_img img {
+  max-height: 40px; 
+}
+
+/* Style for the notification icon */
+#notification-icon {
+  font-size: 24px; 
+  color: #0b0909; 
+  margin-left: 10px; 
+  cursor: pointer; 
+}
+/* Styles for the modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  z-index: 2000;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+.notification-container {
+  position: absolute;
+  top: 10px; 
+  right: 10px; 
+z-index: 1000px;
+}
+ h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {}
+        a,
+        a:hover,
+        a:focus,
+        a:active {
+            text-decoration: none;
+            outline: none;
+        }
+
+        a,
+        a:active,
+        a:focus {
+            color: #6f6f6f;
+            text-decoration: none;
+            transition-timing-function: ease-in-out;
+            -ms-transition-timing-function: ease-in-out;
+            -moz-transition-timing-function: ease-in-out;
+            -webkit-transition-timing-function: ease-in-out;
+            -o-transition-timing-function: ease-in-out;
+            transition-duration: .2s;
+            -ms-transition-duration: .2s;
+            -moz-transition-duration: .2s;
+            -webkit-transition-duration: .2s;
+            -o-transition-duration: .2s;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        img {
+    max-width: 100%;
+    height: auto;
+}
+        section {
+            padding: 60px 0;
+           /* min-height: 100vh;*/
+        }
+
+.sec-title{
+  position:relative;
+  z-index: 1;
+  margin-bottom:60px;
+}
+
+.sec-title .title{
+  position: relative;
+  display: block;
+  font-size: 18px;
+  line-height: 24px;
+  color: #00aeef;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.sec-title h2{
+  position: relative;
+  display: block;
+  font-size:40px;
+  line-height: 1.28em;
+  color: #222222;
+  font-weight: 600;
+  padding-bottom:18px;
+}
+
+.sec-title h2:before{
+  position:absolute;
+  content:'';
+  left:0px;
+  bottom:0px;
+  width:50px;
+  height:3px;
+  background-color:#d1d2d6;
+}
+
+.sec-title .text{
+  position: relative;
+  font-size: 16px;
+  line-height: 26px;
+  color: #848484;
+  font-weight: 400;
+  margin-top: 35px;
+}
+
+.sec-title.light h2{
+  color: #ffffff;
+}
+
+.sec-title.text-center h2:before{
+  left:50%;
+  margin-left: -25px;
+}
+
+.list-style-one{
+  position:relative;
+}
+
+.list-style-one li{
+  position:relative;
+  font-size:16px;
+  line-height:26px;
+  color: #222222;
+  font-weight:400;
+  padding-left:35px;
+  margin-bottom: 12px;
+}
+
+.list-style-one li:before {
+    content: "\f058";
+    position: absolute;
+    left: 0;
+    top: 0px;
+    display: block;
+    font-size: 18px;
+    padding: 0px;
+    color: #ff2222;
+    font-weight: 600;
+    -moz-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1.6;
+    font-family: "Font Awesome 5 Free";
+}
+
+.list-style-one li a:hover{
+  color: #44bce2;
+}
+
+.btn-style-one{
+  position: relative;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 30px;
+  color: #ffffff;
+  padding: 10px 30px;
+  font-weight: 600;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+  background-color: #00aeef;
+}
+
+.btn-style-one:hover{
+  background-color: #0794c9;
+  color: #ffffff;
+}
+.about-section{
+  position: relative;
+  padding: 120px 0 70px;
+}
+
+.about-section .sec-title{
+  margin-bottom: 45px;
+}
+
+.about-section .content-column{
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.about-section .content-column .inner-column{
+  position: relative;
+  padding-left: 30px;
+}
+
+.about-section .text{
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 26px;
+  color: #848484;
+  font-weight: 400;
+}
+
+.about-section .list-style-one{
+  margin-bottom: 45px;
+}
+
+.about-section .btn-box{
+  position: relative;
+}
+
+.about-section .btn-box a{
+  padding: 15px 50px;
+}
+
+.about-section .image-column{
+  position: relative;
+}
+
+.about-section .image-column .text-layer{
+    position: absolute;
+    right: -110px;
+    top: 50%;
+    font-size: 325px;
+    line-height: 1em;
+    color: #ffffff;
+    margin-top: -175px;
+    font-weight: 500;
+}
+
+.about-section .image-column .inner-column{
+  position: relative;
+  padding-left: 80px;
+  padding-bottom: 0px;
+}
+.about-section .image-column .inner-column .author-desc{
+    position: absolute;
+    bottom: 16px;
+    z-index: 1;
+    background: orange;
+    padding: 10px 15px;
+    left: 96px;
+    width: calc(100% - 152px);
+    border-radius: 50px;
+}
+.about-section .image-column .inner-column .author-desc h2{
+    font-size: 21px;
+    letter-spacing: 1px;
+    text-align: center;
+    color: #fff;
+  margin: 0;
+}
+.about-section .image-column .inner-column .author-desc span{
+    font-size: 16px;
+    letter-spacing: 6px;
+    text-align: center;
+    color: #fff;
+  display: block;
+  font-weight: 400;
+}
+.about-section .image-column .inner-column:before{
+    content: '';
+    position: absolute;
+    width: calc(50% + 80px);
+    height: calc(100% + 160px);
+    top: -80px;
+    left: -3px;
+    background: transparent;
+    z-index: 0;
+    border: 44px solid #00aeef;
+}
+
+.about-section .image-column .image-1{
+  position: relative;
+}
+.about-section .image-column .image-2{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.about-section .image-column .image-2 img,
+.about-section .image-column .image-1 img{
+  box-shadow: 0 30px 50px rgba(8,13,62,.15);
+      border-radius: 46px;
+}
+
+.about-section .image-column .video-link{
+  position: absolute;
+  left: 70px;
+  top: 170px;
+}
+
+.about-section .image-column .video-link .link{
+  position: relative;
+  display: block;
+  font-size: 22px;
+  color: #191e34;
+  font-weight: 400;
+  text-align: center;
+  height: 100px;
+  width: 100px;
+  line-height: 100px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 30px 50px rgba(8,13,62,.15);
+  -webkit-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -ms-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+
+.about-section .image-column .video-link .link:hover{
+  background-color: #191e34;
+  color: #f
+
+
+    </style>
+  </head>
+  <body id="body-pd">
+    <header class="header" id="header">
+      <div class="header_toggle">
+        <i class="bx bx-menu" id="header-toggle"></i></div>
+        
+        <!-- Notification Bell Icon -->
+        <div class="notification-container">
+<div class="notification-icon">
+  <a id="notificationBell" href="#" data-toggle="modal" data-target="#notificationModal">
+      <i class="fa fa-bell"></i>
+      {% if unread_count > 0 %}
+      <span class="badge badge-danger" id="notificationCount" style="color: red;">{{ unread_count }}</span>
+      {% endif %}
+  </a>
+</div>
+</div>
+<!-- Notification Modal -->
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <h2>Overdue Book Notifications</h2>
+              <div class="notification-list">
+                {% for request in overdue_requests %}
+                  <div class="notification-item">
+                    <div class="notification-user">{{ request.user.username }}</div>
+                    <div class="notification-details">
+                      <div class="notification-book">Book Name: {{ request.book.book_name }}</div>
+                      <div class="notification-due-date">Due Date: {{ request.due_date }}</div>
+                      <div class="notification-fine">Fine Amount: {{ request.fine_amount }}</div>
+                      
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+         
+
+
+      </div>
+      <div class="header_img">
+        <img src="{% static 'images/giphy.gif' %}" alt="" />
+      </div>
+      
+      
+      
+    </header>
+    <div class="l-navbar" id="nav-bar">
+      <nav class="nav">
+        <div>
+          <a href="{% url 'logout1' %}" class="nav_link">
+            <i class="bx bx-log-out nav_icon" title="SignOut "></i>
+            <span class="nav_name">SignOut</span>
+          </a>
+         
+          <div class="nav_list">
+            <a href="{% url 'adminhome' %}" class="nav_link active">
+              <i class="bx bx-grid-alt nav_icon" title="Dashboard"></i>
+              <span class="nav_name">Dashboard</span>
+            </a>
+            <a href="{% url 'addcategory' %}" class="nav_link">
+                <i class="bx bx-plus nav_icon" title="Add Category"></i>
+                <span class="nav_name">Add Category</span>
+              </a>
+              <a href="#" class="nav_link">
+                <i class="bx bx-book nav_icon" title="Add Book"></i>
+                <span class="nav_name">Add Book</span>
+              </a>
+            <a href="{% url 'userdetails' %}" class="nav_link">
+              <i class="bx bx-user nav_icon" title="Users"></i>
+              <span class="nav_name">Users</span>
+            </a>
+            <a href="{% url 'requestedbook' %}" class="nav_link">
+              <i class="bx bx-message-square-detail nav_icon" title="Requested Book"></i>
+              <span class="nav_name">Requested Book</span>
+            </a>
+            <a href="{% url 'show_returnedbook' %}" class="nav_link">
+                <i class="bx bx-message-square-detail nav_icon" title="Retrned Book"></i>
+                <span class="nav_name">Issued/Returned</span>
+              </a>
+              <a href="{% url 'loginusers' %}" class="nav_link">
+                <i class="bx bx-user nav_icon" title="Approve Users"></i>
+                <span class="nav_name">Approve Users</span>
+                {% if unread_count > 0 %}
+                <span class="badge badge-pill badge-danger " style="color: red;">{{ unread_count }}</span>
+
+                {% endif %}
+            </a>
+            
+            <a href="{% url 'showbook' %}" class="nav_link">
+              <i class="bx bx-book nav_icon" title="Show Book"></i>
+              <span class="nav_name">Show Books</span>
+            </a>
+           
+          </div>
+        </div>
+       
+      </nav>
+    </div>
+   
+
+    
+    <div class="height-100 bg-light p-4">
+      <div class="container">
+        <!-- <ul>
+          {% for notification in notifications %}
+          <li>
+              <strong>Username:</strong> {{ notification.user.username }}<br>
+              <strong>Email:</strong> {{ notification.user.email }}<br>
+              <span>{{ notification.user.username }} wants to sign up</span>
+          </li>
+          {% endfor %}
+      </ul> -->
+      
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <ul class="list-unstyled">
+                {% for notification in notifications %}
+                <li>
+                    <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
+                        <div>
+                            <strong>Username:</strong> {{ notification.user.username }}<br>
+                            <strong>Email:</strong> {{ notification.user.email }}<br>
+                            <span>{{ notification.user.username }} wants to sign up</span>
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </li>
+                <!-- <script>
+                  setTimeout(function () {
+                      $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                          $(this).remove();
+                      });
+                  }, 6000); // 3000 milliseconds (3 seconds) delay before fading out
+              </script> -->
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+          <section class="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="content-column col-lg-6 col-md-12 col-sm-12 order-2">
+                    <div class="inner-column">
+                        <br><br><br><br>
+
+                        <h2><b>Discover Local Treasures, Sell with Ease: OLX - Your Trusted Marketplace!</b></h2>
+
+                        <div class="text">OLX is a global online marketplace that allows individuals to buy and sell goods and services locally. The platform serves as a facilitator for various categories of products, including electronics, cars, real estate, jobs, services, and more. Users can post free ads to sell items or find various offerings available in their locality.</div>
+                      <div class="text">
+                        OLX operates through its website and mobile application, providing a user-friendly interface for individuals to interact with each other directly, negotiate prices, and arrange transactions. It aims to connect buyers and sellers within the same geographical region, promoting convenience and accessibility for local trade.
+                      </div>
+                        <div class="btn-box">
+                            <a href="#" class="theme-btn btn-style-one">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Column -->
+                <div class="image-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="inner-column wow fadeInLeft">
+                        <figure class="image-1"><a href="#" class="lightbox-image" data-fancybox="images"><img title="Rahul Kumar Yadav" src="https://omarhraib.com/wp-content/uploads/2022/06/OLX_Illustration_Mocks.gif" alt=""></a></figure>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+                          <br><br><br>
+
+          <div class="text">
+                The company was founded in 2006 and has since expanded its operations to multiple countries worldwide, becoming one of the prominent online classified platforms.
+              </div>
+               <div class="text">
+               OLX has gained popularity due to its ease of use, wide range of categories, and its focus on enabling local transactions.
+              </div>
+               <div class="text">
+Cost-Efficient: Posting ads on OLX is often free or requires minimal fees, enabling individuals to sell items without significant expenses.
+              </div>
+               <div class="text">
+                Direct Communication: Buyers and sellers can interact directly, negotiating prices and arranging transactions without intermediaries.
+              </div>
+               <div class="text">
+
+Users can access OLX through its website or mobile app, allowing for on-the-go browsing and transactions.
+              </div>
+        </div>
+    </section>
+    
+    
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+ <script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function (event) {
+  const showNavbar = (toggleId, navId, bodyId, headerId) => {
+    const toggle = document.getElementById(toggleId),
+      nav = document.getElementById(navId),
+      bodypd = document.getElementById(bodyId),
+      headerpd = document.getElementById(headerId);
+
+    // Validate that all variables exist
+    if (toggle && nav && bodypd && headerpd) {
+      toggle.addEventListener("click", () => {
+        // show navbar
+        nav.classList.toggle("show");
+        // change icon
+        toggle.classList.toggle("bx-x");
+        // add padding to body
+        bodypd.classList.toggle("body-pd");
+        // add padding to header
+        headerpd.classList.toggle("body-pd");
+      });
+    }
+  };
+
+  showNavbar("header-toggle", "nav-bar", "body-pd", "header");
+
+  /*===== LINK ACTIVE =====*/
+  const linkColor = document.querySelectorAll(".nav_link");
+
+  function colorLink() {
+    if (linkColor) {
+      linkColor.forEach((l) => l.classList.remove("active"));
+      this.classList.add("active");
+    }
+  }
+  linkColor.forEach((l) => l.addEventListener("click", colorLink));
+
+  // Your code to run since DOM is loaded and ready
+});
+      // Get references to the modal and close button
+var modal = document.getElementById('notificationModal');
+var closeButton = document.querySelector('.close');
+
+// Function to show the modal
+function openModal() {
+  modal.style.display = 'block';
+}
+
+// Function to hide the modal
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+// Event listener for the bell icon click
+var notificationIcon = document.getElementById('notification-icon');
+notificationIcon.addEventListener('click', openModal);
+
+// Event listener for the close button click
+closeButton.addEventListener('click', closeModal);
+
+// Event listener to close the modal when clicking outside the modal content
+window.addEventListener('click', function (event) {
+  if (event.target == modal) {
+    closeModal();
+  }
+});
+// Add this JavaScript code to your template or a separate script file
+document.addEventListener("DOMContentLoaded", function () {
+  const notificationIcon = document.getElementById("notification-icon");
+  const notificationModal = document.getElementById("notificationModal");
+  const notificationList = document.getElementById("notificationList");
+
+  // Event listener for clicking the notification icon
+  notificationIcon.addEventListener("click", function () {
+  
+    fetch("/get_overdue_books/")
+      .then((response) => response.json())
+      .then((data) => {
+        
+        notificationList.innerHTML = "";
+
+       
+        data.forEach((book) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = `Book Title: ${book.title}, Due Date: ${book.due_date}`;
+          notificationList.appendChild(listItem);
+        });
+
+        // Display the modal
+        notificationModal.style.display = "block";
+      })
+      .catch((error) => {
+        console.error("Error fetching overdue books:", error);
+      });
+  });
+
+  // Event listener for closing the modal
+  const closeBtn = document.querySelector(".close");
+  closeBtn.addEventListener("click", function () {
+    notificationModal.style.display = "none";
+  });
+});
+
+
+
+</script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
