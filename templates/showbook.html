@@ -230,29 +230,19 @@
                 <i class="bx bx-plus nav_icon"></i>
                 <span class="nav_name">Add Category</span>
               </a>
-              <a href="{% url 'Addproducts'%}" class="nav_link">
-                <i class="bx bx-book nav_icon"></i>
-                <span class="nav_name">Add Book</span>
-              </a>
+
             <a href="{% url 'userdetails' %}" class="nav_link">
               <i class="bx bx-user nav_icon"></i>
               <span class="nav_name">Users</span>
             </a>
-            <a href="{% url 'requestedbook' %}" class="nav_link">
-              <i class="bx bx-message-square-detail nav_icon"></i>
-              <span class="nav_name">Requested Book</span>
-            </a>
-            <a href="{% url 'show_returnedbook' %}" class="nav_link">
-                <i class="bx bx-message-square-detail nav_icon"></i>
-                <span class="nav_name">Issued/Returned</span>
-              </a>
+
             <a href="{% url 'loginusers'  %}" class="nav_link">
               <i class="bx bx-user nav_icon"></i>
               <span class="nav_name">Approve Users</span>
             </a>
             <a href="{% url 'showbook' %}" class="nav_link active">
               <i class="bx bx-book nav_icon"></i>
-              <span class="nav_name">Show Books</span>
+              <span class="nav_name">Show Products</span>
             </a>
           
           </div>
@@ -329,15 +319,14 @@
 {% endif %}
 
     <div class="container mt-5">
-        <h2 class="mb-4 text-center">Books</h2>
+        <h2 class="mb-4 text-center">Products</h2>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead class="bg-dark text-white text-center">
                     <tr>
                         <th>Image</th>
                         <th>Name</th>
-                        <th>Author</th>
-                        <th>Language</th>
+                      
                         <th>Category</th>
             
                         <th>Price</th>
@@ -359,8 +348,7 @@
                             
                         </td>
                         <td>{{ b.book_name }}</td>
-                        <td>{{ b.author_name }}</td>
-                        <td>{{ b.language }}</td>
+      
                         <td>{{ b.add.cat_name }}</td>
                         <td>{{ b.price }}</td>
                         <td>{{b.qty}}</td>

@@ -145,8 +145,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER='meenuapr17@gmail.com'
-EMAIL_HOST_PASSWORD='wshvivgnlpzxeunq'
+EMAIL_HOST_USER='sandradhaneesh0789@gmail.com'
+EMAIL_HOST_PASSWORD='crsfergcqiqvdkfu'
 
 
 
