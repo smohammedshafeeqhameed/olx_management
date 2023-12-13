@@ -293,29 +293,19 @@
                 <i class="bx bx-plus nav_icon"></i>
                 <span class="nav_name">Add Category</span>
               </a>
-              <a href="#" class="nav_link">
-                <i class="bx bx-book nav_icon"></i>
-                <span class="nav_name">Add Book</span>
-              </a>
+
             <a href="{% url 'userdetails' %}" class="nav_link">
               <i class="bx bx-user nav_icon"></i>
               <span class="nav_name">Users</span>
             </a>
-            <a href="{% url 'requestedbook' %}" class="nav_link">
-              <i class="bx bx-message-square-detail nav_icon"></i>
-              <span class="nav_name">Requested Book</span>
-            </a>
-            <a href="{% url 'show_returnedbook' %}" class="nav_link">
-                <i class="bx bx-message-square-detail nav_icon"></i>
-                <span class="nav_name">Issued/Returned</span>
-              </a>
+ 
             <a href="{% url 'loginusers'  %}" class="nav_link">
               <i class="bx bx-user nav_icon"></i>
               <span class="nav_name">Approve Users</span>
             </a>
             <a href="{% url 'showbook' %}" class="nav_link">
               <i class="bx bx-book nav_icon"></i>
-              <span class="nav_name">Show Books</span>
+              <span class="nav_name">Show Products</span>
             </a>
            
           </div>
@@ -327,21 +317,18 @@
     <div class="container">
     <div class="edit-form">
         <div class="alert alert-success fade" id="alertBox" role="alert">
-           Book Details Updated Successfully
+           Product Details Updated Successfully
           </div>
        
-        <h2>    Edit Book Details</h2>
+        <h2>    Edit Product Details</h2>
        
         <form action="{% url 'editbook_details' bk.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
-                <label for="bookName">Book Name</label>
-                <input type="text" id="bookName" name="bookname" value="{{ bk.book_name }}" placeholder="Enter book name">
+                <label for="bookName">Product Name</label>
+                <input type="text" id="bookName" name="bookname" value="{{ bk.book_name }}" placeholder="Enter product name">
             </div>
-            <div class="form-group">
-                <label for="author">Author</label>
-                <input type="text" id="author" name="author" value="{{ bk.author_name }}" placeholder="Enter author name">
-            </div>
+
             <div class="form-group">
                 <label for="category">Category</label>
                 <select id="category" name="category">
@@ -352,23 +339,17 @@
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" name="description" value="{{ bk.description }}" placeholder="Enter book description">
+                <input type="text" name="description" value="{{ bk.description }}" placeholder="Enter product description">
             </div>
             <div class="form-group">
-                <label for="yr">Year of Publish</label>
+                <label for="yr">Year of Manufacture</label>
                 <input type="number" id="yr" name="year" value="{{ bk.year }}" placeholder="Enter year">
             </div>
             <div class="form-group">
                 <label for="qty">Quantity</label>
                 <input type="number" id="qy" name="qty" value="{{ bk.qty }}" placeholder="Enter Quantity">
             </div>
-            <div class="form-group mb-4">
-                <label for="lan">Language</label>
-                <select id="lan" name="lan">
-                    <option value="Malayalam" {% if bk.language == "Malayalam" %}selected{% endif %}>Malayalam</option>
-                    <option value="English" {% if bk.language == "English" %}selected{% endif %}>English</option>
-                </select>
-            </div>
+
             <div class="form-group">
                 <label for="price">Price</label>
                 <input type="number" id="price" value="{{ bk.price }}" name="price" placeholder="Enter price">

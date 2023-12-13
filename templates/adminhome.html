@@ -556,48 +556,7 @@ z-index: 1000px;
       <div class="header_toggle">
         <i class="bx bx-menu" id="header-toggle"></i></div>
         
-        <!-- Notification Bell Icon -->
-        <div class="notification-container">
-<div class="notification-icon">
-  <a id="notificationBell" href="#" data-toggle="modal" data-target="#notificationModal">
-      <i class="fa fa-bell"></i>
-      {% if unread_count > 0 %}
-      <span class="badge badge-danger" id="notificationCount" style="color: red;">{{ unread_count }}</span>
-      {% endif %}
-  </a>
-</div>
-</div>
-<!-- Notification Modal -->
-<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-            <div class="container-fluid">
-              <h2>Overdue Book Notifications</h2>
-              <div class="notification-list">
-                {% for request in overdue_requests %}
-                  <div class="notification-item">
-                    <div class="notification-user">{{ request.user.username }}</div>
-                    <div class="notification-details">
-                      <div class="notification-book">Book Name: {{ request.book.book_name }}</div>
-                      <div class="notification-due-date">Due Date: {{ request.due_date }}</div>
-                      <div class="notification-fine">Fine Amount: {{ request.fine_amount }}</div>
-                      
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-      </div>
-  </div>
-</div>
+
 
          
 
@@ -627,22 +586,12 @@ z-index: 1000px;
                 <i class="bx bx-plus nav_icon" title="Add Category"></i>
                 <span class="nav_name">Add Category</span>
               </a>
-              <a href="#" class="nav_link">
-                <i class="bx bx-book nav_icon" title="Add Book"></i>
-                <span class="nav_name">Add Book</span>
-              </a>
+
             <a href="{% url 'userdetails' %}" class="nav_link">
               <i class="bx bx-user nav_icon" title="Users"></i>
               <span class="nav_name">Users</span>
             </a>
-            <a href="{% url 'requestedbook' %}" class="nav_link">
-              <i class="bx bx-message-square-detail nav_icon" title="Requested Book"></i>
-              <span class="nav_name">Requested Book</span>
-            </a>
-            <a href="{% url 'show_returnedbook' %}" class="nav_link">
-                <i class="bx bx-message-square-detail nav_icon" title="Retrned Book"></i>
-                <span class="nav_name">Issued/Returned</span>
-              </a>
+
               <a href="{% url 'loginusers' %}" class="nav_link">
                 <i class="bx bx-user nav_icon" title="Approve Users"></i>
                 <span class="nav_name">Approve Users</span>
@@ -654,7 +603,7 @@ z-index: 1000px;
             
             <a href="{% url 'showbook' %}" class="nav_link">
               <i class="bx bx-book nav_icon" title="Show Book"></i>
-              <span class="nav_name">Show Books</span>
+              <span class="nav_name">Show Products</span>
             </a>
            
           </div>

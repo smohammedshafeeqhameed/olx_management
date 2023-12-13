@@ -231,29 +231,19 @@
                 <i class="bx bx-plus nav_icon" title="Add Category"></i>
                 <span class="nav_name">Add Category</span>
               </a>
-              <a href="{% url 'Addproducts' %}" class="nav_link">
-                <i class="bx bx-book nav_icon" title="Add Book"></i>
-                <span class="nav_name">Add Book</span>
-              </a>
+
             <a href="{% url 'userdetails' %}" class="nav_link">
               <i class="bx bx-user nav_icon" title="Users"></i>
               <span class="nav_name">Users</span>
             </a>
-            <a href="{% url 'requestedbook' %}" class="nav_link">
-              <i class="bx bx-message-square-detail nav_icon" title="Requested Book"></i>
-              <span class="nav_name">Requested Book</span>
-            </a>
-            <a href="{% url 'show_returnedbook' %}" class="nav_link">
-                <i class="bx bx-message-square-detail nav_icon" title="Returned Book"></i>
-                <span class="nav_name">Issued/Returned</span>
-              </a>
+
             <a href="{% url 'loginusers'  %}" class="nav_link">
               <i class="bx bx-user nav_icon" title="Approve users"></i>
               <span class="nav_name">Approve Users</span>
             </a>
             <a href="{% url 'showbook' %}" class="nav_link">
               <i class="bx bx-book nav_icon"></i>
-              <span class="nav_name">Show Books</span>
+              <span class="nav_name">Show Products</span>
             </a>
            
           </div>
@@ -271,7 +261,7 @@
                 {% if messages %}
                     <div class="messages">
                         {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 15px; background-color: #f1f1f1; color: #333;">
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 20px; background-color: #f1f1f1; color: #333;">
                                 {{ message }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>

@@ -166,7 +166,7 @@ def addbo(request):
         cat.save()
         Book=Addproduct(book_name=bk,author_name=an,description=des,year=yop,language=lan,qty=qty,price=price,image=img,add=cat)
         Book.save()
-        messages.success(request,'Book Added Successfully')
+        messages.success(request,'Product Added Successfully')
         return redirect('Addproducts')
 
 
@@ -186,7 +186,7 @@ def useraddbo(request):
         Book = Addproduct(user=request.user, book_name=bk,  description=des, year=yop,  qty=qty, price=price,
                           image=img, add=cat)
         Book.save()
-        messages.success(request, 'Book Added Successfully')
+        messages.success(request, 'Product Added Successfully')
         return redirect('UserAddproducts')
 
 
@@ -298,10 +298,32 @@ def reg(request):
                 reg.save()
                 print("Signup data saved")
 
-                subject = 'Welcome to Carmel Library'
-                message = f"Thank you for signing up!\nUsername: {uname}\nPassword: {pswd}"
-                recipient_list = email
-                send_mail(subject,message,settings.EMAIL_HOST_USER,[recipient_list])                 
+                # subject = 'Welcome to OLX'
+                # message = f"Thank you for signing up!\nUsername: {uname}\nPassword: {pswd}"
+                # recipient_list = email
+                # send_mail(subject,message,settings.EMAIL_HOST_USER,[recipient_list])   
+                # from django.core.mail import EmailMessage
+                from django.template.loader import render_to_string
+                from django.utils.html import strip_tags
+                from django.core.mail import EmailMultiAlternatives
+
+
+                # Load the HTML content from the template
+                html_content = render_to_string('email_template.html', {'uname':uname,'pswd':pswd})
+
+                # Create an EmailMessage object
+                email =EmailMultiAlternatives(
+                    subject='Welcome to OLX',
+                    body=strip_tags(html_content),  # Strip HTML tags for the plain text version
+                    from_email='sandradhaneesh0789@gmail.com',
+                    to=[email],  # Replace with the recipient's email address
+                )
+
+                # Attach the HTML content
+                email.attach_alternative(html_content, "text/html")
+
+                # Send the email
+                email.send()              
                 messages.success(request, 'Your registration is pending . Waiting for admin approval.')
                 signup_notification = SignupRequestNotification(user=user)
                 signup_notification.save()
@@ -473,9 +495,9 @@ def editbook_details(request,pk):
      if request.method == 'POST':
         ebook = Addproduct.objects.get(id=pk)
         ebook.book_name=request.POST['bookname']
-        ebook.author_name = request.POST['author']
+        
         ebook.description = request.POST['description']
-        ebook.language=request.POST['lan']
+        
         ebook.year=request.POST['year']
         ebook.qty=request.POST['qty']
         ebook.price=request.POST['price']
@@ -489,7 +511,7 @@ def editbook_details(request,pk):
         
         ebook.save() 
       
-        # messages.info(request, 'Details updated successfully.') 
+        messages.info(request, 'Details updated successfully.') 
         
         
         return redirect('showbook')
@@ -525,9 +547,9 @@ def delete_book(request, pk):
     try:
         book = Addproduct.objects.get(id=pk)
         book.delete()
-        messages.success(request, 'Book deleted successfully.')
+        messages.success(request, 'Product deleted successfully.')
     except Addproduct.DoesNotExist:
-        messages.error(request, 'Book not found.')
+        messages.error(request, 'Product not found.')
     
     return redirect('showbook') 
 
@@ -651,8 +673,8 @@ def reject_user(request, signup_id):
 
     # Send an email to the rejected user
     subject = 'Your Account Request has been Rejected'
-    message = f"Dear {user.username},\n\nYour account request has been rejected by the admin. If you have any questions, please contact us.\n\nRegards,\nThe CARMEL LIBRARY Team"
-    from_email = 'reshmithacr31@gmail.com'  
+    message = f"Dear {user.username},\n\nYour account request has been rejected by the admin. If you have any questions, please contact us.\n\nRegards,\nThe OLX Team"
+    from_email = 'sandradhaneesh0789@gmail.com'  
     recipient_list = [user.email]
     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
