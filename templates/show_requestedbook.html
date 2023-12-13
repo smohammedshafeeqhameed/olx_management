@@ -370,9 +370,10 @@
                 <div class="message">
                     <strong>{{ message.created_by.username }}</strong>: {{ message.messages }}
                     <strong>{{ message.book.book_name }}</strong>
-                    <form method="post" action="#">
+                    <form method="post" action="{% url 'update_reply' %}">
                         {% csrf_token %}
-                        <input type="text" name="new_message" placeholder="Type your message here..." required>
+                        <input type="hidden" name="message_id" value="{{ message.id }}">
+                        <input type="text" name="reply_message" placeholder="Type your message here..." required>
                         <button type="submit">Send</button>
                     </form>
                 </div>

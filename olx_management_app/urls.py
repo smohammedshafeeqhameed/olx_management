@@ -13,6 +13,7 @@ urlpatterns = [
     path('addbo',views.addbo,name='addbo'),
     path('useraddbo',views.useraddbo,name='useraddbo'),
     path('showbook',views.showbook,name='showbook'),
+    path('update_reply',views.update_reply,name='update_reply'),
     # path('demo',views.demo,name='demo')
     path('userdetails',views.userdetails,name='userdetails'),
     path('reg',views.reg,name='reg'),

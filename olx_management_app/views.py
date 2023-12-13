@@ -564,13 +564,17 @@ def categorized_products(request, category_id):
 @login_required(login_url='index')
 def bookcard(request,pk):
     bk=Addproduct.objects.get(id=pk)
+    current_user = request.user
+
+    # Filter chat messages created by the current user
+    user_chat_messages = ChatMessage.objects.filter(book=bk, created_by=current_user).order_by('-id')
     # Check if there is an existing pending request for the book by the logged-in user
-    existing_request = BookRequest.objects.filter(book=bk, user=request.user, status='Pending').exists()
+    # existing_request = BookRequest.objects.filter(book=bk, user=request.user, status='Pending').exists()
+    #
+    # if existing_request:
+    #     messages.warning(request, 'You have already requested this book. Please wait for approval.')
 
-    if existing_request:
-        messages.warning(request, 'You have already requested this book. Please wait for approval.')
-
-    return render(request, 'bookcard.html', {'bk': bk})
+    return render(request, 'bookcard.html', {'bk': bk, 'user_chat_messages': user_chat_messages})
 
 
 
@@ -907,10 +911,11 @@ def show_requestedbook(request):
     user_products = Addproduct.objects.filter(user=current_user)
 
     # Get the chat messages related to these Addproduct instances
-    user_chat_messages = ChatMessage.objects.filter(book__in=user_products)
+    user_chat_messages = ChatMessage.objects.filter(book__in=user_products, reply__isnull=True).order_by('-id')
 
     context = {
         'user_chat_messages': user_chat_messages,
+        'ca':ca,
         # Other context variables if needed
     }
     print(context)
@@ -921,6 +926,38 @@ def show_requestedbook(request):
     #     'ca':ca
     # }
     return render(request, 'show_requestedbook.html', context)
+@login_required(login_url='index')
+def update_reply(request):
+    if request.method == 'POST':
+
+        message_id = request.POST.get('message_id')
+        reply_message = request.POST.get('reply_message')
+        print(reply_message)
+
+        # Retrieve the ChatMessage instance based on message_id
+        chat_message = ChatMessage.objects.get(pk=message_id)
+        print(chat_message)
+        print(chat_message.messages)
+        print(chat_message.reply)
+        # Update the 'reply' field with the new reply message
+        chat_message.reply = reply_message
+        print(chat_message.reply)
+        chat_message.save()
+        print(chat_message.reply)
+        current_user = request.user
+        user_products = Addproduct.objects.filter(user=current_user)
+        user_chat_messages = ChatMessage.objects.filter(book__in=user_products, reply__isnull=True).order_by('-id')
+        ca = Category.objects.all()
+
+        context = {
+            'user_chat_messages': user_chat_messages,
+            'ca': ca,
+            # Other context variables if needed
+        }
+        # Redirect or render as needed
+        return render(request, 'show_requestedbook.html',context)
+
+
 
 # def show_requestedbook(request):
 #     ca = Category.objects.all()
