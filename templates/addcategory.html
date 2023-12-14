@@ -37,6 +37,14 @@
         box-sizing: border-box;
       }
 
+    .alert
+    {
+            width: 100%; /* Set the alerts to take the full width of the container */
+     }
+      .messages {
+            max-width: 600px; /* Set your desired maximum width */
+            margin: 0 auto; /* Center the messages horizontally */
+        }
       body {
         position: relative;
         margin: var(--header-height) 0 0 0;
@@ -261,7 +269,7 @@
                 {% if messages %}
                     <div class="messages">
                         {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 20px; background-color: #f1f1f1; color: #333;">
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style=" width: 100%; margin-bottom: 20px; background-color: #f1f1f1; color: #333;">
                                 {{ message }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
