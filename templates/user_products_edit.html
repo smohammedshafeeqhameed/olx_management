@@ -1,15 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update User</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="icon" type="image/png" href="{% static 'static/images/fav3.png' %}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Edit Product</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+    />
+    <link
+            href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+            rel="stylesheet"
+    />
+
     <style>
 
         body {
@@ -261,9 +267,184 @@
     opacity: 0;
 }
 
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+      :root {
+        --header-height: 3rem;
+
+        --first-color: #4723d9;
+        --first-color-light: #afa5d9;
+        --white-color: #f7f6fb;
+        --body-font: "Nunito", sans-serif;
+        --normal-font-size: 1rem;
+        --z-fixed: 100;
+      }
+
+      *,
+      ::before,
+      ::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        position: relative;
+        margin: var(--header-height) 0 0 0;
+        padding: 0 1rem;
+        font-family: var(--body-font);
+        font-size: var(--normal-font-size);
+        transition: 0.5s;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .header {
+        width: 100%;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+        background-color: var(--white-color);
+        z-index: var(--z-fixed);
+        transition: 0.5s;
+      }
+
+
+      .header_img {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .header_img img {
+        width: 40px;
+      }
+
+
+      .show {
+        left: 0;
+      }
+
+      .body-pd {
+        padding-left: calc(var(--nav-width) + 1rem);
+      }
+
+      .active {
+        color: var(--white-color);
+      }
+
+      .active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 2px;
+        height: 32px;
+        background-color: var(--white-color);
+      }
+
+      .height-100 {
+        height: 100vh;
+      }
+
+      @media screen and (min-width: 768px) {
+        body {
+          margin: calc(var(--header-height) + 1rem) 0 0 0;
+          padding-left: calc(var(--nav-width) + 2rem);
+        }
+
+
+        .header_img {
+          width: 40px;
+          height: 40px;
+        }
+
+        .header_img img {
+          width: 45px;
+        }
+
+
+
+        .body-pd {
+          padding-left: calc(var(--nav-width) + 188px);
+        }
+      }
+      .alert {
+    display: none;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+.edit-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M2.523 5.677L8 11.155l5.478-5.478a1.01 1.01 0 0 0-1.435-1.434l-4.793 4.792a.995.995 0 0 0-.001 1.407L9.56 12a1.01 1.01 0 0 0 1.438-1.42L8 8.329 3.937 12.58a1.01 1.01 0 0 0 1.437 1.42l4.793-4.793a.995.995 0 0 0 0-1.407L4.96 4.243a1.01 1.01 0 0 0-1.437 1.434z"/></svg>') no-repeat right center;
+        background-size: 16px;
+      }
+
+      button[type="submit"] {
+        background-color: var(--first-color);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      img.book-image {
+        max-width: 100px;
+        max-height: 100px;
+        margin-top: 10px;
+      }
+      /* CSS for fading alert */
+.fade {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
     </style>
 </head>
-<body>
+<body id="body-pd">
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="#"><img src="{% static 'images/giphy.gif' %}" height="50px" width="50px"
@@ -311,6 +492,7 @@
                     <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
                         Chats </a>
                 </li>
+                </li>
 
 
                 <li class="nav-item dropdown">
@@ -320,8 +502,8 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
                         {% for category in ca %}
-                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">
-                            {{ category.cat_name }}</a>
+                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{
+                            category.cat_name }}</a>
                         {% endfor %}
 
 
@@ -340,96 +522,121 @@
         </div>
     </div>
 </nav>
-
-<center><h1><b>Add Your Product to Sell</b></h1></center>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="page-content">
-                <!-- {% if messages %}
-  <div class="messages">
-      {% for message in messages %}
-          <div class="alert alert-success alert-fade">{{ message }}</div>
-      {% endfor %}
-  </div>
-{% endif %} -->
-                {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button> -->
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-
-
-                <h2 class="mb-4 text-center" style="color: black;">
-                    <center><h1><b>Add Your Product to Sell</b></h1></center>
-                </h2>
-                <form action="{% url 'useraddbo' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="bookName" class="form-label" style="color: black;">Product Name</label>
-                        <input type="text" class="form-control" id="bookName" name="bname"
-                               placeholder="Enter Product name"
-                               required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="category" class="form-label" style="color: black;">Category</label>
-                        <select class="form-select" name="sel" required>
-                            {% for b in book %}
-                            <option value="{{ b.id }}">{{ b.cat_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label" style="color: black;">Description</label>
-                        <textarea class="form-control" name="desc" placeholder="Description" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="year" class="form-label" style="color: black;">Year</label>
-                        <input type="number" class="form-control" id="year" name="yop" placeholder="Year of Manufacture"
-                               required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="price" class="form-label" style="color: black;">Price</label>
-                        <input type="number" class="form-control" id="price" name="price" placeholder="Price" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label" style="color: black;">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="qty" placeholder="Quantity"
-                               required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label" style="color: black;">Upload Image</label>
-                        <input type="file" class="form-control" id="image" name="img" required>
-                    </div>
-                    <center>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </center>
-                </form>
-                <br>
-            </div>
-            <br>
+<div class="container">
+    <br><br><br>
+    <div class="edit-form">
+        <div class="alert alert-success fade" id="alertBox" role="alert">
+            Product Details Updated Successfully
         </div>
-        <br>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+        <h2> Edit Product Details</h2>
+
+        <form action="{% url 'edit_user_product_details' bk.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="bookName">Product Name</label>
+                <input type="text" id="bookName" name="bookname" value="{{ bk.book_name }}"
+                       placeholder="Enter product name">
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+               <select id="category" name="category">
+                    {% for c in ca %}
+                        <option value="{{ c.id }}" {% if c.id == bk.add.id %}selected{% endif %}>{{ c.cat_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" name="description" value="{{ bk.description }}"
+                       placeholder="Enter product description">
+            </div>
+            <div class="form-group">
+                <label for="yr">Year of Manufacture</label>
+                <input type="number" id="yr" name="year" value="{{ bk.year }}" placeholder="Enter year">
+            </div>
+            <div class="form-group">
+                <label for="qty">Quantity</label>
+                <input type="number" id="qy" name="qty" value="{{ bk.qty }}" placeholder="Enter Quantity">
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" id="price" value="{{ bk.price }}" name="price" placeholder="Enter price">
+            </div>
+            <div class="form-group">
+                <label for="img">Upload Image</label>
+
+                <img src="{{bk.image.url}}" alt="Book Image" width="100px" height="100px">{{bk.image}}
+                <input type="file" name="img">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+</div>
+<script>
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"
+    >
+</script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function (event) {
+      const showNavbar = (toggleId, navId, bodyId, headerId) => {
+        const toggle = document.getElementById(toggleId),
+          nav = document.getElementById(navId),
+          bodypd = document.getElementById(bodyId),
+          headerpd = document.getElementById(headerId);
+
+        // Validate that all variables exist
+        if (toggle && nav && bodypd && headerpd) {
+          toggle.addEventListener("click", () => {
+            // show navbar
+            nav.classList.toggle("show");
+            // change icon
+            toggle.classList.toggle("bx-x");
+            // add padding to body
+            bodypd.classList.toggle("body-pd");
+            // add padding to header
+            headerpd.classList.toggle("body-pd");
+          });
+        }
+      };
+
+      showNavbar("header-toggle", "nav-bar", "body-pd", "header");
+
+      /*===== LINK ACTIVE =====*/
+      const linkColor = document.querySelectorAll(".nav_link");
+
+      function colorLink() {
+        if (linkColor) {
+          linkColor.forEach((l) => l.classList.remove("active"));
+          this.classList.add("active");
+        }
+      }
+      linkColor.forEach((l) => l.addEventListener("click", colorLink));
+
+      // Your code to run since DOM is loaded and ready
+    });
+</script>
+
+
+<script type="text/javascript">
+    // Function to show a fading alert box with a message
+    function showFadingAlert(message) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.innerHTML = message;
+      alertBox.classList.add('show');
+      alertBox.classList.remove('fade');
+      setTimeout(() => {
+        alertBox.classList.add('fade');
+        alertBox.classList.remove('show');
+      }, 3000); // Change 3000 to the desired duration in milliseconds
+    }
+</script>
 
 </body>
 </html>

@@ -133,7 +133,7 @@
 <body>
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-       <a class="navbar-brand" href="#"><img src="{% static 'images/giphy.gif' %}" height="50px" width="50px"
+        <a class="navbar-brand" href="#"><img src="{% static 'images/giphy.gif' %}" height="50px" width="50px"
                                               class="rounded-circle"> OLX STORE</a>
         <button class="navbar-toggler custom-navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarNav"
@@ -146,7 +146,12 @@
                     <a class="nav-link" href="{% url 'userhome' %}">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'UserAddproducts' %}"> <i class="fa-solid fa-cart-shopping"></i> Sell Product </a>
+                    <a class="nav-link" href="{% url 'UserAddproducts' %}"> <i class="fa-solid fa-cart-shopping"></i>
+                        Sell Product </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_user_products' %}"> <i class="fa-solid fa-store"></i>
+                        My Products </a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
@@ -168,25 +173,26 @@
                 <!-- <li class="nav-item active">
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
-                    Chats </a>
-            </li>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
+                        Chats </a>
+                </li>
+                </li>
 
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Category
+                    <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Category
                     </a>
                     <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
                         {% for category in ca %}
                         <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{ category.cat_name }}</a>
                         {% endfor %}
-        
-                        
-                        
-                    </div></li>
+
+
+                    </div>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
                 </li>
@@ -226,10 +232,13 @@
             </div>
 
             <div class="text">
-                <p class="name" style="font-size: 2em; font-weight: bolder; letter-spacing: 1px;">{{users.user.username}}</p>
-                <p class="job_title" style="font-size: 1em; font-weight: bolder; color: gray; margin-top: -2px;">{{users.user.email}}</p>
-                <p class="job_discription" style="font-size: 1em; color: gray; margin: 10px 30px 20px;"><b>First Name: {{users.user.first_name}} <br> Last Name: {{users.user.last_name}}
-                <br>Address: {{users.Address}}<br>DOB: {{users.dob}}<br>Contact Number: {{users.contact}}</b>
+                <p class="name" style="font-size: 2em; font-weight: bolder; letter-spacing: 1px;">
+                    {{users.user.username}}</p>
+                <p class="job_title" style="font-size: 1em; font-weight: bolder; color: gray; margin-top: -2px;">
+                    {{users.user.email}}</p>
+                <p class="job_discription" style="font-size: 1em; color: gray; margin: 10px 30px 20px;"><b>First Name:
+                    {{users.user.first_name}} <br> Last Name: {{users.user.last_name}}
+                    <br>Address: {{users.Address}}<br>DOB: {{users.dob}}<br>Contact Number: {{users.contact}}</b>
                 </p>
             </div>
             <div class="icons"
@@ -237,15 +246,15 @@
                 <button style="width: fit-content; height: fit-content; border: none; font-size: 1em;">
                     <ion-icon name="logo-dribbble"></ion-icon>
                     <ion-icon name="logo-instagram"></ion-icon>
-                     <ion-icon name="logo-twitter"></ion-icon>
-                     <ion-icon name="logo-linkedin"></ion-icon>
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    <ion-icon name="logo-linkedin"></ion-icon>
                     <ion-icon name="logo-facebook"></ion-icon>
                 </button>
                 <!-- Add other ion-icon buttons similarly -->
             </div>
             <div class="button"
                  style="display: flex; justify-content: space-around; flex-direction: row; margin: 20px 30px 0px;">
-               `
+                `
             </div>
         </div>
     </div>

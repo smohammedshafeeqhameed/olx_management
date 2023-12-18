@@ -1,15 +1,19 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update User</title>
+    <title>Home</title>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="icon" type="image/png" href="{% static 'static/images/fav3.png' %}"/>
+    <link rel="icon" type="image/png" href="{% static 'images/fav3.png' %}"/>
+
+
     <style>
 
         body {
@@ -300,9 +304,9 @@
                     </div>
                 </li>
 
-                <li class="nav-item active">
-                    <!--                    <a class="nav-link" href="{% url 'user_penalty_details' %}">Payment</a>-->
-                </li>
+                <!--                    <li class="nav-item active">-->
+                <!--                         <a class="nav-link" href="{% url 'user_penalty_details' %}">Payment</a>-->
+                <!--             </li>-->
 
                 <!-- <li class="nav-item active">
                    <a class="nav-link" href="#">Contact Us</a>
@@ -341,95 +345,227 @@
     </div>
 </nav>
 
-<center><h1><b>Add Your Product to Sell</b></h1></center>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="page-content">
-                <!-- {% if messages %}
-  <div class="messages">
-      {% for message in messages %}
-          <div class="alert alert-success alert-fade">{{ message }}</div>
-      {% endfor %}
-  </div>
-{% endif %} -->
-                {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button> -->
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+        :root {
 
 
-                <h2 class="mb-4 text-center" style="color: black;">
-                    <center><h1><b>Add Your Product to Sell</b></h1></center>
-                </h2>
-                <form action="{% url 'useraddbo' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="bookName" class="form-label" style="color: black;">Product Name</label>
-                        <input type="text" class="form-control" id="bookName" name="bname"
-                               placeholder="Enter Product name"
-                               required>
-                    </div>
+          --first-color: #1a2c63;
+          --first-color-light: #cbddf7;
+          --white-color: #f7f6fb;
+          --body-font: "Nunito", sans-serif;
+          --normal-font-size: 1rem;
+          --z-fixed: 100;
+        }
 
-                    <div class="mb-3">
-                        <label for="category" class="form-label" style="color: black;">Category</label>
-                        <select class="form-select" name="sel" required>
-                            {% for b in book %}
-                            <option value="{{ b.id }}">{{ b.cat_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label" style="color: black;">Description</label>
-                        <textarea class="form-control" name="desc" placeholder="Description" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="year" class="form-label" style="color: black;">Year</label>
-                        <input type="number" class="form-control" id="year" name="yop" placeholder="Year of Manufacture"
-                               required>
-                    </div>
+        *,
+        ::before,
+        ::after {
+          box-sizing: border-box;
+        }
 
-                    <div class="mb-3">
-                        <label for="price" class="form-label" style="color: black;">Price</label>
-                        <input type="number" class="form-control" id="price" name="price" placeholder="Price" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label" style="color: black;">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="qty" placeholder="Quantity"
-                               required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label" style="color: black;">Upload Image</label>
-                        <input type="file" class="form-control" id="image" name="img" required>
-                    </div>
-                    <center>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </center>
-                </form>
-                <br>
+        body {
+          position: relative;
+
+
+          font-family: var(--body-font);
+          font-size: var(--normal-font-size);
+          transition: 0.5s;
+        }
+
+        a {
+          text-decoration: none;
+        }
+
+
+
+        .header_img {
+          width: 35px;
+          height: 35px;
+          display: flex;
+          justify-content: center;
+          border-radius: 50%;
+          overflow: hidden;
+        }
+
+        .header_img img {
+          width: 40px;
+        }
+
+
+
+        .show {
+          left: 0;
+        }
+
+
+        .active {
+          color: var(--white-color);
+        }
+
+        .active::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          width: 2px;
+          height: 32px;
+          background-color: var(--white-color);
+        }
+
+
+
+        @media screen and (min-width: 768px) {
+
+
+          .header_img {
+            width: 40px;
+            height: 40px;
+          }
+
+          .header_img img {
+            width: 45px;
+          }
+
+
+
+        }
+
+    </style>
+</head>
+
+
+
+<div class="container mt-5"><br><br><br>
+    <h2 class="mb-4 text-center"><b>Products</b></h2>
+
+{% if messages %}
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <br>
+            {% endfor %}
         </div>
-        <br>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+{% endif %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="bg-dark text-white text-center">
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+
+                <th>Category</th>
+
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for b in buk %}
+            <tr>
+                <td>
+
+                    {% if b.image %}
+                    <img src="{{ b.image.url }}" class="img-fluid" alt="Book Cover" style="max-width: 100px;">
+                    {% else %}
+
+                    <p style="height: 100px; width: 100px;"></p>
+                    {% endif %}
+
+                </td>
+                <td>{{ b.book_name }}</td>
+
+                <td>{{ b.add.cat_name }}</td>
+                <td>{{ b.price }}</td>
+                <td>{{b.qty}}</td>
+                <td>
+                    <a href="{% url 'edit_user_product' b.id %}" style="color: black;">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                    </a>
+                    &nbsp;&nbsp;
+                    <a href="{% url 'delete_user_product' b.id %}" style="color: black;">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <p class="small text-muted mb-0">Description:</p>
+                    <p class="lead fw-normal mb-0" style="font-size: 15px;">{{ b.description }}</p>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"
+  >
+</script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function (event) {
+      const showNavbar = (toggleId, navId, bodyId, headerId) => {
+        const toggle = document.getElementById(toggleId),
+          nav = document.getElementById(navId),
+          bodypd = document.getElementById(bodyId),
+          headerpd = document.getElementById(headerId);
+
+        // Validate that all variables exist
+        if (toggle && nav && bodypd && headerpd) {
+          toggle.addEventListener("click", () => {
+            // show navbar
+            nav.classList.toggle("show");
+            // change icon
+            toggle.classList.toggle("bx-x");
+            // add padding to body
+            bodypd.classList.toggle("body-pd");
+            // add padding to header
+            headerpd.classList.toggle("body-pd");
+          });
+        }
+      };
+
+      showNavbar("header-toggle", "nav-bar", "body-pd", "header");
+
+      /*===== LINK ACTIVE =====*/
+      const linkColor = document.querySelectorAll(".nav_link");
+
+      function colorLink() {
+        if (linkColor) {
+          linkColor.forEach((l) => l.classList.remove("active"));
+          this.classList.add("active");
+        }
+      }
+      linkColor.forEach((l) => l.addEventListener("click", colorLink));
+
+
+    });
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
 </body>
 </html>

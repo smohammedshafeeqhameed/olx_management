@@ -127,6 +127,10 @@
                     <a class="nav-link" href="{% url 'UserAddproducts' %}"> <i class="fa-solid fa-cart-shopping"></i>
                         Sell Product </a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_user_products' %}"> <i class="fa-solid fa-store"></i>
+                        My Products </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -163,8 +167,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
                         {% for category in ca %}
-                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{
-                            category.cat_name }}</a>
+                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{ category.cat_name }}</a>
                         {% endfor %}
 
 
