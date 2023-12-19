@@ -308,8 +308,8 @@
                             My Products
                         </a>
                         <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
-                            <a class="dropdown-item" href="{%  url 'show_requestedbook' %}">Requested Book</a>
-                           <!--                           <a class="dropdown-item" href="{% url 'show_issuedbook' %}">Issued Books</a>-->
+                            <a class="dropdown-item" href="{%  url 'show_requestedProduct' %}">Requested Product</a>
+                           <!--                           <a class="dropdown-item" href="{% url 'show_issuedProduct' %}">Issued Products</a>-->
 <!--                            <a class="dropdown-item" href="{% url 'problem_history' %}">Reported Issue</a>-->
                             
                         </div></li>
@@ -344,42 +344,42 @@
  
 
 <div class="container mt-5 text-center">
-    <h2 class="mb-4" style="margin-top: 90px;">Issued Books</h2>
+    <h2 class="mb-4" style="margin-top: 90px;">Issued Products</h2>
     <div class="row">
-        {% for issued_book in issued_books %}
+        {% for issued_Product in issued_Products %}
         <div class="col-md-6">
             <div class="product-card border rounded p-3 mb-4 d-flex align-items-center">
                 <div class="row align-items-center w-100">
                     <div class="col-md-4">
-                        <img src="{{ issued_book.book.image.url }}" class="img-fluid" alt="Book Cover" style="max-width: 100px;">
+                        <img src="{{ issued_Product.Product.image.url }}" class="img-fluid" alt="Product Cover" style="max-width: 100px;">
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-12 mb-2">
-                                <p class="small text-muted mb-0">Book Name: {{ issued_book.book.book_name }}</p>
-                                <p class="small text-muted mb-0">Author: {{ issued_book.book.author_name }}</p>
-                                <p class="small text-muted mb-0">Language: {{ issued_book.book.language }}</p>
+                                <p class="small text-muted mb-0">Product Name: {{ issued_Product.Product.Product_name }}</p>
+                                <p class="small text-muted mb-0">Author: {{ issued_Product.Product.author_name }}</p>
+                                <p class="small text-muted mb-0">Language: {{ issued_Product.Product.language }}</p>
                             </div>
                             <div class="col-md-12 mb-2">
-                                <p class="small text-muted mb-0">Category: {{ issued_book.book.add.cat_name }}</p>
-                                <p class="small text-muted mb-0">Price: {{ issued_book.book.price }}</p>
+                                <p class="small text-muted mb-0">Category: {{ issued_Product.Product.add.cat_name }}</p>
+                                <p class="small text-muted mb-0">Price: {{ issued_Product.Product.price }}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 mt-3">
-                        <p class="small text-muted mb-0">Description: {{ issued_book.book.description }}</p>
-                        <p class="small text-muted mb-0">Due Date:  {{ issued_book.due_date|date:"F d, Y" }}</p>
+                        <p class="small text-muted mb-0">Description: {{ issued_Product.Product.description }}</p>
+                        <p class="small text-muted mb-0">Due Date:  {{ issued_Product.due_date|date:"F d, Y" }}</p>
 
 
-                        <form method="post" action="{% url 'report_problem' issued_book.id %}">
+                        <form method="post" action="{% url 'report_problem' issued_Product.id %}">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="problem_type">Select Problem Type:</label>
                                 <select id="problem_type" name="problem_type" class="form-control">
                                     <option value="no_issue">No Damage</option>
-                                    <option value="lost">Lost Book</option>
-                                    <option value="damage">Damaged Book</option>
-                                    {% if issued_book.overdue == "Overdue" %}
+                                    <option value="lost">Lost Product</option>
+                                    <option value="damage">Damaged Product</option>
+                                    {% if issued_Product.overdue == "Overdue" %}
                                             <option value="overdue">Overdue Return</option>
                                         {% else %}
                                             <option value="overdue" disabled>Overdue Return</option>
@@ -390,20 +390,20 @@
                                 <label for="problem_description">Additional Information:</label>
                                 <textarea id="problem_description" name="problem_description" class="form-control" rows="4"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-danger mt-2">Return Book</button>
+                            <button type="submit" class="btn btn-danger mt-2">Return Product</button>
                         </form>
                         
  
     
 
     <!-- <div id="reportProblemForm" class="container" style="display: none;">
-        <form method="post" action="{% url 'report_problem' issued_book.id %}">
+        <form method="post" action="{% url 'report_problem' issued_Product.id %}">
             {% csrf_token %}
             <div class="form-group">
                 <label for="problem_type">Select Problem Type:</label>
                 <select id="problem_type" name="problem_type" class="form-control">
-                    <option value="lost">Lost Book</option>
-                    <option value="damage">Damaged Book</option>
+                    <option value="lost">Lost Product</option>
+                    <option value="damage">Damaged Product</option>
                     <option value="overdue" disabled>Overdue Return</option>
                 </select>
             </div>
@@ -470,18 +470,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-const isBookOverdue = true; 
+const isProductOverdue = true;
 
     
     const overdueStatusElement = document.getElementById('overdue-status');
     const problemTypeSelect = document.getElementById('overdue');
 
    
-    if (isBookOverdue) {
-        overdueStatusElement.textContent = 'This book is overdue.';
+    if (isProductOverdue) {
+        overdueStatusElement.textContent = 'This Product is overdue.';
         problemTypeSelect.querySelector('[value="overdue"]').disabled = false;
     } else {
-        overdueStatusElement.textContent = 'This book is not overdue.';
+        overdueStatusElement.textContent = 'This Product is not overdue.';
         problemTypeSelect.querySelector('[value="overdue"]').disabled = true;
     }
 </script>

@@ -154,7 +154,7 @@
 
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
+                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
                         Chats </a>
                 </li>
                 </li>
@@ -212,7 +212,7 @@
                     <img src="{{bk.image.url}}" class="img-fluid custom-image" alt="">
                 </div>
 
-                <p><strong>Product Name:</strong> {{bk.book_name}}</p>
+                <p><strong>Product Name:</strong> {{bk.Product_name}}</p>
                 <p><strong>Category:</strong> {{bk.add.cat_name}}</p>
                 <p><strong>Price:</strong> {{bk.price}}</p>
                 <p><strong>Number Of Product: </strong> {{bk.qty}}</p>
@@ -230,7 +230,7 @@
                 <form method="post" action="{% url 'chat_message_view' bk.id %}">
                     {% csrf_token %}
                     <label for="rental_period">Ask Questions:</label>
-                    <input type="hidden" name="book_id" value="{{ bk.id }}">
+                    <input type="hidden" name="Product_id" value="{{ bk.id }}">
                     <input type="text" name="chat_box" class="form-control" required><br>
                     <button type="submit" class="btn btn-success">Send Message</button>
                 </form>

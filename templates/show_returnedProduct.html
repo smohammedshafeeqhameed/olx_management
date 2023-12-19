@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Adminhome</title>
+    <title>show_returnedProduct</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -16,13 +16,11 @@
       href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
       rel="stylesheet"
     />
-    
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="icon" type="image/png" href="{% static 'static/images/fav3.png' %}" />    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
-      :root {
+     :root {
         --header-height: 3rem;
         --nav-width: 68px;
         --first-color: #1a2c63;
@@ -32,7 +30,6 @@
         --normal-font-size: 1rem;
         --z-fixed: 100;
       }
-
       *,
       ::before,
       ::after {
@@ -202,7 +199,36 @@
           padding-left: calc(var(--nav-width) + 188px);
         }
       }
+      th{
+        color: white;
+      }
      
+.issue-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 400px;
+  z-index: 9999;
+}
+
+.issue-card h3 {
+  margin-top: 0;
+}
+
+.issue-card button {
+  background-color: #502ed7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  float: right;
+}
+
     </style>
   </head>
   <body id="body-pd">
@@ -217,10 +243,10 @@
     <div class="l-navbar" id="nav-bar">
       <nav class="nav">
         <div>
-            <a href="{% url 'logout1' %}" class="nav_link">
-                <i class="bx bx-log-out nav_icon"></i>
-                <span class="nav_name">SignOut</span>
-              </a>
+          <a href="{% url 'logout1' %}" class="nav_link">
+            <i class="bx bx-log-out nav_icon"></i>
+            <span class="nav_name">SignOut</span>
+          </a>
           <div class="nav_list">
             <a href="{% url 'adminhome' %}" class="nav_link ">
               <i class="bx bx-grid-alt nav_icon"></i>
@@ -230,155 +256,113 @@
                 <i class="bx bx-plus nav_icon"></i>
                 <span class="nav_name">Add Category</span>
               </a>
-
+              <a href="{% url 'Addproducts' %}" class="nav_link">
+                <i class="bx bx-Product nav_icon"></i>
+                <span class="nav_name">Add Product</span>
+              </a>
             <a href="{% url 'userdetails' %}" class="nav_link">
               <i class="bx bx-user nav_icon"></i>
               <span class="nav_name">Users</span>
             </a>
-
+            <a href="{% url 'requestedProduct' %}" class="nav_link">
+              <i class="bx bx-message-square-detail nav_icon"></i>
+              <span class="nav_name">Requested Product</span>
+            </a>
+            <a href="{% url 'show_returnedProduct' %}" class="nav_link active" >
+                <i class="bx bx-message-square-detail nav_icon"></i>
+                <span class="nav_name">Issued/Returned</span>
+              </a>
             <a href="{% url 'loginusers'  %}" class="nav_link">
               <i class="bx bx-user nav_icon"></i>
               <span class="nav_name">Approve Users</span>
             </a>
-            <a href="{% url 'showbook' %}" class="nav_link active">
-              <i class="bx bx-book nav_icon"></i>
+            <a href="{% url 'showProduct' %}" class="nav_link">
+              <i class="bx bx-Product nav_icon"></i>
               <span class="nav_name">Show Products</span>
             </a>
-          
+           
           </div>
         </div>
-        <!-- <a href="{% url 'logout1' %}" class="nav_link">
-          <i class="bx bx-log-out nav_icon"></i>
-          <span class="nav_name">SignOut</span>
-        </a> -->
+        
       </nav>
     </div>
-    <!-- <div class="container mt-5">
-       
-        <h2 class="mb-4">Books</h2>
-        <div class="row">
-            {% for b in buk %}
-            <div class="col-md-6">
-                <div class="product-card border rounded p-3 mb-4 d-flex align-items-center">
-                    <div class="row align-items-center w-100">
-                        <div class="col-md-4">
-                            {% if b.image %}
-                            <img src="{{ b.image.url }}" class="img-fluid" alt="Book Cover" style="max-width: 100px;">
-                        {% else %}
-                         
-                            <p>No image available</p>
-                        {% endif %}
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-12 mb-2">
-                                    <p class="small text-muted mb-0">Name: {{ b.book_name }}</p>
-                                    <p class="small text-muted mb-0">Author: {{ b.author_name }}</p>
-                                    <p class="small text-muted mb-0">Language: {{ b.language }}</p>
-                                </div>
-                                <div class="col-md-12 mb-2">
-                                    <p class="small text-muted mb-0">Category: {{ b.add.cat_name }}</p>
-                                    <p class="small text-muted mb-0">Price: {{ b.price }}</p>
-                                </div>
-                                <div class="col-md-12">
-                                    <a href="{% url 'editbook' b.id %}" style="color: black;">
-                                        <i class="fa fa-edit" aria-hidden="true"></i>
-                                    </a>
-                                    &nbsp;&nbsp;
-                                    <a href="{% url 'delete_book' b.id %}" style="color: black;">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt-3">
-                            <p class="small text-muted mb-0">Description:</p>
-                            <p class="lead fw-normal mb-0" style="font-size: 15px;">{{ b.description }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>  -->
-    {% if messages %}
-    <div class="container py-3">
-        <div class="row">
-            <div class="col-md-12">
-                {% for message in messages %}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-{% endif %}
-
-    <div class="container mt-5">
-        <h2 class="mb-4 text-center">Products</h2>
+  <div class="container">
+        <h1 class="my-4 text-center">Returned Products</h1>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-striped">
                 <thead class="bg-dark text-white text-center">
-                    <tr>
+                    <tr style="">
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Product</th>
                         <th>Image</th>
-                        <th>Name</th>
-                      
                         <th>Category</th>
-            
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Actions</th>
+                        <th>Stock</th>
+                        <th>Issued Date</th>
+                        <th>Due Date</th>
+                        <th>Fine Amount</th>
+                        <th>Overdue Amount</th>
+                        <th>Status</th>
+                        <th>Issues</th>
+                    
                     </tr>
                 </thead>
-                <tbody>
-                    {% for b in buk %}
-                    <tr>
-                        <td>
-                           
-                          {% if b.image %}
-                          <img src="{{ b.image.url }}" class="img-fluid" alt="Book Cover" style="max-width: 100px;">
-                      {% else %}
-                       
-                          <p style="height: 100px; width: 100px;"></p>
-                      {% endif %}
-                            
-                        </td>
-                        <td>{{ b.book_name }}</td>
-      
-                        <td>{{ b.add.cat_name }}</td>
-                        <td>{{ b.price }}</td>
-                        <td>{{b.qty}}</td>
-                        <td>
-                            <a href="{% url 'editbook' b.id %}" style="color: black;">
-                                <i class="fa fa-edit" aria-hidden="true"></i>
-                            </a>
-                            &nbsp;&nbsp;
-                            <a href="{% url 'delete_book' b.id %}" style="color: black;">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <p class="small text-muted mb-0">Description:</p>
-                            <p class="lead fw-normal mb-0" style="font-size: 15px;">{{ b.description }}</p>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
+                <!-- show_returnedProduct.html -->
+
+<!-- ... Your existing table headers ... -->
+
+<tbody>
+  {% for Product_request in returned_Products %}
+          
+    <tr>
+      <td>{{ Product_request.id }}</td>
+      <td>{{ Product_request.user.username }}</td>
+      <td>{{ Product_request.Product.Product_name }}</td>
+      <td>
+        <img src="{{ Product_request.Product.image.url }}" alt="{{ Product_request.Product.title }}" class="img-thumbnail" style="max-width: 60px; max-height: 60px;">
+      </td>
+      <td>{{ Product_request.Product.add.cat_name }}</td>
+      <td>{{ Product_request.Product.qty }}</td>
+      <td>{{ Product_request.request_date|date:"F d, Y" }}</td>
+      <td>{{ Product_request.due_date|date:"F d, Y" }}</td>
+      {% for issue_report in issue_reports %}
+      {% if issue_report.issued_Product == Product_request %}
+      <td>${{ issue_report.fine_amount }}</td>
+      {% endif %}
+      {% endfor %}
+      <td>${{ Product_request.overdue_amount }}</td>
+      <td>Returned</td>
+    
+      <td>
+        {% for issue_report in issue_reports %}
+          {% if issue_report.issued_Product == Product_request %}
+            
+            <p style="color: red;">
+              <a href="javascript:void(0);" onclick="displayIssueCard(
+                '{{ issue_report.id }}',
+                '{{ issue_report.fine_amount }}',
+                '{{ issue_report.problem_description }}',
+                {{ issue_report.is_paid|yesno:"true,false" }}
+              )" style="color: red;">Penalty details</a>
+              
+            </p>
+            
+          {% endif %}
+        {% endfor %}
+      </td>
+    </tr>
+  {% endfor %}
+</tbody>
+
+ 
             </table>
         </div>
-    </div>
-    
-    <script>
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"
-  ></script>
+    </div> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+   
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function (event) {
       const showNavbar = (toggleId, navId, bodyId, headerId) => {
@@ -415,9 +399,45 @@
       }
       linkColor.forEach((l) => l.addEventListener("click", colorLink));
 
-      
     });
-  </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+
+function displayIssueCard(issueId, fineAmount, issueDescription, isPaid) {
+  // Create a card/modal element
+  var card = document.createElement("div");
+  card.className = "issue-card";
+
+  // Populate the card with content
+  card.innerHTML = `
+    <h3>Issue Details</h3>
+    <p><strong>Fine Amount:</strong> $${fineAmount}</p>
+    <p><strong>Issue Description:</strong> ${issueDescription}</p>
+    <p><strong>Payment Status:</strong> ${isPaid ? 'Paid' : 'Not Paid'}</p>
+    <button onclick="closeIssueCard()">Close</button>
+  `;
+
+ 
+  document.body.appendChild(card);
+}
+
+function closeIssueCard() {
+  
+  var card = document.querySelector(".issue-card");
+  if (card) {
+    card.remove();
+  }
+}
+
+
+</script>
+
+ 
+
 </body>
 </html>

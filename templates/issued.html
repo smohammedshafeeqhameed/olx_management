@@ -7,30 +7,30 @@
 </head>
 <body>
     <div class="main-content">
-        <h1 class="mb-4">Issued Books</h1>
+        <h1 class="mb-4">Issued Products</h1>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">User</th>
-                        <th scope="col">Book Name</th>
+                        <th scope="col">Product Name</th>
                         <th scope="col">Image</th>
                         <th scope="col">Category</th>
                         <th scope="col">Issued Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for issued_book in issued_books %}
+                    {% for issued_Product in issued_Products %}
                         <tr>
-                            <td>{{ issued_book.id }}</td>
-                            <td>{{ issued_book.user.username }}</td>
-                            <td>{{ issued_book.book.book_name }}</td>
+                            <td>{{ issued_Product.id }}</td>
+                            <td>{{ issued_Product.user.username }}</td>
+                            <td>{{ issued_Product.Product.Product_name }}</td>
                             <td>
-                                <img src="{{ issued_book.book.image.url }}" alt="{{ issued_book.book.book_name }}" class="img-thumbnail" style="max-width: 60px; max-height: 60px;">
+                                <img src="{{ issued_Product.Product.image.url }}" alt="{{ issued_Product.Product.Product_name }}" class="img-thumbnail" style="max-width: 60px; max-height: 60px;">
                             </td>
-                            <td>{{ issued_book.book.add.cat_name }}</td>
-                            <td>{{ issued_book.issue_date|date:"Y-m-d" }}</td>
+                            <td>{{ issued_Product.Product.add.cat_name }}</td>
+                            <td>{{ issued_Product.issue_date|date:"Y-m-d" }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

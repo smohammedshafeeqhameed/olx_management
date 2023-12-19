@@ -431,7 +431,7 @@
         cursor: pointer;
       }
 
-      img.book-image {
+      img.Product-image {
         max-width: 100px;
         max-height: 100px;
         margin-top: 10px;
@@ -489,7 +489,7 @@
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
+                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
                         Chats </a>
                 </li>
                 </li>
@@ -534,8 +534,8 @@
         <form action="{% url 'edit_user_product_details' bk.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
-                <label for="bookName">Product Name</label>
-                <input type="text" id="bookName" name="bookname" value="{{ bk.book_name }}"
+                <label for="ProductName">Product Name</label>
+                <input type="text" id="ProductName" name="Productname" value="{{ bk.Product_name }}"
                        placeholder="Enter product name">
             </div>
 
@@ -568,7 +568,7 @@
             <div class="form-group">
                 <label for="img">Upload Image</label>
 
-                <img src="{{bk.image.url}}" alt="Book Image" width="100px" height="100px">{{bk.image}}
+                <img src="{{bk.image.url}}" alt="Product Image" width="100px" height="100px">{{bk.image}}
                 <input type="file" name="img">
             </div>
 

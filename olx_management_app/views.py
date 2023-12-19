@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .models import Signup, Category, Addproduct, LoginRequest, Cart, Notification, SignupRequestNotification, \
-    SignupRequest, AdminNotification, OverdueBookNotification
+    SignupRequest, AdminNotification, OverdueProductNotification
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth import login
@@ -16,7 +16,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import BookRequest, ProblemReport, ChatMessage
+from .models import ProductRequest, ProblemReport, ChatMessage
 from django.http import JsonResponse
 from django.db.models import Q
 from datetime import timedelta
@@ -52,7 +52,7 @@ def adminhome(request):
     # Get all unread notifications for user signups
     notifications = SignupRequestNotification.objects.filter(user__is_staff=False, is_seen=False)
     unread_count = notifications.count()
-    overdue_requests = BookRequest.objects.filter(status="Overdue")
+    overdue_requests = ProductRequest.objects.filter(status="Overdue")
 
     # Mark the notifications as seen when they are displayed
     for notification in notifications:
@@ -75,28 +75,28 @@ def adminhome(request):
 
 #         # Get all overdue rentals
 #         today = date.today()
-#         overdue_rentals =OverdueBookNotification.objects.filter(due_date__lt=today, returned=False)
+#         overdue_rentals =OverdueProductNotification.objects.filter(due_date__lt=today, returned=False)
 
 #         # Create notifications for overdue rentals
 #         for rental in overdue_rentals:
 #             # Check if a notification already exists for this rental and user
-#             existing_notification = OverdueBookNotification.objects.filter(
+#             existing_notification = OverdueProductNotification.objects.filter(
 #                 user=rental.user,
-#                 book_title=rental.book.title,
+#                 Product_title=rental.Product.title,
 #                 due_date=rental.due_date,
 #             ).first()
 
 #             if not existing_notification:
 #                 # Create a new notification
-#                 notification = OverdueBookNotification.objects.create(
+#                 notification = OverdueProductNotification.objects.create(
 #                     user=rental.user,
-#                     book_title=rental.book.title,
+#                     Product_title=rental.Product.title,
 #                     due_date=rental.due_date,
 #                 )
 
 #                 # Send an email notification here (use Django's send_mail)
 
-#         overdue_notifications = OverdueBookNotification.objects.filter(is_seen=False)
+#         overdue_notifications = OverdueProductNotification.objects.filter(is_seen=False)
 
 #         # Mark the notifications as seen when they are displayed
 #         for notification in signup_notifications:
@@ -108,9 +108,9 @@ def adminhome(request):
 #             notification.save()
 
 #             # Send an email to the user
-#             subject = 'Overdue Book Notification'
+#             subject = 'Overdue Product Notification'
 #             message = f'Hello {notification.user.username},\n\n' \
-#                       f'This is to remind you that the book "{notification.book_title}" ' \
+#                       f'This is to remind you that the Product "{notification.Product_title}" ' \
 #                       f'is overdue. Please return it to the library as soon as possible.\n\n' \
 #                       f'Thank you!'
 #             from_email = 'reshmithacr311@gmail.com'  # Replace with your email address
@@ -143,15 +143,15 @@ def addcat(request):
 
 @login_required(login_url='index')
 def Addproducts(request):
-    books = Category.objects.all()
-    return render(request, 'Addproducts.html', {'book': books})
+    Products = Category.objects.all()
+    return render(request, 'Addproducts.html', {'Product': Products})
 
 
 @login_required(login_url='index')
 def UserAddproducts(request):
-    books = Category.objects.all()
+    Products = Category.objects.all()
     ca = Category.objects.all()
-    return render(request, 'user_add_product.html', {'book': books, 'ca': ca})
+    return render(request, 'user_add_product.html', {'Product': Products, 'ca': ca})
 
 
 @login_required(login_url='index')
@@ -168,9 +168,9 @@ def addbo(request):
         sel = request.POST['sel']
         cat = Category.objects.get(id=sel)
         cat.save()
-        Book = Addproduct(book_name=bk, author_name=an, description=des, year=yop, language=lan, qty=qty, price=price,
+        Product = Addproduct(Product_name=bk, author_name=an, description=des, year=yop, language=lan, qty=qty, price=price,
                           image=img, add=cat)
-        Book.save()
+        Product.save()
         messages.success(request, 'Product Added Successfully')
         return redirect('Addproducts')
 
@@ -188,9 +188,9 @@ def useraddbo(request):
         sel = request.POST['sel']
         cat = Category.objects.get(id=sel)
         cat.save()
-        Book = Addproduct(user=request.user, book_name=bk, description=des, year=yop, qty=qty, price=price,
+        Product = Addproduct(user=request.user, Product_name=bk, description=des, year=yop, qty=qty, price=price,
                           image=img, add=cat)
-        Book.save()
+        Product.save()
         messages.success(request, 'Product Added Successfully')
         return redirect('UserAddproducts')
 
@@ -398,7 +398,7 @@ def reset_password1(request):
 @login_required(login_url='index')
 def userhome(request):
     ca = Category.objects.all()
-    show = Addproduct.objects.exclude(user=request.user)
+    show = Addproduct.objects.filter(is_approved=True).exclude(user=request.user)
     return render(request, 'userhome.html', {'ca': ca, 'sh': show})
 
 
@@ -408,52 +408,52 @@ def logout1(request):
 
 
 @login_required(login_url='index')
-def showbook(request):
-    books = Category.objects.all()
+def showProduct(request):
+    Products = Category.objects.all()
     bk = Addproduct.objects.all()
 
-    return render(request, 'showbook.html', {'bk': books, 'buk': bk})
+    return render(request, 'showProduct.html', {'bk': Products, 'buk': bk})
 
 
 @login_required(login_url='index')
 def show_user_products(request):
-    books = Category.objects.all()
+    Products = Category.objects.all()
     bk = Addproduct.objects.filter(user=request.user)
     ca = Category.objects.all()
 
-    return render(request, 'show_user_products.html', {'bk': books, 'buk': bk, 'ca': ca})
+    return render(request, 'show_user_products.html', {'bk': Products, 'buk': bk, 'ca': ca})
 
 
 @login_required(login_url='index')
 def edit_user(request):
     ca = Category.objects.all()
     user_profile = Signup.objects.get(user=request.user)
-    return render(request, 'edit_user.html', {'book': user_profile, 'ca': ca})
+    return render(request, 'edit_user.html', {'Product': user_profile, 'ca': ca})
 
 
 @login_required(login_url='index')
 def edit_password_page(request):
     ca = Category.objects.all()
     user_profile = Signup.objects.get(user=request.user)
-    return render(request, 'edit_password_page.html', {'book': user_profile, 'ca': ca})
+    return render(request, 'edit_password_page.html', {'Product': user_profile, 'ca': ca})
 
 
 @login_required(login_url='index')
 def edit_details(request, pk):
     if request.method == 'POST':
-        book = Signup.objects.get(user=pk)
+        Product = Signup.objects.get(user=pk)
         user = User.objects.get(id=pk)
         user.first_name = request.POST['fname']
         user.last_name = request.POST['lname']
         user.username = request.POST['uname']
         user.email = request.POST['email']
-        book.Address = request.POST['address']
-        book.dob = request.POST['dob']
-        book.contact = request.POST['contact']
+        Product.Address = request.POST['address']
+        Product.dob = request.POST['dob']
+        Product.contact = request.POST['contact']
         if 'img' in request.FILES:
-            book.img = request.FILES.get('img')
+            Product.img = request.FILES.get('img')
 
-        book.save()
+        Product.save()
         user.save()
 
         messages.success(request, 'Details updated successfully.')
@@ -463,7 +463,7 @@ def edit_details(request, pk):
 @login_required(login_url='index')
 def edit_password(request, pk):
     if request.method == 'POST':
-        book = Signup.objects.get(user=pk)
+        Product = Signup.objects.get(user=pk)
         user = User.objects.get(id=pk)
 
         if 'current_password' in request.POST and 'new_password' in request.POST and 'confirm_password' in request.POST:
@@ -497,60 +497,60 @@ def view_profile(request):
 
 
 @login_required(login_url='index')
-def editbook(request, pk):
-    books = Addproduct.objects.get(id=pk)
+def editProduct(request, pk):
+    Products = Addproduct.objects.get(id=pk)
     cat = Category.objects.all()
-    return render(request, 'editbook.html', {'bk': books, 'ca': cat})
+    return render(request, 'editProduct.html', {'bk': Products, 'ca': cat})
 
 @login_required(login_url='index')
 def edit_user_product(request, pk):
-    books = Addproduct.objects.get(id=pk)
+    Products = Addproduct.objects.get(id=pk)
     cat = Category.objects.all()
-    return render(request, 'user_products_edit.html', {'bk': books, 'ca': cat})
+    return render(request, 'user_products_edit.html', {'bk': Products, 'ca': cat})
 
 @login_required(login_url='index')
-def editbook_details(request, pk):
+def editProduct_details(request, pk):
     if request.method == 'POST':
-        ebook = Addproduct.objects.get(id=pk)
-        ebook.book_name = request.POST['bookname']
+        eProduct = Addproduct.objects.get(id=pk)
+        eProduct.Product_name = request.POST['Productname']
 
-        ebook.description = request.POST['description']
+        eProduct.description = request.POST['description']
 
-        ebook.year = request.POST['year']
-        ebook.qty = request.POST['qty']
-        ebook.price = request.POST['price']
+        eProduct.year = request.POST['year']
+        eProduct.qty = request.POST['qty']
+        eProduct.price = request.POST['price']
         cat = request.POST['category']
         cate = Category.objects.get(id=cat)
         cate.save()
-        ebook.add = cate
+        eProduct.add = cate
         if 'img' in request.FILES:
-            ebook.image = request.FILES.get('img')
+            eProduct.image = request.FILES.get('img')
 
-        ebook.save()
+        eProduct.save()
 
         messages.info(request, 'Details updated successfully.')
 
-        return redirect('showbook')
+        return redirect('showProduct')
 
 @login_required(login_url='index')
 def edit_user_product_details(request, pk):
     if request.method == 'POST':
-        ebook = Addproduct.objects.get(id=pk)
-        ebook.book_name = request.POST['bookname']
+        eProduct = Addproduct.objects.get(id=pk)
+        eProduct.Product_name = request.POST['Productname']
 
-        ebook.description = request.POST['description']
+        eProduct.description = request.POST['description']
 
-        ebook.year = request.POST['year']
-        ebook.qty = request.POST['qty']
-        ebook.price = request.POST['price']
+        eProduct.year = request.POST['year']
+        eProduct.qty = request.POST['qty']
+        eProduct.price = request.POST['price']
         cat = request.POST['category']
         cate = Category.objects.get(id=cat)
         cate.save()
-        ebook.add = cate
+        eProduct.add = cate
         if 'img' in request.FILES:
-            ebook.image = request.FILES.get('img')
+            eProduct.image = request.FILES.get('img')
 
-        ebook.save()
+        eProduct.save()
 
         messages.info(request, 'Details updated successfully.')
 
@@ -570,11 +570,11 @@ def delete_user(request, pk):
     return redirect('userdetails')
 
 
-# def delete_book(request,pk):
-#     book=Addproduct.objects.get(id=pk)
-#     if book is not None:
-#         book.delete()
-#         messages.success(request, 'Book deleted successfully.')
+# def delete_Product(request,pk):
+#     Product=Addproduct.objects.get(id=pk)
+#     if Product is not None:
+#         Product.delete()
+#         messages.success(request, 'Product deleted successfully.')
 
 
 def process_payment(request):
@@ -585,21 +585,21 @@ def process_payment(request):
     return render(request, 'cart.html')
 
 
-def delete_book(request, pk):
+def delete_Product(request, pk):
     try:
-        book = Addproduct.objects.get(id=pk)
-        book.delete()
+        Product = Addproduct.objects.get(id=pk)
+        Product.delete()
         messages.success(request, 'Product deleted successfully.')
     except Addproduct.DoesNotExist:
         messages.error(request, 'Product not found.')
 
-    return redirect('showbook')
+    return redirect('showProduct')
 
 
 def delete_user_product(request, pk):
     try:
-        book = Addproduct.objects.get(id=pk)
-        book.delete()
+        Product = Addproduct.objects.get(id=pk)
+        Product.delete()
         messages.success(request, 'Product deleted successfully.')
     except Addproduct.DoesNotExist:
         messages.error(request, 'Product not found.')
@@ -615,18 +615,18 @@ def categorized_products(request, category_id):
     if categories.exists():
         category = categories.first()
         # Filter Addproduct items by category and exclude items added by the current user
-        books = Addproduct.objects.filter(add=category).exclude(user=request.user)
-        print(books)
-        return render(request, 'categories.html', {'categories': [category], 'book': books, 'ca': ca})
+        Products = Addproduct.objects.filter(add=category, is_approved=True).exclude(user=request.user)
+        print(Products)
+        return render(request, 'categories.html', {'categories': [category], 'Product': Products, 'ca': ca})
     else:
 
         return render(request, 'userhome.html')
 
 
-# def search_books(request):
+# def search_Products(request):
 #     search_query = request.GET.get('q')
 #     if search_query:
-#         search_results = Addproduct.objects.filter(book_name__icontains=search_query)
+#         search_results = Addproduct.objects.filter(Product_name__icontains=search_query)
 #     else:
 #         search_results = []
 
@@ -634,19 +634,19 @@ def categorized_products(request, category_id):
 
 
 @login_required(login_url='index')
-def bookcard(request, pk):
+def Productcard(request, pk):
     bk = Addproduct.objects.get(id=pk)
     current_user = request.user
 
     # Filter chat messages created by the current user
-    user_chat_messages = ChatMessage.objects.filter(book=bk, created_by=current_user).order_by('-id')
-    # Check if there is an existing pending request for the book by the logged-in user
-    # existing_request = BookRequest.objects.filter(book=bk, user=request.user, status='Pending').exists()
+    user_chat_messages = ChatMessage.objects.filter(Product=bk, created_by=current_user).order_by('-id')
+    # Check if there is an existing pending request for the Product by the logged-in user
+    # existing_request = ProductRequest.objects.filter(Product=bk, user=request.user, status='Pending').exists()
     #
     # if existing_request:
-    #     messages.warning(request, 'You have already requested this book. Please wait for approval.')
+    #     messages.warning(request, 'You have already requested this Product. Please wait for approval.')
 
-    return render(request, 'bookcard.html', {'bk': bk, 'user_chat_messages': user_chat_messages})
+    return render(request, 'Productcard.html', {'bk': bk, 'user_chat_messages': user_chat_messages})
 
 
 def loginusers(request):
@@ -673,6 +673,29 @@ def approve_user(request, signup_id):
     # messages.info(request,f'{uname} wants to  signup ')
 
     return redirect('loginusers')
+
+def approve_product(request, id):
+    prd = get_object_or_404(Addproduct, pk=id)
+
+    prd.is_approved = True
+    prd.save()
+
+    messages.success(request, 'Product has been approved by the admin.')
+    # messages.info(request,f'{uname} wants to  signup ')
+
+    return redirect('showProduct')
+
+def reject_product(request, id):
+    prd = get_object_or_404(Addproduct, pk=id)
+
+    prd.is_approved = False
+    prd.save()
+
+    messages.success(request, 'Product has been Rejected by the admin.')
+    # messages.info(request,f'{uname} wants to  signup ')
+
+    return redirect('showProduct')
+
 
 
 # def approve_user(request, signup_id):
@@ -740,19 +763,19 @@ def reject_user(request, signup_id):
 # @login_required(login_url='index')
 def cart(request):
     ca = Category.objects.all()
-    cart_items = Cart.objects.filter(user=request.user).select_related('book')
+    cart_items = Cart.objects.filter(user=request.user).select_related('Product')
     total_price = sum(item.total_price() for item in cart_items)
     return render(request, 'cart.html', {'cartitems': cart_items, 'totalprice': total_price, 'ca': ca})
 
 
 # def increase_quantity(request, pk):
-#     cart_item = Cart.objects.get(book__id=pk, user=request.user)
+#     cart_item = Cart.objects.get(Product__id=pk, user=request.user)
 #     cart_item.quantity += 1
 #     cart_item.save()
 #     return redirect('cart')
 
 # def decrease_quantity(request, pk):
-#     cart_item = Cart.objects.get(book__id=pk, user=request.user)
+#     cart_item = Cart.objects.get(Product__id=pk, user=request.user)
 #     if cart_item.quantity > 1:
 #         cart_item.quantity -= 1
 #         cart_item.save()
@@ -762,7 +785,7 @@ def cart(request):
 # @login_required(login_url='index') 
 # def cart_details(request, pk):
 #     product = Addproduct.objects.get(id=pk)
-#     cart_item, created = Cart.objects.get_or_create(user=request.user, book=product)
+#     cart_item, created = Cart.objects.get_or_create(user=request.user, Product=product)
 #     if not created:
 #         cart_item.quantity += 1
 #         cart_item.save()
@@ -773,7 +796,7 @@ def cart(request):
 @login_required(login_url='index')
 def cart_details(request, pk):
     product = Addproduct.objects.get(id=pk)
-    cart_item, created = Cart.objects.get_or_create(user=request.user, book=product)
+    cart_item, created = Cart.objects.get_or_create(user=request.user, Product=product)
     if not created:
         cart_item.quantity += 1
         cart_item.save()
@@ -789,28 +812,28 @@ def cart_details(request, pk):
 
 @login_required(login_url='index')
 def increase_quantity(request, pk):
-    cart_item = Cart.objects.get(book__id=pk, user=request.user)
+    cart_item = Cart.objects.get(Product__id=pk, user=request.user)
     cart_item.quantity += 1
     cart_item.save()
 
     # Decrement the quantity from inventory
     with transaction.atomic():
-        cart_item.book.qty -= 1
-        cart_item.book.save()
+        cart_item.Product.qty -= 1
+        cart_item.Product.save()
 
     return redirect('cart')
 
 
 @login_required(login_url='index')
 def decrease_quantity(request, pk):
-    cart_item = Cart.objects.get(book__id=pk, user=request.user)
+    cart_item = Cart.objects.get(Product__id=pk, user=request.user)
     if cart_item.quantity > 1:
         cart_item.quantity -= 1
         cart_item.save()
 
         with transaction.atomic():
-            cart_item.book.qty += 1
-            cart_item.book.save()
+            cart_item.Product.qty += 1
+            cart_item.Product.save()
 
     return redirect('cart')
 
@@ -818,7 +841,7 @@ def decrease_quantity(request, pk):
 @login_required(login_url='index')
 def removecart(request, pk):
     product = Addproduct.objects.get(id=pk)
-    cart_item = Cart.objects.filter(user=request.user, book=product).first()
+    cart_item = Cart.objects.filter(user=request.user, Product=product).first()
 
     if cart_item:
         cart_item.delete()
@@ -828,28 +851,28 @@ def removecart(request, pk):
 
 @login_required(login_url='index')
 def proceedpay(request):
-    cart_items = Cart.objects.filter(user=request.user).select_related('book')
+    cart_items = Cart.objects.filter(user=request.user).select_related('Product')
     total_price = sum(item.total_price() for item in cart_items)
     return render(request, 'proceedpay.html', {'cartitems': cart_items, 'totalprice': total_price})
 
 
-# def search_books1(request):
+# def search_Products1(request):
 #     search_query = request.GET.get('q', '')
 
-#     books = Addproduct.objects.filter(Q(book_name__icontains=search_query) | Q(author_name__icontains=search_query))
+#     Products = Addproduct.objects.filter(Q(Product_name__icontains=search_query) | Q(author_name__icontains=search_query))
 
 
 #     context = {
-#         'books': books,
+#         'Products': Products,
 #         'search_query': search_query
 #     }
 
 #     return render(request, 'index.html', context)
 
-# def search_books1(request):
+# def search_Products1(request):
 #     search_query = request.GET.get('q', '')
 
-#     sh = Addproduct.objects.filter(Q(book_name__icontains=search_query) | Q(author_name__icontains=search_query))
+#     sh = Addproduct.objects.filter(Q(Product_name__icontains=search_query) | Q(author_name__icontains=search_query))
 
 
 #     context = {
@@ -861,13 +884,15 @@ def proceedpay(request):
 #     return render(request, 'index.html', context)
 
 
-def search_books_ajax(request):
+def search_Products_ajax(request):
     search_query = request.GET.get('q', '')
 
-    sh = Addproduct.objects.filter(Q(book_name__icontains=search_query) | Q(author_name__icontains=search_query))
-
+    sh = Addproduct.objects.filter(
+        (Q(Product_name__icontains=search_query) | Q(author_name__icontains=search_query)) &
+        Q(is_approved=True)
+    )
     # Convert the search results to a JSON format
-    results = [{'book_name': book.book_name, 'author_name': book.author_name} for book in sh]
+    results = [{'Product_name': Product.Product_name, 'author_name': Product.author_name} for Product in sh]
 
     return JsonResponse({'results': results})
 
@@ -876,29 +901,29 @@ def search_books_ajax(request):
 # def request_issue(request, pk):
 #     try:
 #         if request.method == 'POST':
-#             book_id = request.POST.get('book_id')  # Use get() to avoid raising KeyError
-#             book = Addproduct.objects.get(pk=book_id)
+#             Product_id = request.POST.get('Product_id')  # Use get() to avoid raising KeyError
+#             Product = Addproduct.objects.get(pk=Product_id)
 
-#             # Check if the book is in stock
-#             if book.qty <= 0:
-#                 messages.error(request, 'This book is out of stock and cannot be requested for issue.')
+#             # Check if the Product is in stock
+#             if Product.qty <= 0:
+#                 messages.error(request, 'This Product is out of stock and cannot be requested for issue.')
 #             else:
-#                 # Create a book request with "Pending" status
-#                 BookRequest.objects.create(user=request.user, book=book, status="Pending")
-#                 messages.success(request, 'Book request sent successfully!')
+#                 # Create a Product request with "Pending" status
+#                 ProductRequest.objects.create(user=request.user, Product=Product, status="Pending")
+#                 messages.success(request, 'Product request sent successfully!')
 #         else:
 #             messages.error(request, 'Invalid request method.')
 #     except Addproduct.DoesNotExist:
-#         messages.error(request, 'The requested book does not exist.')
+#         messages.error(request, 'The requested Product does not exist.')
 #     except Exception as e:
 #         print(f"Error: {e}")
-#         messages.error(request, 'An error occurred while sending the book request.')
+#         messages.error(request, 'An error occurred while sending the Product request.')
 
 #     return redirect('userhome')
 def request_issue(request, pk):
     try:
         if request.method == 'POST':
-            book_id = request.POST.get('book_id')
+            Product_id = request.POST.get('Product_id')
             rental_period = request.POST.get('rental_period')
 
             try:
@@ -907,19 +932,19 @@ def request_issue(request, pk):
                 rental_period = 7
 
             try:
-                book = Addproduct.objects.get(pk=book_id)
+                Product = Addproduct.objects.get(pk=Product_id)
 
-                if book.qty <= 0:
-                    messages.error(request, 'This book is out of stock and cannot be requested for issue.')
+                if Product.qty <= 0:
+                    messages.error(request, 'This Product is out of stock and cannot be requested for issue.')
                 else:
                     # Debugging: Print values to check if they are set correctly
-                    print(f"book_id: {book_id}, rental_period: {rental_period}")
-                    # Check if there is a pending request for the same user and book
-                    pending_request = BookRequest.objects.filter(user=request.user, book=book,
+                    print(f"Product_id: {Product_id}, rental_period: {rental_period}")
+                    # Check if there is a pending request for the same user and Product
+                    pending_request = ProductRequest.objects.filter(user=request.user, Product=Product,
                                                                  issued=False).exists()
                     if pending_request:
                         messages.error(request,
-                                       'You have already requested this book and it is pending. Cannot request again until it is issued.')
+                                       'You have already requested this Product and it is pending. Cannot request again until it is issued.')
                     else:
                         # Calculate the due date based on the rental period
                         due_date = timezone.now() + timedelta(days=rental_period)
@@ -927,15 +952,15 @@ def request_issue(request, pk):
                         # Debugging: Print the calculated due date
                         print(f"Calculated due_date: {due_date}")
 
-                        # Create a book request with "Pending" status and due date
-                        BookRequest.objects.create(user=request.user, book=book, status="Pending",
+                        # Create a Product request with "Pending" status and due date
+                        ProductRequest.objects.create(user=request.user, Product=Product, status="Pending",
                                                    rental_period=rental_period, due_date=due_date)
-                        messages.success(request, 'Book request sent successfully!')
+                        messages.success(request, 'Product request sent successfully!')
             except Addproduct.DoesNotExist:
-                messages.error(request, 'The requested book does not exist.')
+                messages.error(request, 'The requested Product does not exist.')
             except Exception as e:
                 print(f"Error: {e}")
-                messages.error(request, 'An error occurred while sending the book request.')
+                messages.error(request, 'An error occurred while sending the Product request.')
 
     except Exception as e:
         # Handle any other exceptions that might occur
@@ -946,15 +971,15 @@ def request_issue(request, pk):
 
 
 @login_required(login_url='index')
-def chat_message_view(request, book_id):
+def chat_message_view(request, Product_id):
     if request.method == 'POST':
-        book = get_object_or_404(Addproduct, id=book_id)
+        Product = get_object_or_404(Addproduct, id=Product_id)
         chat_box = request.POST.get('chat_box')
         user = request.user  # Assuming the user is logged in
 
         # Create or update ChatMessage
         chat_message = ChatMessage.objects.create(
-            book=book,
+            Product=Product,
             created_by=user,
             messages=chat_box  # Set messages field to chat_box
         )
@@ -970,16 +995,16 @@ def chat_message_view(request, book_id):
 
 
 @login_required(login_url='index')
-def show_requestedbook(request):
+def show_requestedProduct(request):
     user = request.user
     ca = Category.objects.all()
     current_user = request.user
 
     # Retrieve the Addproduct instances associated with the current user
-    user_products = Addproduct.objects.filter(user=current_user)
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
 
     # Get the chat messages related to these Addproduct instances
-    user_chat_messages = ChatMessage.objects.filter(book__in=user_products, reply__isnull=True).order_by('-id')
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
 
     context = {
         'user_chat_messages': user_chat_messages,
@@ -988,12 +1013,12 @@ def show_requestedbook(request):
     }
     print(context)
 
-    # requested_books = BookRequest.objects.filter(user=user)
+    # requested_Products = ProductRequest.objects.filter(user=user)
     # context = {
-    #     'requested_books': requested_books,
+    #     'requested_Products': requested_Products,
     #     'ca':ca
     # }
-    return render(request, 'show_requestedbook.html', {
+    return render(request, 'show_requestedProduct.html', {
         'user_chat_messages': user_chat_messages,
         'ca': ca
 
@@ -1018,8 +1043,8 @@ def update_reply(request):
         chat_message.save()
         print(chat_message.reply)
         current_user = request.user
-        user_products = Addproduct.objects.filter(user=current_user)
-        user_chat_messages = ChatMessage.objects.filter(book__in=user_products, reply__isnull=True).order_by('-id')
+        user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+        user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
         ca = Category.objects.all()
 
         context = {
@@ -1028,207 +1053,207 @@ def update_reply(request):
             # Other context variables if needed
         }
         # Redirect or render as needed
-        return render(request, 'show_requestedbook.html', context)
+        return render(request, 'show_requestedProduct.html', context)
 
 
-# def show_requestedbook(request):
+# def show_requestedProduct(request):
 #     ca = Category.objects.all()
 #     user = request.user
-#     requested_books = BookRequest.objects.filter(user=user, issued=False, status__in=['Pending', 'Approved'])
+#     requested_Products = ProductRequest.objects.filter(user=user, issued=False, status__in=['Pending', 'Approved'])
 #     context = {
-#         'requested_books': requested_books,
+#         'requested_Products': requested_Products,
 #         'ca': ca
 #     }
-#     return render(request, 'show_requestedbook.html', context)
+#     return render(request, 'show_requestedProduct.html', context)
 
 
 @login_required(login_url='index')
-# def show_issuedbook(request):
+# def show_issuedProduct(request):
 #     user = request.user
 #     ca=Category.objects.all()
-#     issued_books = BookRequest.objects.filter(user=user, issued=True)  # Retrieve issued books for the logged-in user
-#     for issued_book in issued_books:
+#     issued_Products = ProductRequest.objects.filter(user=user, issued=True)  # Retrieve issued Products for the logged-in user
+#     for issued_Product in issued_Products:
 #         # Calculate due date by adding 14 days to the request date
-#         issued_book.due_date = issued_book.request_date + timedelta(days=14)
+#         issued_Product.due_date = issued_Product.request_date + timedelta(days=14)
 #     context = {
-#         'issued_books': issued_books,
+#         'issued_Products': issued_Products,
 #         'ca':ca
 #     }
-#     return render(request, 'show_issuedbook.html', context)
+#     return render(request, 'show_issuedProduct.html', context)
 
-def show_issuedbook(request):
+def show_issuedProduct(request):
     user = request.user
     ca = Category.objects.all()
-    issued_books = BookRequest.objects.filter(user=user, issued=True)
+    issued_Products = ProductRequest.objects.filter(user=user, issued=True)
 
-    for issued_book in issued_books:
+    for issued_Product in issued_Products:
         # Calculate due date based on the rental period
-        due_date = issued_book.request_date + timedelta(days=issued_book.rental_period)
-        issued_book.due_date = due_date
+        due_date = issued_Product.request_date + timedelta(days=issued_Product.rental_period)
+        issued_Product.due_date = due_date
 
     context = {
-        'issued_books': issued_books,
+        'issued_Products': issued_Products,
         'ca': ca
     }
 
-    return render(request, 'show_issuedbook.html', context)
+    return render(request, 'show_issuedProduct.html', context)
 
 
 @login_required(login_url='index')
-def requestedbook(request):
-    requested_books = BookRequest.objects.all()
+def requestedProduct(request):
+    requested_Products = ProductRequest.objects.all()
     # Calculate and update overdue amount for each request
     today = date.today()
-    for book_request in requested_books:
-        if book_request.due_date < today:
-            days_overdue = (today - book_request.due_date).days
+    for Product_request in requested_Products:
+        if Product_request.due_date < today:
+            days_overdue = (today - Product_request.due_date).days
             overdue_charge_per_day = 50  # Change this to your desired overdue charge
             overdue_amount = days_overdue * overdue_charge_per_day
 
-            # Update the BookRequest object with the calculated overdue amount
-            book_request.overdue_amount = overdue_amount
-            book_request.save()  # Save the updated object
-    return render(request, 'requestedbook.html', {'requested_books': requested_books[::-1]})
+            # Update the ProductRequest object with the calculated overdue amount
+            Product_request.overdue_amount = overdue_amount
+            Product_request.save()  # Save the updated object
+    return render(request, 'requestedProduct.html', {'requested_Products': requested_Products[::-1]})
 
 
 # @login_required(login_url='index')
-# def issue_book_request(request, request_id):
-#     book_request = get_object_or_404(BookRequest, id=request_id)
+# def issue_Product_request(request, request_id):
+#     Product_request = get_object_or_404(ProductRequest, id=request_id)
 
-#     print(f"Book request status: {book_request.status}")
-#     print(f"Is Issued: {book_request.issued}")
-#     print(f"Book quantity: {book_request.book.qty}")
+#     print(f"Product request status: {Product_request.status}")
+#     print(f"Is Issued: {Product_request.issued}")
+#     print(f"Product quantity: {Product_request.Product.qty}")
 
-#     if book_request.status == "Approved" and not book_request.issued:
+#     if Product_request.status == "Approved" and not Product_request.issued:
 #         try:
-#             book_request.issued = True
-#             book_request.save()
+#             Product_request.issued = True
+#             Product_request.save()
 
-#             book_request.book.qty -= 1
-#             book_request.book.save()
+#             Product_request.Product.qty -= 1
+#             Product_request.Product.save()
 
-#             messages.success(request, 'Book issued successfully!')
+#             messages.success(request, 'Product issued successfully!')
 #         except Exception as e:
-#             messages.error(request, 'An error occurred while issuing the book.')
+#             messages.error(request, 'An error occurred while issuing the Product.')
 #             print(f"Error: {e}")
 #     else:
-#         messages.error(request, 'Book request cannot be issued.')
+#         messages.error(request, 'Product request cannot be issued.')
 
-#     print(f"Issued status after update: {book_request.issued}")
-#     print(f"Book quantity after update: {book_request.book.qty}")
+#     print(f"Issued status after update: {Product_request.issued}")
+#     print(f"Product quantity after update: {Product_request.Product.qty}")
 
-#     return redirect('requestedbook')
+#     return redirect('requestedProduct')
 
 @login_required(login_url='index')
-def issue_book_request(request, request_id):
-    book_request = get_object_or_404(BookRequest, id=request_id)
+def issue_Product_request(request, request_id):
+    Product_request = get_object_or_404(ProductRequest, id=request_id)
 
-    print(f"Book request status: {book_request.status}")
-    print(f"Is Issued: {book_request.issued}")
-    print(f"Book quantity: {book_request.book.qty}")
+    print(f"Product request status: {Product_request.status}")
+    print(f"Is Issued: {Product_request.issued}")
+    print(f"Product quantity: {Product_request.Product.qty}")
 
-    if book_request.status == "Approved" and not book_request.issued:
+    if Product_request.status == "Approved" and not Product_request.issued:
         try:
-            book_request.issued = True
-            book_request.save()
+            Product_request.issued = True
+            Product_request.save()
 
-            book_request.book.qty -= 1
-            book_request.book.save()
+            Product_request.Product.qty -= 1
+            Product_request.Product.save()
 
-            messages.success(request, 'Book issued successfully!')
+            messages.success(request, 'Product issued successfully!')
         except Exception as e:
-            messages.error(request, 'An error occurred while issuing the book.')
+            messages.error(request, 'An error occurred while issuing the Product.')
             print(f"Error: {e}")
     else:
-        messages.error(request, 'Book request cannot be issued.')
+        messages.error(request, 'Product request cannot be issued.')
 
-    print(f"Issued status after update: {book_request.issued}")
-    print(f"Book quantity after update: {book_request.book.qty}")
+    print(f"Issued status after update: {Product_request.issued}")
+    print(f"Product quantity after update: {Product_request.Product.qty}")
 
-    return redirect('requestedbook')
-
-
-@login_required(login_url='index')
-def issued_books(request):
-    issued_books = BookRequest.objects.filter(status="Approved", issued_books__gt=0)
-    return render(request, 'issued_books.html', {'issued_books': issued_books})
+    return redirect('requestedProduct')
 
 
 @login_required(login_url='index')
-def approve_book_request(request, request_id):
-    book_request = get_object_or_404(BookRequest, id=request_id)
-    if book_request.status == "Pending":
-        book_request.status = "Approved"
-        book_request.save()
-        messages.success(request, 'Book request approved successfully!')
+def issued_Products(request):
+    issued_Products = ProductRequest.objects.filter(status="Approved", issued_Products__gt=0)
+    return render(request, 'issued_Products.html', {'issued_Products': issued_Products})
+
+
+@login_required(login_url='index')
+def approve_Product_request(request, request_id):
+    Product_request = get_object_or_404(ProductRequest, id=request_id)
+    if Product_request.status == "Pending":
+        Product_request.status = "Approved"
+        Product_request.save()
+        messages.success(request, 'Product request approved successfully!')
     else:
-        messages.error(request, 'Book request cannot be approved.')
+        messages.error(request, 'Product request cannot be approved.')
 
-    return redirect('requestedbook')
+    return redirect('requestedProduct')
 
 
 @login_required(login_url='index')
-# def show_returnedbook(request): #1st workin
-#     returned_books = BookRequest.objects.filter(issued=False)
-#     for returned_book in returned_books:
-#         returned_book.due_date = returned_book.request_date + timedelta(days=14)
-#     context = {'returned_books': returned_books}
-#     return render(request, 'show_returnedbook.html', context)
+# def show_returnedProduct(request): #1st workin
+#     returned_Products = ProductRequest.objects.filter(issued=False)
+#     for returned_Product in returned_Products:
+#         returned_Product.due_date = returned_Product.request_date + timedelta(days=14)
+#     context = {'returned_Products': returned_Products}
+#     return render(request, 'show_returnedProduct.html', context)
 
-# def show_returnedbook(request):#2nd workin
+# def show_returnedProduct(request):#2nd workin
 #     user = request.user 
 #     ca = Category.objects.all() 
-#     returned_books = BookRequest.objects.filter(issued=False)
+#     returned_Products = ProductRequest.objects.filter(issued=False)
 
-#     for returned_book in returned_books:
+#     for returned_Product in returned_Products:
 #         # Calculate due date based on the rental period
-#         due_date = returned_book.request_date + timedelta(days=returned_book.rental_period)
-#         returned_book.due_date = due_date
+#         due_date = returned_Product.request_date + timedelta(days=returned_Product.rental_period)
+#         returned_Product.due_date = due_date
 
 #     context = {
-#         'returned_books': returned_books,
+#         'returned_Products': returned_Products,
 #         'ca': ca  
 #     }
 
-#     return render(request, 'show_returnedbook.html', context)
+#     return render(request, 'show_returnedProduct.html', context)
 
-def show_returnedbook(request):
+def show_returnedProduct(request):
     user = request.user
     ca = Category.objects.all()
-    returned_books = BookRequest.objects.filter(issued=False)
+    returned_Products = ProductRequest.objects.filter(issued=False)
 
-    for returned_book in returned_books:
+    for returned_Product in returned_Products:
         # Calculate due date based on the rental period
-        due_date = returned_book.request_date + timedelta(days=returned_book.rental_period)
-        returned_book.due_date = due_date
+        due_date = returned_Product.request_date + timedelta(days=returned_Product.rental_period)
+        returned_Product.due_date = due_date
 
-    issue_reports = ProblemReport.objects.filter(issued_book__in=returned_books)
+    issue_reports = ProblemReport.objects.filter(issued_Product__in=returned_Products)
 
     context = {
-        'returned_books': returned_books,
+        'returned_Products': returned_Products,
         'ca': ca,
         'issue_reports': issue_reports
     }
 
-    return render(request, 'show_returnedbook.html', context)
+    return render(request, 'show_returnedProduct.html', context)
 
 
 # @login_required(login_url='index')
-# def finepayment(request, book_request_id):
-#     book_request = get_object_or_404(BookRequest, id=book_request_id)
+# def finepayment(request, Product_request_id):
+#     Product_request = get_object_or_404(ProductRequest, id=Product_request_id)
 
 #     if request.method == 'POST':
 #         penalty = request.POST.get('penalty')
 #         status = request.POST.get('status')
 
-#         book_request.penalty = penalty
-#         book_request.status = status
-#         book_request.save()
+#         Product_request.penalty = penalty
+#         Product_request.status = status
+#         Product_request.save()
 
 #         # Redirect back to the same page or a relevant page
-#         return redirect('show_returnedbook')  
+#         return redirect('show_returnedProduct')  
 
-#     return render(request, 'userhome.html', {'book_request': book_request})
+#     return render(request, 'userhome.html', {'Product_request': Product_request})
 
 @login_required(login_url='index')
 def user_penalty_details(request):
@@ -1238,90 +1263,90 @@ def user_penalty_details(request):
 
 
 # @login_required(login_url='index')
-# def return_book(request, issued_book_id):
-#     issued_book = get_object_or_404(BookRequest, id=issued_book_id)
-#     if issued_book.issued and request.method == 'POST':
-#         print('book issued')
+# def return_Product(request, issued_Product_id):
+#     issued_Product = get_object_or_404(ProductRequest, id=issued_Product_id)
+#     if issued_Product.issued and request.method == 'POST':
+#         print('Product issued')
 #         penalty = request.POST.get('penalty')
 #         status = request.POST.get('status')
 
-#         issued_book.penalty = penalty
-#         issued_book.status = status
+#         issued_Product.penalty = penalty
+#         issued_Product.status = status
 
-#         issued_book.issued = False
-#         issued_book.return_date = timezone.now()
-#         issued_book.save()
+#         issued_Product.issued = False
+#         issued_Product.return_date = timezone.now()
+#         issued_Product.save()
 
-#         returned_book = issued_book.book
-#         returned_book.qty += 1
-#         returned_book.save()
+#         returned_Product = issued_Product.Product
+#         returned_Product.qty += 1
+#         returned_Product.save()
 
-#         messages.success(request, 'The book has been successfully returned. Penalty Amount: {} Reason: {}'.format(penalty, status))
+#         messages.success(request, 'The Product has been successfully returned. Penalty Amount: {} Reason: {}'.format(penalty, status))
 
-#         return redirect('show_issuedbook')
+#         return redirect('show_issuedProduct')
 
 #     return render(request, 'userhome.html')
 
-def return_book(request, issued_book_id):
-    issued_book = get_object_or_404(BookRequest, id=issued_book_id)
-    if issued_book.issued and request.method == 'POST':
-        print('book issued')
+def return_Product(request, issued_Product_id):
+    issued_Product = get_object_or_404(ProductRequest, id=issued_Product_id)
+    if issued_Product.issued and request.method == 'POST':
+        print('Product issued')
         penalty = request.POST.get('penalty')
         if not penalty:
             penalty = 0
         status = request.POST.get('status')
 
-        issued_book.penalty = penalty
-        issued_book.status = status
+        issued_Product.penalty = penalty
+        issued_Product.status = status
 
-        issued_book.issued = False
-        issued_book.return_date = timezone.now()
-        issued_book.save()
+        issued_Product.issued = False
+        issued_Product.return_date = timezone.now()
+        issued_Product.save()
 
-        returned_book = issued_book.book
-        returned_book.qty += 1
-        returned_book.save()
+        returned_Product = issued_Product.Product
+        returned_Product.qty += 1
+        returned_Product.save()
 
         messages.success(request,
-                         'The book has been successfully returned. Penalty Amount: {} Reason: {}'.format(penalty,
+                         'The Product has been successfully returned. Penalty Amount: {} Reason: {}'.format(penalty,
                                                                                                          status))
 
-        return redirect('show_issuedbook')
+        return redirect('show_issuedProduct')
 
     return render(request, 'userhome.html')
 
 
-# def return_book(request, issued_book_id):
-#     issued_book = get_object_or_404(BookRequest, id=issued_book_id)
-#     if issued_book.issued and request.method == 'POST':
-#         print('book issued')
+# def return_Product(request, issued_Product_id):
+#     issued_Product = get_object_or_404(ProductRequest, id=issued_Product_id)
+#     if issued_Product.issued and request.method == 'POST':
+#         print('Product issued')
 #         penalty = request.POST.get('penalty')
 #         status = request.POST.get('status')
 
-#         issued_book.penalty = penalty
-#         issued_book.status = status
+#         issued_Product.penalty = penalty
+#         issued_Product.status = status
 
-#         issued_book.issued = False
-#         issued_book.return_date = timezone.now()
-#         issued_book.save()
+#         issued_Product.issued = False
+#         issued_Product.return_date = timezone.now()
+#         issued_Product.save()
 
-#         returned_book = issued_book.book
-#         returned_book.qty += 1
-#         returned_book.save()
+#         returned_Product = issued_Product.Product
+#         returned_Product.qty += 1
+#         returned_Product.save()
 
-#         messages.success(request, 'The book has been successfully returned. Penalty Amount: {} Reason: {}'.format(penalty, status))
+#         messages.success(request, 'The Product has been successfully returned. Penalty Amount: {} Reason: {}'.format(penalty, status))
 
-#         return redirect('show_issuedbook')
+#         return redirect('show_issuedProduct')
 
 #     return render(request, 'userhome.html')
 
 
-# def return_book(request, issued_book_id):
-#     issued_book = get_object_or_404(BookRequest, id=issued_book_id)
+# def return_Product(request, issued_Product_id):
+#     issued_Product = get_object_or_404(ProductRequest, id=issued_Product_id)
 
-#     if issued_book.issued and request.method == 'POST':
+#     if issued_Product.issued and request.method == 'POST':
 #         # Calculate overdue_days
-#         due_date = issued_book.due_date  # Replace with the actual due date field name
+#         due_date = issued_Product.due_date  # Replace with the actual due date field name
 #         return_date = timezone.now()
 #         overdue_days = (return_date - due_date).days
 
@@ -1332,20 +1357,20 @@ def return_book(request, issued_book_id):
 
 #         status = request.POST.get('status')
 
-#         issued_book.penalty = penalty
-#         issued_book.status = status
+#         issued_Product.penalty = penalty
+#         issued_Product.status = status
 
-#         issued_book.issued = False
-#         issued_book.return_date = return_date
-#         issued_book.save()
+#         issued_Product.issued = False
+#         issued_Product.return_date = return_date
+#         issued_Product.save()
 
-#         returned_book = issued_book.book
-#         returned_book.qty += 1
-#         returned_book.save()
+#         returned_Product = issued_Product.Product
+#         returned_Product.qty += 1
+#         returned_Product.save()
 
-#         messages.success(request, f'The book has been successfully returned. Penalty Amount: {} Reason: {}')
+#         messages.success(request, f'The Product has been successfully returned. Penalty Amount: {} Reason: {}')
 
-#         return redirect('show_issuedbook')
+#         return redirect('show_issuedProduct')
 
 #     return render(request, 'userhome.html')
 
@@ -1380,24 +1405,24 @@ def penaltypayment(request):
     return render(request, 'penaltypayment.html', {'ca': ca})
 
 
-# def report_problem(request, issued_book_id):
+# def report_problem(request, issued_Product_id):
 #     try:
-#         issued_book = BookRequest.objects.get(id=issued_book_id)
-#     except BookRequest.DoesNotExist:
-#         messages.error(request, 'Issued book not found.')
-#         return redirect('your_rented_books_page')  # Replace with the URL name for the rented books page
+#         issued_Product = ProductRequest.objects.get(id=issued_Product_id)
+#     except ProductRequest.DoesNotExist:
+#         messages.error(request, 'Issued Product not found.')
+#         return redirect('your_rented_Products_page')  # Replace with the URL name for the rented Products page
 
 #     # Get problem type and description from the form submission
 #     problem_type = request.POST.get('problem_type')
 #     problem_description = request.POST.get('problem_description')
 
 #     # Calculate fine amount based on problem type and additional charges (if any)
-#     fine_amount = calculate_fine(issued_book, problem_type)
+#     fine_amount = calculate_fine(issued_Product, problem_type)
 
 #     # Create a problem report entry
 #     problem_report = ProblemReport(
 #         user=request.user,
-#         issued_book=issued_book,
+#         issued_Product=issued_Product,
 #         problem_type=problem_type,
 #         problem_description=problem_description,
 #         fine_amount=fine_amount
@@ -1405,27 +1430,27 @@ def penaltypayment(request):
 #     problem_report.save()
 
 
-#     return redirect('show_issuedbook')
-def report_problem(request, issued_book_id):
+#     return redirect('show_issuedProduct')
+def report_problem(request, issued_Product_id):
     try:
-        issued_book = BookRequest.objects.get(id=issued_book_id)
-    except BookRequest.DoesNotExist:
-        messages.error(request, 'Issued book not found.')
-        return redirect('show_issuedbook')
+        issued_Product = ProductRequest.objects.get(id=issued_Product_id)
+    except ProductRequest.DoesNotExist:
+        messages.error(request, 'Issued Product not found.')
+        return redirect('show_issuedProduct')
 
     if request.method == 'POST':
         # Get problem type and description from the form submission
-        print('book issued')
+        print('Product issued')
         problem_type = request.POST.get('problem_type')
         problem_description = request.POST.get('problem_description')
 
         # Calculate fine amount based on problem type and additional charges
-        fine_amount = calculate_fine(issued_book, problem_type)
+        fine_amount = calculate_fine(issued_Product, problem_type)
 
         # Create a problem report entry
         problem_report = ProblemReport(
             user=request.user,
-            issued_book=issued_book,
+            issued_Product=issued_Product,
             problem_type=problem_type,
             problem_description=problem_description,
             fine_amount=fine_amount
@@ -1434,53 +1459,53 @@ def report_problem(request, issued_book_id):
 
         status = request.POST.get('status')
 
-        issued_book.status = status
-        issued_book.fine_amount = fine_amount
-        issued_book.issued = False
-        issued_book.return_date = timezone.now()
-        issued_book.save()
+        issued_Product.status = status
+        issued_Product.fine_amount = fine_amount
+        issued_Product.issued = False
+        issued_Product.return_date = timezone.now()
+        issued_Product.save()
 
-        returned_book = issued_book.book
-        returned_book.qty += 1
-        returned_book.save()
+        returned_Product = issued_Product.Product
+        returned_Product.qty += 1
+        returned_Product.save()
         problem_description = request.POST.get('problem_description')
         messages.success(request,
-                         'The book has been successfully returned. Penalty Amount: {} Reason: {}'.format(fine_amount,
+                         'The Product has been successfully returned. Penalty Amount: {} Reason: {}'.format(fine_amount,
                                                                                                          problem_description))
 
-        return redirect('show_issuedbook')
+        return redirect('show_issuedProduct')
 
-    return redirect('show_issuedbook')
+    return redirect('show_issuedProduct')
 
 
-# def calculate_fine(issued_book, problem_type):
+# def calculate_fine(issued_Product, problem_type):
 #     if problem_type == 'lost':
-#         # Calculate the fine for a lost book as the book's original price plus any additional charges
-#         fine_amount = issued_book.book.price + issued_book.additional_charges
+#         # Calculate the fine for a lost Product as the Product's original price plus any additional charges
+#         fine_amount = issued_Product.Product.price + issued_Product.additional_charges
 #     else:
 
 
 #         # For other problem types (damage, overdue), use the predefined rates
 #         fine_rates = {
-#             'damage': 20,    # Fine amount for a damaged book
+#             'damage': 20,    # Fine amount for a damaged Product
 #             'overdue': 10,   # Fine amount for overdue return
 
 
 #         }
 #         fine_rate = fine_rates.get(problem_type, 0)  
-#         fine_amount = issued_book.book.price + fine_rate
+#         fine_amount = issued_Product.Product.price + fine_rate
 
 #     return fine_amount
 
 
-# def calculate_fine(issued_book, problem_type):
+# def calculate_fine(issued_Product, problem_type):
 #     if problem_type == 'lost':
-#         # Calculate the fine amount for a lost book (e.g., original price + additional charges)
-#         original_price = issued_book.book.price
+#         # Calculate the fine amount for a lost Product (e.g., original price + additional charges)
+#         original_price = issued_Product.Product.price
 #         additional_charges = Decimal('10.00')  # You can customize this value
 #         fine_amount = original_price + additional_charges
 #     elif problem_type == 'damage':
-#         # Calculate the fine amount for a damaged book (e.g., based on the extent of damage)
+#         # Calculate the fine amount for a damaged Product (e.g., based on the extent of damage)
 #         damage_charge_per_page = Decimal('2.00')  # You can customize this value
 #         damaged_pages = 10  # You can get this information from the user or other sources
 #         fine_amount = damage_charge_per_page * damaged_pages
@@ -1491,21 +1516,21 @@ def report_problem(request, issued_book_id):
 #     return fine_amount
 
 
-def calculate_fine(issued_book, problem_type):
+def calculate_fine(issued_Product, problem_type):
     if problem_type == 'lost':
-        # Calculate the fine amount for a lost book 
-        original_price = issued_book.book.price
+        # Calculate the fine amount for a lost Product 
+        original_price = issued_Product.Product.price
         additional_charges = Decimal('10.00')
         fine_amount = original_price + additional_charges
     elif problem_type == 'damage':
-        # Calculate the fine amount for a damaged book (
+        # Calculate the fine amount for a damaged Product (
         damage_charge_per_page = Decimal('2.00')
         damaged_pages = 10
         fine_amount = damage_charge_per_page * damaged_pages
     elif problem_type == 'no_issue':
         fine_amount = Decimal('0.00')
     elif problem_type == 'overdue':
-        due_date = issued_book.due_date  # Remove .date()
+        due_date = issued_Product.due_date  # Remove .date()
         today = date.today()  # Get the current date without time
         if today > due_date:
             # Calculate fine based on the number of days overdue
@@ -1546,34 +1571,34 @@ def mark_issue_as_paid(request, issue_id):
         return JsonResponse({'status': 'error', 'message': 'Issue report not found'})
 
 
-def check_overdue_books(request):
+def check_overdue_Products(request):
     # Get the current date and time
     current_datetime = timezone.now()
 
-    # Identify overdue books
-    overdue_books = ProblemReport.objects.filter(due_date__lt=current_datetime)
+    # Identify overdue Products
+    overdue_Products = ProblemReport.objects.filter(due_date__lt=current_datetime)
 
     notifications = []
 
-    for book_request in overdue_books:
+    for Product_request in overdue_Products:
         # Calculate fine amount 
-        fine_amount = calculate_fine1(book_request.due_date, current_datetime)
+        fine_amount = calculate_fine1(Product_request.due_date, current_datetime)
 
-        # Create a ProblemReport instance for the overdue book
-        overdue = BookRequest(
-            user=book_request.user,
-            issued_book=book_request,
+        # Create a ProblemReport instance for the overdue Product
+        overdue = ProductRequest(
+            user=Product_request.user,
+            issued_Product=Product_request,
             problem_type='Overdue',
-            problem_description='The book is overdue',
+            problem_description='The Product is overdue',
             fine_amount=fine_amount
         )
         overdue.save()
 
-        # Create a notification message with username and book name
-        notification_message = f"{book_request.user.username} and {book_request.book.book_name}, book is overdue, please return it on time to avoid a penalty"
+        # Create a notification message with username and Product name
+        notification_message = f"{Product_request.user.username} and {Product_request.Product.Product_name}, Product is overdue, please return it on time to avoid a penalty"
         notifications.append(notification_message)
 
-    return render(request, 'adminhome.html', {'overdue_books': overdue_books, 'notifications': notifications})
+    return render(request, 'adminhome.html', {'overdue_Products': overdue_Products, 'notifications': notifications})
 
 
 def calculate_fine1(due_date, current_date):
@@ -1584,7 +1609,7 @@ def calculate_fine1(due_date, current_date):
     # Calculate the number of days overdue
     days_overdue = (current_date - due_date).days
 
-    # Check if the book is overdue
+    # Check if the Product is overdue
     if days_overdue > 0:
         overdue_charge_per_day = Decimal('1.00')
         fine_amount = days_overdue * overdue_charge_per_day
@@ -1595,15 +1620,15 @@ def calculate_fine1(due_date, current_date):
 
 def send_overdue_notifications(overdue_requests):
     """
-    Send overdue book notifications to users.
+    Send overdue Product notifications to users.
     """
     for request in overdue_requests:
 
         if not request.user.email:
             continue
 
-        subject = "Overdue Book Notification"
-        message = f"Dear {request.user.username},\n\nYour book request for '{request.book.book_name}' is overdue. Please return it as soon as possible to avoid penalties."
+        subject = "Overdue Product Notification"
+        message = f"Dear {request.user.username},\n\nYour Product request for '{request.Product.Product_name}' is overdue. Please return it as soon as possible to avoid penalties."
         from_email = "reshmitha31@gmail.com"
         recipient_list = [request.user.email]
 

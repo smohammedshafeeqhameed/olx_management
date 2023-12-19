@@ -255,7 +255,7 @@
         cursor: pointer;
       }
 
-      img.book-image {
+      img.Product-image {
         max-width: 100px;
         max-height: 100px;
         margin-top: 10px;
@@ -303,8 +303,8 @@
               <i class="bx bx-user nav_icon"></i>
               <span class="nav_name">Approve Users</span>
             </a>
-            <a href="{% url 'showbook' %}" class="nav_link">
-              <i class="bx bx-book nav_icon"></i>
+            <a href="{% url 'showProduct' %}" class="nav_link">
+              <i class="bx bx-Product nav_icon"></i>
               <span class="nav_name">Show Products</span>
             </a>
            
@@ -322,11 +322,11 @@
        
         <h2>    Edit Product Details</h2>
        
-        <form action="{% url 'editbook_details' bk.id %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'editProduct_details' bk.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
-                <label for="bookName">Product Name</label>
-                <input type="text" id="bookName" name="bookname" value="{{ bk.book_name }}" placeholder="Enter product name">
+                <label for="ProductName">Product Name</label>
+                <input type="text" id="ProductName" name="Productname" value="{{ bk.Product_name }}" placeholder="Enter product name">
             </div>
 
             <div class="form-group">
@@ -357,7 +357,7 @@
             <div class="form-group">
                 <label for="img">Upload Image</label>
               
-        <img src="{{bk.image.url}}" alt="Book Image" width="100px" height="100px">{{bk.image}}
+        <img src="{{bk.image.url}}" alt="Product Image" width="100px" height="100px">{{bk.image}}
                 <input type="file"  name="img">
             </div>
            

@@ -273,8 +273,8 @@
                             My Products
                         </a>
                         <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
-                            <a class="dropdown-item" href="{%  url 'show_requestedbook' %}">Requested Book</a>
-                           <!--                           <a class="dropdown-item" href="{% url 'show_issuedbook' %}">Issued Books</a>-->
+                            <a class="dropdown-item" href="{%  url 'show_requestedProduct' %}">Requested Product</a>
+                           <!--                           <a class="dropdown-item" href="{% url 'show_issuedProduct' %}">Issued Products</a>-->
 <!--                            <a class="dropdown-item" href="{% url 'problem_history' %}">Reported Issue</a>-->
                             
                         </div></li>
@@ -313,7 +313,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Date Reported</th>
-                    <th>Issued Book</th>
+                    <th>Issued Product</th>
                     <th>Problem Type</th>
                     <th>Problem Description</th>
                     <th>Fine Amount</th>
@@ -324,7 +324,7 @@
                 {% for report in problem_reports %}
                     <tr>
                         <td>{{ report.timestamp|date:"F d, Y" }}</td>
-                        <td>{{ report.issued_book.book.book_name }}</td>
+                        <td>{{ report.issued_Product.Product.Product_name }}</td>
                         <td>{{ report.problem_type }}</td>
                         <td>{{ report.problem_description }}</td>
                         <td>${{ report.fine_amount }}</td>

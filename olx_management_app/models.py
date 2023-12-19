@@ -51,22 +51,23 @@ class Category(models.Model):
 class Addproduct(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     add=models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
-    book_name=models.CharField(max_length=255)
+    Product_name=models.CharField(max_length=255)
     description=models.CharField(max_length=255) 
     year=models.IntegerField(null=True)
-    qty=models.IntegerField(null=True)
+    qty=models.IntegerField(null=True, blank=True)
     price=models.IntegerField(null=True)
     image=models.ImageField(upload_to="images/",null=True)
+    is_approved = models.BooleanField(default=False)
 
 
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    book = models.ForeignKey(Addproduct, on_delete=models.CASCADE,null=True)
+    Product = models.ForeignKey(Addproduct, on_delete=models.CASCADE,null=True)
     quantity = models.PositiveIntegerField(default=1)
 
     def total_price(self):
-            return self.quantity * self.book.price 
+            return self.quantity * self.Product.price 
    
 
 class Notification(models.Model):
@@ -94,9 +95,9 @@ class UserNotification(models.Model):
     is_seen = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
-class BookRequest(models.Model):
+class ProductRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Addproduct, on_delete=models.CASCADE)
+    Product = models.ForeignKey(Addproduct, on_delete=models.CASCADE)
     request_date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=[("Pending", "Pending"), ("Approved", "Approved"), ("Rejected", "Rejected")])
     issued = models.BooleanField(default=False)
@@ -150,10 +151,10 @@ class BookRequest(models.Model):
 
         self.fine_amount = fine_amount 
 
-        super(BookRequest, self).save(*args, **kwargs)
+        super(ProductRequest, self).save(*args, **kwargs)
 class ProblemReport(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    issued_book = models.ForeignKey(BookRequest, on_delete=models.CASCADE)
+    issued_Product = models.ForeignKey(ProductRequest, on_delete=models.CASCADE)
     problem_type = models.CharField(max_length=20)
     problem_description = models.TextField()
     fine_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -172,17 +173,17 @@ class AdminNotification(models.Model):
     is_read = models.BooleanField(default=False)
 
 
-class OverdueBookNotification(models.Model):
+class OverdueProductNotification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  
-    book_title = models.CharField(max_length=255)  
+    Product_title = models.CharField(max_length=255)  
     due_date = models.DateField() 
     is_seen = models.BooleanField(default=False)  
 
     def __str__(self):
-        return f"{self.user.username}'s overdue book notification"
+        return f"{self.user.username}'s overdue Product notification"
 
 class ChatMessage(models.Model):
-    book = models.ForeignKey(Addproduct, on_delete=models.CASCADE)
+    Product = models.ForeignKey(Addproduct, on_delete=models.CASCADE)
     messages = models.TextField(null=True, blank=True)
     reply = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)

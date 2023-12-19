@@ -306,7 +306,7 @@
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
+                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
                         Chats </a>
                 </li>
 
@@ -345,7 +345,7 @@
         <!-- <h5><a href="https://www.purplle.com/catalog/reco?type=fr&tenant=PURPLLE_COM&sub_tenant=MAIN_SITE&module=&module_id=&size=16&actual_size=100&module_type=reco&widget_type=fr&x_id=feature%2Freco%2Ffr" target="_blank">View all</a></h5> -->
 
         <div class="row">
-            {% for b in book %}
+            {% for b in Product %}
             <h1>{{b.cat_name}}</h1>
             <div class="col-lg-4 col-md-12 mb-4">
                 <div class="card">
@@ -360,7 +360,7 @@
                     </div>
                     <div class="card-body">
                         <a href="" class="text-reset">
-                            <h5 class="card-title mb-3">{{ b.book_name }}</h5>
+                            <h5 class="card-title mb-3">{{ b.Product_name }}</h5>
                         </a>
                         <a href="#" class="text-reset">
                             <p>{{ b.author_name }}</p>

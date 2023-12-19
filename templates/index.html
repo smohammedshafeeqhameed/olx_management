@@ -315,12 +315,12 @@
 
 <!-- <div class="jumbotron text-center">
  <h1 class="display-4">Welcome to CARMEL LIBRARY</h1>
-    <p class="lead">You can never get a cup of tea large enough or a book long enough to suit me</p>
+    <p class="lead">You can never get a cup of tea large enough or a Product long enough to suit me</p>
     <hr class="my-4">
 
     <form action="" method="GET">
         <div class="search-bar">
-            <input type="text" class="search-input" name="q" id="searchInput" placeholder="Search books..." value="{{ search_query }}">
+            <input type="text" class="search-input" name="q" id="searchInput" placeholder="Search Products..." value="{{ search_query }}">
             <button type="submit" class="search-btn" id="searchButton">Search</button>
         </div>
     </form>
@@ -586,63 +586,6 @@
 
 </div>
 
-<!-- <div class="text-center container py-5">
-
-
-
-    <div class="row">
-        {% for s in sh %}
-        <div class="col-lg-4 col-md-12 mb-4">
-            <div class="card">
-                <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                    data-mdb-ripple-color="light">
-                    <img src="" class="w-100" style="max-height: 300px; " />
-
-                    <div class="hover-overlay">
-                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href=" " class="text-reset">
-                        <h5 class="card-title mb-3">{{s.book_name}}</h5>
-                    </a>
-                    <a href="#" class="text-reset">
-                        <p style="color: green;"></p>
-                    </a>
-                    <h6 class="mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-currency-rupee" viewBox="0 0 16 16">
-                            <path
-                                d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4v1.06Z" />
-                        </svg>{{s.price}}</h6>
-                        <a href="{% url 'cart_details' s.id %}" class="btn btn-primary" onclick=" return checkLogin()">Add to Cart</a>
-
-
-
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
-</section> -->
-
-<!-- <div class="container py-5">
-    <div class="row">
-        {% for s in sh %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card">
-                    <img src="" class="card-img-top img-fluid" alt="{{ s.book_name }}" style="max-height: 200px;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ s.book_name }}</h5>
-                        <p class="card-text">{{ s.author_name }}</p>
-                        <p class="card-text"><small class="text-muted">Price: {{ s.price }}</small></p>
-                        <a href="#" class="btn btn-primary" onclick="return checkLogin()">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div> -->
 
 <div class="jumbotron2 text-center">
 <!--    <form action="" method="GET" id="searchForm">-->
@@ -660,7 +603,7 @@
 
         {% for s in sh %}
 
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 book-card" data-bookname="{{ s.book_name }}"
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 Product-card" data-Productname="{{ s.Product_name }}"
              data-authorname="{{ s.author_name }}">
             <div class="card" style="
                 border: 1px solid #dee2e6;
@@ -703,14 +646,14 @@
                 <div class="card-body" style="
                     padding: 1.25rem;
                 ">
-                    <a href=" {% url 'bookcard' s.id %}" class="text-reset">
+                    <a href=" {% url 'Productcard' s.id %}" class="text-reset">
                         <h5 class="card-title mb-3" style="
                             margin-bottom: 1.5rem;
                             font-size: 1.25rem;
                             font-weight: bold;
                             color: #000;
                             transition: color 0.3s ease-in-out;
-                        ">{{s.book_name}}</h5>
+                        ">{{s.Product_name}}</h5>
                     </a>
                     <a href="#" class="text-reset">
                         <p style="
@@ -789,7 +732,7 @@ function checkLogin() {
 document.addEventListener('DOMContentLoaded', function () {
     const searchButton = document.getElementById('searchButton');
     const searchInput = document.getElementById('searchInput');
-    const cards = document.querySelectorAll('.book-card'); // Use the new class for targeting
+    const cards = document.querySelectorAll('.Product-card'); // Use the new class for targeting
 
     searchButton.addEventListener('click', function (event) {
         event.preventDefault();
@@ -797,10 +740,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const searchQuery = searchInput.value.toLowerCase().trim();
 
         cards.forEach(card => {
-            const bookName = card.getAttribute('data-bookname').toLowerCase();
+            const ProductName = card.getAttribute('data-Productname').toLowerCase();
             const authorName = card.getAttribute('data-authorname').toLowerCase();
 
-            if (bookName.includes(searchQuery) || authorName.includes(searchQuery)) {
+            if (ProductName.includes(searchQuery) || authorName.includes(searchQuery)) {
                 card.style.display = 'block';
             } else {
                 card.style.display = 'none';
@@ -808,10 +751,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Show message if no matching cards
-        const matchingCards = document.querySelectorAll('.book-card[style="display: block;"]');
+        const matchingCards = document.querySelectorAll('.Product-card[style="display: block;"]');
         const searchResults = document.getElementById('searchResults');
         if (matchingCards.length === 0) {
-            searchResults.innerHTML = '<h1>No books found!!!</h1>';
+            searchResults.innerHTML = '<h1>No Products found!!!</h1>';
         } else {
             searchResults.innerHTML = '';
         }
@@ -823,7 +766,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('DOMContentLoaded', function () {
         const searchButton = document.getElementById('searchButton');
         const searchInput = document.getElementById('searchInput');
-        const cards = document.querySelectorAll('.book-card'); // Get all book card elements
+        const cards = document.querySelectorAll('.Product-card'); // Get all Product card elements
 
         searchButton.addEventListener('click', function (event) {
             event.preventDefault();
@@ -832,10 +775,10 @@ document.addEventListener('DOMContentLoaded', function () {
             let matchFound = false;
 
             cards.forEach(card => {
-                const bookName = card.getAttribute('data-bookname').toLowerCase();
+                const ProductName = card.getAttribute('data-Productname').toLowerCase();
                 const authorName = card.getAttribute('data-authorname').toLowerCase();
                 
-                if (bookName.includes(searchQuery) || authorName.includes(searchQuery)) {
+                if (ProductName.includes(searchQuery) || authorName.includes(searchQuery)) {
                     card.style.display = 'block';
                     matchFound = true; // Set flag if at least one match is found
                 } else {
@@ -846,7 +789,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Show message if no matching cards
             const searchResults = document.getElementById('searchResults');
             if (!matchFound) {
-                searchResults.innerHTML = '<p class="text-center" style="color: red; font-size: 18px;">No books found.</p>';
+                searchResults.innerHTML = '<p class="text-center" style="color: red; font-size: 18px;">No Products found.</p>';
             } else {
                 searchResults.innerHTML = '';
             }
@@ -896,10 +839,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // Get the search query from the input field
             var searchQuery = $('#searchInput').val();
 
-            // Send an AJAX GET request to the search_books_ajax view
+            // Send an AJAX GET request to the search_Products_ajax view
             $.ajax({
                 type: 'GET',
-                url: '{% url "search_books_ajax" %}',
+                url: '{% url "search_Products_ajax" %}',
                 data: {q: searchQuery},
                 dataType: 'json',
                 success: function (data) {
@@ -913,11 +856,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (results.length > 0) {
                         // Display search results
                         $.each(results, function (index, result) {
-                            resultContainer.append('<p>' + result.book_name + ' by ' + result.author_name + '</p>');
+                            resultContainer.append('<p>' + result.Product_name + ' by ' + result.author_name + '</p>');
                         });
                     } else {
-                        // Display "Book Not Found" message
-                        resultContainer.append('<p>Book Not Found</p>');
+                        // Display "Product Not Found" message
+                        resultContainer.append('<p>Product Not Found</p>');
                     }
                 },
                 error: function () {
@@ -980,7 +923,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             background-color: #17202a;
                             box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
                         ">
-                            <i class="fa-brands fa-facebook-f" style="
+                            <i class="fa-brands fa-faceProduct-f" style="
                                 color: #b8c4cc;
                             "></i>
                         </a>

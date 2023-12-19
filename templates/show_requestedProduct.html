@@ -312,7 +312,7 @@
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
+                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
                         Chats </a>
                 </li>
 
@@ -378,7 +378,7 @@
         {% for message in user_chat_messages %}
         <div class="message">
             <strong>{{ message.created_by.username }}</strong>: {{ message.messages }}
-            <strong>{{ message.book.book_name }}</strong>
+            <strong>{{ message.Product.Product_name }}</strong>
             <form method="post" action="{% url 'update_reply' %}">
                 {% csrf_token %}
                 <input type="hidden" name="message_id" value="{{ message.id }}">

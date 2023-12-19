@@ -312,7 +312,7 @@
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
+                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
                         Chats </a>
                 </li>
 
@@ -473,6 +473,7 @@
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Actions</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
@@ -481,14 +482,14 @@
                 <td>
 
                     {% if b.image %}
-                    <img src="{{ b.image.url }}" class="img-fluid" alt="Book Cover" style="max-width: 100px;">
+                    <img src="{{ b.image.url }}" class="img-fluid" alt="Product Cover" style="max-width: 100px;">
                     {% else %}
 
                     <p style="height: 100px; width: 100px;"></p>
                     {% endif %}
 
                 </td>
-                <td>{{ b.book_name }}</td>
+                <td>{{ b.Product_name }}</td>
 
                 <td>{{ b.add.cat_name }}</td>
                 <td>{{ b.price }}</td>
@@ -502,6 +503,13 @@
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </a>
                 </td>
+               <td>
+            {% if not b.is_approved %}
+                Pending Approval
+            {% else %}
+                Approved
+            {% endif %}
+        </td>
             </tr>
             <tr>
                 <td colspan="7">

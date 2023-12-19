@@ -601,8 +601,8 @@ z-index: 1000px;
                 {% endif %}
             </a>
             
-            <a href="{% url 'showbook' %}" class="nav_link">
-              <i class="bx bx-book nav_icon" title="Show Book"></i>
+            <a href="{% url 'showProduct' %}" class="nav_link">
+              <i class="bx bx-Product nav_icon" title="Show Product"></i>
               <span class="nav_name">Show Products</span>
             </a>
            
@@ -785,16 +785,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // Event listener for clicking the notification icon
   notificationIcon.addEventListener("click", function () {
   
-    fetch("/get_overdue_books/")
+    fetch("/get_overdue_Products/")
       .then((response) => response.json())
       .then((data) => {
         
         notificationList.innerHTML = "";
 
        
-        data.forEach((book) => {
+        data.forEach((Product) => {
           const listItem = document.createElement("li");
-          listItem.textContent = `Book Title: ${book.title}, Due Date: ${book.due_date}`;
+          listItem.textContent = `Product Title: ${Product.title}, Due Date: ${Product.due_date}`;
           notificationList.appendChild(listItem);
         });
 
@@ -802,7 +802,7 @@ document.addEventListener("DOMContentLoaded", function () {
         notificationModal.style.display = "block";
       })
       .catch((error) => {
-        console.error("Error fetching overdue books:", error);
+        console.error("Error fetching overdue Products:", error);
       });
   });
 

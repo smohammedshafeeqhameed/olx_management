@@ -277,8 +277,8 @@
                             My Products
                         </a>
                         <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
-                            <a class="dropdown-item" href="{%  url 'show_requestedbook' %}">Requested Book</a>
-                            <a class="dropdown-item" href="{% url 'show_issuedbook' %}">Issued Books</a>
+                            <a class="dropdown-item" href="{%  url 'show_requestedProduct' %}">Requested Product</a>
+                            <a class="dropdown-item" href="{% url 'show_issuedProduct' %}">Issued Products</a>
                            
                             
                         </div></li>
@@ -316,7 +316,7 @@
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Book Name</th>
+                    <th>Product Name</th>
                     <th>Issue Type</th>
                     <th>Fine Amount</th>
                    
@@ -325,7 +325,7 @@
           <tbody>
                                 {% for issue in reported_issues %}
                                 <tr>
-                                    <td>{{ issue.book.book_name }}</td>
+                                    <td>{{ issue.Product.Product_name }}</td>
                                     <td>{{ issue.issue_type }}</td> 
                                     <td>${{ issue.penalty }}</td>
                                    
@@ -344,9 +344,9 @@
 
 
 
-<!--<form method="post" action="{% url 'return_book' issued_book.id %}">-->
+<!--<form method="post" action="{% url 'return_Product' issued_Product.id %}">-->
 <!--                            {% csrf_token %}-->
-<!--                            <button type="submit" class="btn btn-success mt-2">Return Book</button>-->
+<!--                            <button type="submit" class="btn btn-success mt-2">Return Product</button>-->
 <!--                          -->
 <!--                        </form>-->
 <!--                        <button id="reportProblemButton" class="btn btn-danger mt-2">Report Problem</button>-->

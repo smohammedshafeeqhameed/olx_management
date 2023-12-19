@@ -308,7 +308,7 @@
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedbook' %}"> <i class="fas fa-comment"></i>
+                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
                         Chats </a>
                 </li>
                 </li>
@@ -358,39 +358,39 @@
                 <h1><b>
                     <center>Update Your Profile</center>
                 </b></h1>
-                <form id="id1" enctype="multipart/form-data" action="{% url 'edit_details' book.user.id %}"
+                <form id="id1" enctype="multipart/form-data" action="{% url 'edit_details' Product.user.id %}"
                       method="post">
                     {% csrf_token %}
                     <div class="form-group">
 
                         <label for="fname">First Name</label>
-                        <input type="text" class="form-control" name="fname" id="fname" value="{{book.user.first_name}}"
+                        <input type="text" class="form-control" name="fname" id="fname" value="{{Product.user.first_name}}"
                                placeholder="Enter your First name" pattern="^[A-Z][a-zA-Z]*$" required>
                         <small class="form-text text-muted">First name should start with a capital letter.</small>
                     </div>
                     <div class="form-group">
                         <label for="lname">Last Name</label>
-                        <input type="text" class="form-control" name="lname" value="{{book.user.last_name}}"
+                        <input type="text" class="form-control" name="lname" value="{{Product.user.last_name}}"
                                placeholder="Enter your last name" required>
                     </div>
                     <div class="form-group">
                         <label for="lname">User Name</label>
-                        <input type="text" class="form-control" name="uname" value="{{book.user.username}}"
+                        <input type="text" class="form-control" name="uname" value="{{Product.user.username}}"
                                placeholder="Enter your User name" required>
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <input type="text" class="form-control" name="address" value="{{book.Address}}"
+                        <input type="text" class="form-control" name="address" value="{{Product.Address}}"
                                placeholder="Enter your Address" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" value="{{book.user.email}}"
+                        <input type="email" class="form-control" name="email" value="{{Product.user.email}}"
                                placeholder="Enter your Email" required>
                     </div>
                     <div class="form-group">
                         <label for="contact">Contact</label>
-                        <input type="text" class="form-control" name="contact" value="{{book.contact}}"
+                        <input type="text" class="form-control" name="contact" value="{{Product.contact}}"
                                placeholder="Enter your Contact Number" pattern="\d{10}" required>
                         <small class="form-text text-muted">Enter a 10-digit contact number.</small>
                         <div class="valid-feedback">
@@ -403,12 +403,12 @@
 
                     <div class="form-group">
                         <label for="">Date Of Birth</label>
-                        <input type="Date" class="form-control" id="date" value="{{book.dob|date:'Y-m-d'}}" name="dob"
+                        <input type="Date" class="form-control" id="date" value="{{Product.dob|date:'Y-m-d'}}" name="dob"
                                required>
                     </div>
                     <div class="form-group">
                         <label for="img">Upload Image</label>
-                        <img src="{{book.img.url}}" height="100" width="100"><br>{{book.img}}
+                        <img src="{{Product.img.url}}" height="100" width="100"><br>{{Product.img}}
                         <input type="file" class="form-control" id="img" name="img" accept="image/*">
                     </div>
 
