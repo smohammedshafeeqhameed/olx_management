@@ -7,333 +7,340 @@
     <title>Home</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="icon" type="image/png" href="{% static 'images/fav3.png' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="icon" type="image/png" href="{% static 'images/fav3.png' %}"/>
 
 
-<style>
-  
-
-  body {
-            margin: 0;
-            padding: 0;
-            background-image: url('{% static 'images/cart.jpg' %}');
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-attachment:fixed;
-            min-height: 100vh;
-            font-family: Helvetica, Verdana, Roboto;
-        }
-
-        .navbar {
-            background: rgb(255, 255, 255);
-            box-shadow: 0 2px 5px rgb(0, 0, 0);
-            padding: 1rem;
-            position: absolute;
-            top: 0;
-            width: 100%;
-            z-index: 1;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .navbar-nav .nav-link {
-            font-weight: 500;
-            transition: color 0.3s ease-in-out;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #000000;
-        }
-
-        .jumbotron {
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
-            padding: 2rem;
-            border-radius: 20px;
-            max-width: 100%;
-            margin: auto;
-            margin-top: 450px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 0;
-
-        }
-        .jumbotron2 {
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            max-width: 100%;
-            margin: auto;
-            margin-top: 50px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 0;
-
-        }
-
-        .jumbotron h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .jumbotron .lead {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .jumbotron hr {
-            border-top-color: white;
-        }
-
-        .search-bar {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 2rem;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-input {
-            width: 100%;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        .search-btn {
-            background-color: #ff8f00;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .dropdown-menu {
-    max-width: 100%;
-    position: relative;
-    left: 0;
-     right: 0;
-}
-.modal-content {
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-    }
-    .auth-form {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .auth-form h2 {
-            margin-bottom: 20px;
-        }
-
-        .auth-form label {
-            color: white;
-            font-weight: 500;
-        }
-
-        .auth-form input[type="text"],
-        .auth-form input[type="password"] {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-
-        .auth-form button {
-            background-color: #ff8f00;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
+    <style>
 
 
-        /* @media (max-width: 767px) {
+        body {
+                  margin: 0;
+                  padding: 0;
+                  background-image: url('{% static 'images/cart.jpg' %}');
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  background-attachment:fixed;
+                  min-height: 100vh;
+                  font-family: Helvetica, Verdana, Roboto;
+              }
 
-    .jumbotron {
-        padding: 2rem;
-        max-width: 80%;
-        margin-top: 100px;
-    }
-} */
+              .navbar {
+                  background: rgb(255, 255, 255);
+                  box-shadow: 0 2px 5px rgb(0, 0, 0);
+                  padding: 1rem;
+                  position: absolute;
+                  top: 0;
+                  width: 100%;
+                  z-index: 1;
+                  transition: background-color 0.3s ease-in-out;
+              }
 
-@media (max-width: 767px) {
-        .jumbotron {
-            padding: 1rem; /* Add some padding to the jumbotron content */
-        }
+              .navbar-brand {
+                  font-size: 1.5rem;
+                  font-weight: bold;
+              }
 
-        .search-bar {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Center-align the input and button */
-        }
+              .navbar-nav .nav-link {
+                  font-weight: 500;
+                  transition: color 0.3s ease-in-out;
+              }
 
-        .search-input,
-        .search-btn {
-            width: 100%; /* Make both input and button take up the full width */
-            margin: 0.3rem 0; /* Add spacing between input and button */
-        }
-    }
-.welcome-section {
-    background-color: white;
-    width: 100%;
-    padding: 20px;
-}
+              .navbar-nav .nav-link:hover {
+                  color: #000000;
+              }
 
-.welcome-section h1 {
-    font-size: 2.5rem;
-}
+              .jumbotron {
+                  background: rgba(0, 0, 0, 0.2);
+                  color: white;
+                  padding: 2rem;
+                  border-radius: 20px;
+                  max-width: 100%;
+                  margin: auto;
+                  margin-top: 450px;
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                  position: relative;
+                  z-index: 0;
 
-.welcome-section small {
-    font-size: 1rem;
-    color: #888;
-}
+              }
+              .jumbotron2 {
+                  background: rgba(0, 0, 0, 0.2);
+                  color: white;
+                  padding: 1rem;
+                  border-radius: 10px;
+                  max-width: 100%;
+                  margin: auto;
+                  margin-top: 50px;
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                  position: relative;
+                  z-index: 0;
 
-.feature-box {
-    border: 1px solid #ddd;
-    padding: 1rem;
-    text-align: center;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-    background-color: #f9f9f9;
-}
+              }
 
-.feature-box i {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
+              .jumbotron h1 {
+                  font-size: 3rem;
+                  margin-bottom: 1rem;
+              }
 
-.feature-box p {
-    margin: 0;
-}
+              .jumbotron .lead {
+                  font-size: 1.5rem;
+                  margin-bottom: 2rem;
+              }
 
-@media (min-width: 992px) {
-            .navbar {
-                position: fixed;
-            }
-        }
-        .custom-navbar-toggler {
-            background-color: #0d0d0d; /* Background color when collapsed */
-            border: none; /* Remove border */
-            padding: 8px 12px; /* Adjust padding */
-            border-radius: 5px; /* Rounded corners */
-            color: white; /* Text color */
-            transition: background-color 0.3s ease-in-out; /* Smooth transition */
+              .jumbotron hr {
+                  border-top-color: white;
+              }
 
-            /* Custom styles for the collapsed icon */
-            .navbar-toggler-icon {
-                background-color: white; /* Color of the collapsed icon */
-                border-radius: 50%; /* Make the icon a circle */
-                padding: 2px; /* Add some padding around the icon */
-            }
-        }
+              .search-bar {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-top: 2rem;
+                  padding: 1rem;
+                  background: rgba(0, 0, 0, 0.7);
+                  border-radius: 5px;
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+              }
 
-        /* Adjust the color of the collapsed icon when the button is hovered */
-        .custom-navbar-toggler:hover .navbar-toggler-icon {
-            background-color: #ddd;
-        }
-        @media (max-width: 767px) {
-    .card {
-        max-width: 100%; /* Adjust this value as needed */
-        padding: 1rem; /* Adjust padding as needed */
-    }
-}
-.alert-fade {
-    opacity: 1;
-    transition: opacity 2s ease-in-out;
-}
+              .search-input {
+                  width: 100%;
+                  border: none;
+                  padding: 0.5rem;
+                  border-radius: 5px;
+                  font-size: 1rem;
+              }
 
-.alert-fade.fade-out {
-    opacity: 0;
-}
- </style>
- </head>
- <body>
-  <nav class="navbar navbar-expand-lg">
+              .search-btn {
+                  background-color: #ff8f00;
+                  color: white;
+                  border: none;
+                  padding: 0.5rem 1rem;
+                  border-radius: 5px;
+                  cursor: pointer;
+              }
+              .dropdown-menu {
+          max-width: 100%;
+          position: relative;
+          left: 0;
+           right: 0;
+      }
+      .modal-content {
+              background-color: rgba(0, 0, 0, 0.7);
+              color: white;
+          }
+          .auth-form {
+                  max-width: 400px;
+                  margin: auto;
+                  padding: 20px;
+                  border-radius: 10px;
+              }
+
+              .auth-form h2 {
+                  margin-bottom: 20px;
+              }
+
+              .auth-form label {
+                  color: white;
+                  font-weight: 500;
+              }
+
+              .auth-form input[type="text"],
+              .auth-form input[type="password"] {
+                  background-color: rgba(255, 255, 255, 0.1);
+                  border: none;
+                  color: white;
+                  border-radius: 5px;
+                  padding: 10px;
+                  margin-bottom: 15px;
+              }
+
+              .auth-form button {
+                  background-color: #ff8f00;
+                  color: white;
+                  border: none;
+                  padding: 10px 20px;
+                  border-radius: 5px;
+                  cursor: pointer;
+                  width: 100%;
+              }
+
+
+              /* @media (max-width: 767px) {
+
+          .jumbotron {
+              padding: 2rem;
+              max-width: 80%;
+              margin-top: 100px;
+          }
+      } */
+
+      @media (max-width: 767px) {
+              .jumbotron {
+                  padding: 1rem; /* Add some padding to the jumbotron content */
+              }
+
+              .search-bar {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center; /* Center-align the input and button */
+              }
+
+              .search-input,
+              .search-btn {
+                  width: 100%; /* Make both input and button take up the full width */
+                  margin: 0.3rem 0; /* Add spacing between input and button */
+              }
+          }
+      .welcome-section {
+          background-color: white;
+          width: 100%;
+          padding: 20px;
+      }
+
+      .welcome-section h1 {
+          font-size: 2.5rem;
+      }
+
+      .welcome-section small {
+          font-size: 1rem;
+          color: #888;
+      }
+
+      .feature-box {
+          border: 1px solid #ddd;
+          padding: 1rem;
+          text-align: center;
+          border-radius: 5px;
+          margin-bottom: 1rem;
+          background-color: #f9f9f9;
+      }
+
+      .feature-box i {
+          font-size: 2rem;
+          margin-bottom: 0.5rem;
+      }
+
+      .feature-box p {
+          margin: 0;
+      }
+
+      @media (min-width: 992px) {
+                  .navbar {
+                      position: fixed;
+                  }
+              }
+              .custom-navbar-toggler {
+                  background-color: #0d0d0d; /* Background color when collapsed */
+                  border: none; /* Remove border */
+                  padding: 8px 12px; /* Adjust padding */
+                  border-radius: 5px; /* Rounded corners */
+                  color: white; /* Text color */
+                  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+
+                  /* Custom styles for the collapsed icon */
+                  .navbar-toggler-icon {
+                      background-color: white; /* Color of the collapsed icon */
+                      border-radius: 50%; /* Make the icon a circle */
+                      padding: 2px; /* Add some padding around the icon */
+                  }
+              }
+
+              /* Adjust the color of the collapsed icon when the button is hovered */
+              .custom-navbar-toggler:hover .navbar-toggler-icon {
+                  background-color: #ddd;
+              }
+              @media (max-width: 767px) {
+          .card {
+              max-width: 100%; /* Adjust this value as needed */
+              padding: 1rem; /* Adjust padding as needed */
+          }
+      }
+      .alert-fade {
+          opacity: 1;
+          transition: opacity 2s ease-in-out;
+      }
+
+      .alert-fade.fade-out {
+          opacity: 0;
+      }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
     <div class="container">
-      <a class="navbar-brand" href="#"><img src="{% static 'images/giphy.gif' %}" height="50px" width="50px"
-        class="rounded-circle"> OLX STORE</a>
-        <button class="navbar-toggler custom-navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <!-- <span class="navbar-toggler-icon"></span> --><i class="fas fa-bars"></i>
-    </button>
+        <a class="navbar-brand" href="#"><img src="{% static 'images/giphy.gif' %}" height="50px" width="50px"
+                                              class="rounded-circle"> OLX STORE</a>
+        <button class="navbar-toggler custom-navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- <span class="navbar-toggler-icon"></span> --><i class="fas fa-bars"></i>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'userhome' %}">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'UserAddproducts' %}"> <i class="fa-solid fa-cart-shopping"></i> Sell Product </a>
+                    <a class="nav-link" href="{% url 'UserAddproducts' %}"> <i class="fa-solid fa-cart-shopping"></i>
+                        Sell Product </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Profile
+                    <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Profile
                     </a>
                     <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
                         <a class="dropdown-item" href="{% url 'edit_user'  %}">Edit Profile</a>
                         <a class="dropdown-item" href="{% url 'view_profile' %}">View Profile</a>
                         <a class="dropdown-item" href="{% url 'edit_password_page' %}">Reset Password</a>
-                        
-                        
-                    </div></li>
-            
-            <li class="nav-item active">
-                <!--                    <a class="nav-link" href="{% url 'user_penalty_details' %}">Payment</a>-->
-         </li>
-         
-     <!-- <li class="nav-item active">
-        <a class="nav-link" href="#">Contact Us</a>
- </li> -->
- <li class="nav-item active">
-  <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
-      Chats </a>
-</li>
-                    
-           
-         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Category
-            </a>
-            <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
-                {% for category in ca %}
-                <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{ category.cat_name }}</a>
-                {% endfor %}
 
-                
-                
-            </div></li>
 
-            <li class="nav-item active">
+                    </div>
+                </li>
+
+                <li class="nav-item active">
+                    <!--                    <a class="nav-link" href="{% url 'user_penalty_details' %}">Payment</a>-->
+                </li>
+
+                <!-- <li class="nav-item active">
+                   <a class="nav-link" href="#">Contact Us</a>
+            </li> -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
+                        Chats </a>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Category
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
+                        {% for category in ca %}
+                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{
+                            category.cat_name }}</a>
+                        {% endfor %}
+
+
+                    </div>
+                </li>
+
+                <li class="nav-item active">
                     <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
-             </li>
+                </li>
 
-         <li class="nav-item active">
-            <a class="nav-link" href="{% url 'logout1' %}">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
-     </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'logout1' %}">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+                </li>
 
 
-             </ul>
+            </ul>
         </div>
     </div>
 </nav>
-
 
 
 <!-- <div class="container">
@@ -369,104 +376,107 @@
 </div> -->
 <br>
 <div class="container">
- 
-  <h1 class="display-3 text-light" style="margin-top: 90px;">Cart</h1>
-  {% if messages %}
-<div class="messages">
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-      <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button> -->
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
-  <div class="card mb-4">
-  
-    <div class="card-body p-4">
-      {% for c in cartitems %}
-        <div class="card mb-2">
-          <div class="row g-0">
-            <div class="col-md-2">
-              <img src="{{ c.Product.image.url }}" class="img-fluid" alt="Product Image">
-            </div>
-            <div class="col-md-6">
-              <div class="card-body">
-                <h5 class="card-title">{{ c.Product.Product_name }}</h5>
-                <p class="card-text">{{ c.Product.author_name }}</p>
-                <p class="card-text">{{ c.Product.description }}</p>
-               Quantity <p class="card-text">{{ c.Product.qty}}</p>
-                <p class="card-text"><small class="text-muted">Price: {{ c.Product.price }}</small></p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card-body d-flex flex-column justify-content-between">
-                <p class="card-text">
-                  Quantity: {{ c.quantity }}
-                  <a href="{% url 'increase_quantity' c.Product.id %}" class="btn btn-sm btn-primary ml-2"><i class="fas fa-plus"></i></a>
-                  <a href="{% url 'decrease_quantity' c.Product.id %}" class="btn btn-sm btn-danger ml-2"><i class="fas fa-minus"></i></a>
-                </p>
-                <p class="card-text">Total: {{ c.total_price }}</p>
-                <a href="{% url 'removecart' c.Product.id %}" class="btn btn-primary" style="width: 200px;">Remove from Cart</a>
-              </div>
-            </div>
-          </div>
+
+    <h1 class="display-3 text-light" style="margin-top: 90px;">Cart</h1>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button> -->
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-      {% endfor %}
+        {% endfor %}
     </div>
-  </div>
+    {% endif %}
+    <div class="card mb-4">
+
+        <div class="card-body p-4">
+            {% for c in cartitems %}
+            <div class="card mb-2">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{ c.Product.image.url }}" class="img-fluid" alt="Product Image">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ c.Product.Product_name }}</h5>
+                            <p class="card-text">{{ c.Product.author_name }}</p>
+                            <p class="card-text">{{ c.Product.description }}</p>
+                            Quantity <p class="card-text">{{ c.Product.qty}}</p>
+                            <p class="card-text"><small class="text-muted">Price: {{ c.Product.price }}</small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-body d-flex flex-column justify-content-between">
+<!--                            <p class="card-text">-->
+<!--                                Quantity: {{ c.quantity }}-->
+<!--                                <a href="{% url 'increase_quantity' c.Product.id %}"-->
+<!--                                   class="btn btn-sm btn-primary ml-2"><i class="fas fa-plus"></i></a>-->
+<!--                                <a href="{% url 'decrease_quantity' c.Product.id %}" class="btn btn-sm btn-danger ml-2"><i-->
+<!--                                        class="fas fa-minus"></i></a>-->
+<!--                            </p>-->
+                            <p class="card-text">Total: {{ c.total_price }}</p>
+                            <a href="{% url 'removecart' c.Product.id %}" class="btn btn-primary" style="width: 200px;">Remove
+                                from Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
-
-
-
 
 
 <div class="card mb-5">
-  <div class="card-body p-4">
+    <div class="card-body p-4">
 
-    <div class="float-right">
-      <p class="mb-0 me-5 d-flex align-items-center">
-        <span style="font-size: 30px; ">Order total:</span> <span  style="font-size: 30px; "
-          class="lead fw-normal">{{totalprice}}</span>
-      </p>
-     
-      <a href="{% url 'proceedpay' %}" class="btn btn-primary btn-lg">Proceed to Pay</a>&nbsp; &nbsp; &nbsp; &nbsp;
-      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmOrderModal">
-        Confirm Order
-    </button>
-    
-    <!-- Modal -->
-    <div class="modal fade" id="confirmOrderModal" tabindex="-1" role="dialog" aria-labelledby="confirmOrderModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmOrderModalLabel">Confirm Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Username: {{ user.username }}</p>
-                    <p>Email: {{ user.email }}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form action="{% url 'confirm_order' %}" method="post" id="confirmOrderForm">
-                      {% csrf_token %}
-                    <button type="submit" class="btn btn-primary" id="submitOrderButton">Submit Order</button>
+        <div class="float-right">
+            <p class="mb-0 me-5 d-flex align-items-center">
+                <span style="font-size: 30px; ">Order total:</span> <span style="font-size: 30px; "
+                                                                          class="lead fw-normal">{{totalprice}}</span>
+            </p>
+
+            <a href="{% url 'proceedpay' %}" class="btn btn-primary btn-lg">Proceed to Pay</a>&nbsp; &nbsp; &nbsp;
+            &nbsp;
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmOrderModal">
+                Confirm Order
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="confirmOrderModal" tabindex="-1" role="dialog"
+                 aria-labelledby="confirmOrderModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmOrderModalLabel">Confirm Order</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Username: {{ user.username }}</p>
+                            <p>Email: {{ user.email }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <form action="{% url 'confirm_order' %}" method="post" id="confirmOrderForm">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" id="submitOrderButton">Submit Order
+                                </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    </div>
 
-  </div>
+        </div>
+
+    </div>
 </div>
 </div>
 
@@ -474,7 +484,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- 
+
 
 </body>
 </html>

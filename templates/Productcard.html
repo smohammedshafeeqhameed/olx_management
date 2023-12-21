@@ -160,14 +160,15 @@
                 </li>
 
 
-                <li class="nav-item dropdown">
+             <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Category
                     </a>
                     <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
                         {% for category in ca %}
-                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{ category.cat_name }}</a>
+                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">
+                            {{ category.cat_name }}</a>
                         {% endfor %}
 
 

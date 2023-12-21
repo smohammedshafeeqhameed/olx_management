@@ -16,4 +16,5 @@ admin.site.register(ProblemReport)
 admin.site.register(AdminNotification)
 admin.site.register(OverdueProductNotification)
 admin.site.register(ChatMessage)
+admin.site.register(PaymentHistory)
 

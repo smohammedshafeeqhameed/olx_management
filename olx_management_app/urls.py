@@ -12,6 +12,7 @@ urlpatterns = [
     path('addbo', views.addbo, name='addbo'),
     path('useraddbo', views.useraddbo, name='useraddbo'),
     path('showProduct', views.showProduct, name='showProduct'),
+    path('payment_history', views.payment_history, name='payment_history'),
     path('show_user_products', views.show_user_products, name='show_user_products'),
     path('update_reply', views.update_reply, name='update_reply'),
     # path('demo',views.demo,name='demo')

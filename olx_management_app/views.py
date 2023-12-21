@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .models import Signup, Category, Addproduct, LoginRequest, Cart, Notification, SignupRequestNotification, \
-    SignupRequest, AdminNotification, OverdueProductNotification
+    SignupRequest, AdminNotification, OverdueProductNotification, PaymentHistory
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth import login
@@ -37,7 +37,7 @@ def index(request):
     generated_password = request.GET.get('generated_password', '')
     generated_password = generate_password()
     ca = Category.objects.all()
-    show = Addproduct.objects.all()
+    show = Addproduct.objects.filter(is_approved=True)
     return render(request, 'index.html', {'generated_password': generated_password, 'ca': ca, 'sh': show})
 
 
@@ -414,6 +414,13 @@ def showProduct(request):
 
     return render(request, 'showProduct.html', {'bk': Products, 'buk': bk})
 
+@login_required(login_url='index')
+def payment_history(request):
+    Products = Category.objects.all()
+    bk = PaymentHistory.objects.all()
+
+    return render(request, 'payment_history.html', {'bk': Products, 'buk': bk})
+
 
 @login_required(login_url='index')
 def show_user_products(request):
@@ -579,6 +586,9 @@ def delete_user(request, pk):
 
 def process_payment(request):
     if request.method == "POST":
+        totalprice = request.POST.get('totalprice')
+        payment_history = PaymentHistory(buyer=request.user, totalprice=totalprice)
+        payment_history.save()
         user_cart = Cart.objects.filter(user=request.user)
         user_cart.delete()
         return render(request, 'cart.html')
@@ -636,6 +646,7 @@ def categorized_products(request, category_id):
 @login_required(login_url='index')
 def Productcard(request, pk):
     bk = Addproduct.objects.get(id=pk)
+    ca = Category.objects.all()
     current_user = request.user
 
     # Filter chat messages created by the current user
@@ -646,7 +657,7 @@ def Productcard(request, pk):
     # if existing_request:
     #     messages.warning(request, 'You have already requested this Product. Please wait for approval.')
 
-    return render(request, 'Productcard.html', {'bk': bk, 'user_chat_messages': user_chat_messages})
+    return render(request, 'Productcard.html', {'bk': bk, 'user_chat_messages': user_chat_messages, 'ca':ca})
 
 
 def loginusers(request):

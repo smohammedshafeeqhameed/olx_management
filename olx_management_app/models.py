@@ -60,6 +60,11 @@ class Addproduct(models.Model):
     is_approved = models.BooleanField(default=False)
 
 
+class PaymentHistory(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    totalprice = models.IntegerField(null=True)
+    update_date = models.DateTimeField(auto_now=True)
+
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
