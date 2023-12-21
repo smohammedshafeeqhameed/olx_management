@@ -307,10 +307,15 @@
                 <!-- <li class="nav-item active">
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
-                        Chats </a>
-                </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'show_requestedProduct' %}">
+                    <i class="fas fa-comment"></i>
+                    Chats {% if user_chat_messages %}
+                        <span class="chat-count">{{ user_chat_messages|length }}</span>
+                    {% endif %}
+                </a>
+            </li>
+            
 
 
                 <li class="nav-item dropdown">
@@ -397,13 +402,15 @@
                     <div class="mb-3">
                         <label for="year" class="form-label" style="color: black;">Year</label>
                         <input type="number" class="form-control" id="year" name="yop" placeholder="Year of Manufacture"
-                               required>
+                               required min="1900" max="2050">
                     </div>
+                    
 
                     <div class="mb-3">
                         <label for="price" class="form-label" style="color: black;">Price</label>
-                        <input type="number" class="form-control" id="price" name="price" placeholder="Price" required>
+                        <input type="number" class="form-control" id="price" name="price" placeholder="Price" required min="0">
                     </div>
+                    
                     <div class="mb-3" style="display: none;">
                         <label for="quantity" class="form-label" style="color: black;">Quantity</label>
                         <input type="number" class="form-control" id="quantity" name="qty" placeholder="Quantity"

@@ -227,9 +227,10 @@
       <nav class="nav">
         <div>
           <a href="{% url 'logout1' %}" class="nav_link">
-            <i class="bx bx-log-out nav_icon" title="SignOut"></i>
+            <i class="bx bx-log-out nav_icon" title="SignOut "></i>
             <span class="nav_name">SignOut</span>
           </a>
+         
           <div class="nav_list">
             <a href="{% url 'adminhome' %}" class="nav_link">
               <i class="bx bx-grid-alt nav_icon" title="Dashboard"></i>
@@ -245,20 +246,24 @@
               <span class="nav_name">Users</span>
             </a>
 
-            <a href="{% url 'loginusers'  %}" class="nav_link">
-              <i class="bx bx-user nav_icon" title="Approve users"></i>
-              <span class="nav_name">Approve Users</span>
+              <a href="{% url 'loginusers' %}" class="nav_link">
+                <i class="bx bx-user nav_icon" title="Approve Users"></i>
+                <span class="nav_name">Approve Users</span>
+                {% if unread_count > 0 %}
+                <span class="badge badge-pill badge-danger " style="color: red;">{{ unread_count }}</span>
+
+                {% endif %}
             </a>
+            
             <a href="{% url 'showProduct' %}" class="nav_link">
-              <i class="bx bx-Product nav_icon"></i>
-              <span class="nav_name">Show Products</span>
-            </a>
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="nav_name">Show Products</span>
+                </a>
            
           </div>
         </div>
        
       </nav>
-      
     </div>
     <br>
 

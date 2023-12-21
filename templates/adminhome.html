@@ -548,8 +548,8 @@
 
   .about-section .image-column .video-link .link:hover{
     background-color: #191e34;
-    color: #f
-
+    color: #ffffff
+  }
 
     </style>
 </head>
@@ -593,19 +593,19 @@
                     <i class="bx bx-user nav_icon" title="Approve Users"></i>
                     <span class="nav_name">Approve Users</span>
                     {% if unread_count > 0 %}
-                    <span class="badge badge-pill badge-danger " style="color: red;">{{ unread_count }}</span>
+                    <span class="badge badge-pill badge-danger" style="color: red;">{{ unread_count }}</span>
 
                     {% endif %}
                 </a>
 
 
-                <a href="{% url 'showProduct' %}" class="nav_link active">
+                <a href="{% url 'showProduct' %}" class="nav_link">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="nav_name">Show Products</span>
                 </a>
                 <a href="{% url 'payment_history' %}" class="nav_link">
                     <i class="fa-solid fa-newspaper" title="Show Product"></i>
-                    <span class="nav_name">Show Products</span>
+                    <span class="nav_name">Payment History</span>
                 </a>
 
             </div>
