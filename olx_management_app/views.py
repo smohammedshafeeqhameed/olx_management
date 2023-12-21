@@ -398,8 +398,11 @@ def reset_password1(request):
 @login_required(login_url='index')
 def userhome(request):
     ca = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     show = Addproduct.objects.filter(is_approved=True).exclude(user=request.user)
-    return render(request, 'userhome.html', {'ca': ca, 'sh': show})
+    return render(request, 'userhome.html', {'ca': ca, 'sh': show,'user_chat_messages':user_chat_messages})
 
 
 def logout1(request):

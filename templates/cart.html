@@ -320,17 +320,26 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
                         {% for category in ca %}
-                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">{{
-                            category.cat_name }}</a>
+                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">
+                            {{category.cat_name }}</a>
                         {% endfor %}
 
 
                     </div>
                 </li>
 
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
-                </li>
+<!-- Your navigation bar or wherever you want to display the cart count -->
+
+    <!-- Other navigation items -->
+
+    <!-- Display the number of cart items -->
+    <li class="nav-item">
+    <a class="nav-link" href="{% url 'cart' %}">
+        Cart <span class="badge badge-pill badge-primary">{{ cartitems|length }}</span>
+    </a>
+</li>
+
+
 
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'logout1' %}">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
