@@ -311,10 +311,14 @@
                 <!-- <li class="nav-item active">
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
-                        Chats </a>
-                </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'show_requestedProduct' %}">
+                    <i class="fas fa-comment"></i>
+                    Chats {% if user_chat_messages %}
+                        <span class="chat-count">{{ user_chat_messages|length }}</span>
+                    {% endif %}
+                </a>
+            </li>
 
 
                 <li class="nav-item dropdown">
@@ -471,7 +475,7 @@
                 <th>Category</th>
 
                 <th>Price</th>
-                <th>Quantity</th>
+                <!-- <th>Quantity</th> -->
                 <th>Actions</th>
                 <th>Status</th>
             </tr>
@@ -493,7 +497,7 @@
 
                 <td>{{ b.add.cat_name }}</td>
                 <td>{{ b.price }}</td>
-                <td>{{b.qty}}</td>
+                <!-- <td>{{b.qty}}</td> -->
                 <td>
                     <a href="{% url 'edit_user_product' b.id %}" style="color: black;">
                         <i class="fa fa-edit" aria-hidden="true"></i>

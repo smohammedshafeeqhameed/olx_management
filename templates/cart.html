@@ -286,6 +286,10 @@
                     <a class="nav-link" href="{% url 'UserAddproducts' %}"> <i class="fa-solid fa-cart-shopping"></i>
                         Sell Product </a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_user_products' %}"> <i class="fa-solid fa-store"></i>
+                        My Products </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -307,10 +311,14 @@
                 <!-- <li class="nav-item active">
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
-                        Chats </a>
-                </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'show_requestedProduct' %}">
+                    <i class="fas fa-comment"></i>
+                    Chats {% if user_chat_messages %}
+                        <span class="chat-count">{{ user_chat_messages|length }}</span>
+                    {% endif %}
+                </a>
+            </li>
 
 
                 <li class="nav-item dropdown">

@@ -246,6 +246,10 @@
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="nav_name">Show Products</span>
                 </a>
+                <a href="{% url 'payment_history' %}" class="nav_link">
+                  <i class="fa-solid fa-newspaper" title="Show Product"></i>
+                  <span class="nav_name">Payment History</span>
+              </a>
 
             </div>
         </div>
@@ -303,12 +307,15 @@
         {% endfor %}
     </div>
 </div>  -->
-{% if messages %}
-<div class="container py-3">
-    <div class="row">
-        <div class="col-md-12">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="page-content">
+            {% if messages %}
+            <div class="messages">
             {% for message in messages %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="width: 100%; margin-bottom: 20px;">
                 {{ message }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -316,9 +323,12 @@
             </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 </div>
-{% endif %}
+</div>
+</div>
+
 
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Products</h2>
