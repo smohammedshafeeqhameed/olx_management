@@ -54,10 +54,19 @@ class Addproduct(models.Model):
     Product_name=models.CharField(max_length=255)
     description=models.CharField(max_length=255) 
     year=models.IntegerField(null=True)
-    qty=models.IntegerField(null=True, blank=True)
+    qty=models.PositiveIntegerField(null=True, blank=True)
     price=models.IntegerField(null=True)
     image=models.ImageField(upload_to="images/",null=True)
     is_approved = models.BooleanField(default=False)
+
+
+class Feedback(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Addproduct, on_delete=models.CASCADE)
+    feedback_text = models.TextField()
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.Product_name} Feedback"
 
 
 class PaymentHistory(models.Model):

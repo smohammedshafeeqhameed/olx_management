@@ -410,94 +410,23 @@
         {% endfor %}
     </div>
     {% endif %}
-    <div class="card mb-4">
-
-        <div class="card-body p-4">
-            {% for c in cartitems %}
-            <div class="card mb-2">
-                <div class="row g-0">
-                    <div class="col-md-2">
-                        <img src="{{ c.Product.image.url }}" class="img-fluid" alt="Product Image">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ c.Product.Product_name }}</h5>
-                            <p class="card-text">{{ c.Product.author_name }}</p>
-                            <p class="card-text">{{ c.Product.description }}</p>
-                            Quantity <p class="card-text">{{ c.Product.qty}}</p>
-                            <p class="card-text"><small class="text-muted">Price: {{ c.Product.price }}</small></p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <!--                            <p class="card-text">-->
-                            <!--                                Quantity: {{ c.quantity }}-->
-                            <!--                                <a href="{% url 'increase_quantity' c.Product.id %}"-->
-                            <!--                                   class="btn btn-sm btn-primary ml-2"><i class="fas fa-plus"></i></a>-->
-                            <!--                                <a href="{% url 'decrease_quantity' c.Product.id %}" class="btn btn-sm btn-danger ml-2"><i-->
-                            <!--                                        class="fas fa-minus"></i></a>-->
-                            <!--                            </p>-->
-                            <p class="card-text">Total: {{ c.total_price }}</p>
-                            <a href="{% url 'removecart' c.Product.id %}" class="btn btn-primary" style="width: 200px;">Remove
-                                from Cart</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
 
 
-<div class="card mb-5">
-    <div class="card-body p-4">
 
-        <div class="float-right">
-            <p class="mb-0 me-5 d-flex align-items-center">
-                <span style="font-size: 30px; ">Order total:</span> <span style="font-size: 30px; "
-                                                                          class="lead fw-normal">{{totalprice}}</span>
-            </p>
+
+
+
+
+
 
             &nbsp;
-            &nbsp;
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmOrderModal">
-                Confirm Order
-            </button>
+
+           <center> <a href="{% url 'proceedpay' %}" class="btn btn-primary btn-lg">Proceed to Pay</a>&nbsp;</center>
 
             <!-- Modal -->
-            <div class="modal fade" id="confirmOrderModal" tabindex="-1" role="dialog"
-                 aria-labelledby="confirmOrderModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="confirmOrderModalLabel">Confirm Order</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Username: {{ user.username }}</p>
-                            <p>Email: {{ user.email }}</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <form action="{% url 'confirm_order' %}" method="post" id="confirmOrderForm">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary" id="submitOrderButton" data-toggle="modal"
-                                        data-target="#proceedtopayment">Submit Order
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
-        </div>
 
-    </div>
-</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

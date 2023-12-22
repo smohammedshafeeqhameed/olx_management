@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update User</title>
+    <title>Edit Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="icon" type="image/png" href="{% static 'static/images/fav3.png' %}"/>
+    <link rel="icon" type="image/png" href="{% static 'images/fav3.png' %}"/>
     <style>
 
         body {
@@ -286,6 +286,10 @@
                     <a class="nav-link" href="{% url 'show_user_products' %}"> <i class="fa-solid fa-store"></i>
                         My Products </a>
                 </li>
+                 <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_user_payment_history' %}"> <i class="fa-solid fa-newspaper"></i>
+                        Payments </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -327,8 +331,10 @@
 
                     </div>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">
+                        Cart <span class="badge badge-pill badge-primary">{{ cartitems|length }}</span>
+                    </a>
                 </li>
 
                 <li class="nav-item active">

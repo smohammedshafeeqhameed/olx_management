@@ -287,6 +287,12 @@
                     <a class="nav-link" href="{% url 'show_user_products' %}"> <i class="fa-solid fa-store"></i>
                         My Products </a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_user_payment_history' %}"> <i
+                            class="fa-solid fa-newspaper"></i>
+                        Payments </a>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -313,11 +319,11 @@
                     <a class="nav-link" href="{% url 'show_requestedProduct' %}">
                         <i class="fas fa-comment"></i>
                         Chats {% if user_chat_messages %}
-                            <span class="chat-count">{{ user_chat_messages|length }}</span>
+                        <span class="chat-count">{{ user_chat_messages|length }}</span>
                         {% endif %}
                     </a>
                 </li>
-                
+
                 </li>
 
 
@@ -335,8 +341,10 @@
 
                     </div>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">
+                        Cart <span class="badge badge-pill badge-primary">{{ cartitems|length }}</span>
+                    </a>
                 </li>
 
                 <li class="nav-item active">
@@ -790,27 +798,13 @@
             </a>
             <div>
                 <ul style="
+                list-style-type: none;
                     display: flex;
                     gap: 4px;
                     align-items: center;
                     justify-content: center;
                 ">
-                    <li>
-                        <a href="#" style="
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            background-color: #17202a;
-                            box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
-                        ">
-                            <i class="fa-brands fa-faceProduct-f" style="
-                                color: #b8c4cc;
-                            "></i>
-                        </a>
-                    </li>
+
                     <li>
                         <a href="#" style="
                             width: 40px;
@@ -827,8 +821,25 @@
                             "></i>
                         </a>
                     </li>
+                    <li>
+                        <a href="#" style="
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #17202a;
+                            box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
+                        ">
+                            <i class="fa-brands fa-facebook" style="
+                                color: #b8c4cc;
+                            "></i>
+                        </a>
+                    </li>
                 </ul>
                 <ul style="
+                list-style-type: none;
                     display: flex;
                     gap: 4px;
                     align-items: center;
@@ -848,20 +859,7 @@
                 </ul>
             </div>
         </div>
-        <!--        <div class="flex flex-col lg:flex-row gap-5 items-center justify-between pt-4">-->
-        <!--			<div class="flex flex-col gap-4 items-center lg:items-start ">-->
-        <!--				<ul class="flex gap-4 md:gap-5 text-pastelBlue">-->
-        <!--					<li class="hover:text-acent"><a href="#">About</a></li>-->
-        <!--					<li class="hover:text-acent"><a href="#">Privacy Policy</a></li>-->
-        <!--					<li class="hover:text-acent"><a href="#">Terms & Conditions</a></li>-->
-        <!--					<li class="hover:text-acent"><a href="#l">Contact Us</a></li>-->
-        <!--					<li class="hover:text-acent"><a href="#">FAQs</a></li>-->
-        <!--				</ul>-->
-        <!--				<p class="text-pastelBlue">©2023 VideoTv All rights reserved.</p>-->
-        <!--			</div>-->
 
-        <!--			</div>-->
-        <!-- ... (other HTML content within the footer) -->
     </div>
 
 </footer>

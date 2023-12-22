@@ -23,6 +23,10 @@
             height: 150vh;
             margin: 0;
         }
+        .carousel-control-prev-icon,
+.carousel-control-next-icon {
+    color: #000000; /* Change to your preferred color */
+}
         .navbar {
             background: rgb(255, 255, 255);
             box-shadow: 0 2px 5px rgb(0, 0, 0);
@@ -131,6 +135,11 @@
                     <a class="nav-link" href="{% url 'show_user_products' %}"> <i class="fa-solid fa-store"></i>
                         My Products </a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_user_payment_history' %}"> <i
+                            class="fa-solid fa-newspaper"></i>
+                        Payments </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -160,7 +169,7 @@
                 </li>
 
 
-             <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Category
@@ -174,8 +183,10 @@
 
                     </div>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">
+                        Cart <span class="badge badge-pill badge-primary">{{ cartitems|length }}</span>
+                    </a>
                 </li>
 
                 <li class="nav-item active">
@@ -192,7 +203,8 @@
 <ul class="messages">
     {% for message in messages %}
     <li
-    {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+    </li>
     {% endfor %}
 </ul>
 {% endif %}
@@ -237,18 +249,73 @@
                 </form>
             </div>
             <div class="mt-4">
-                    <h3>My Chat Messages:</h3>
-                    <div id="user-chat-messages">
-                        <!-- Iterate over filtered chat messages -->
-                        {% for chat_message in user_chat_messages %}
-                            <div class="message">
-                                <p><b>Question:</b> {{ chat_message.messages }}</p>
-                                <p><b>Reply Answer:</b> {{ chat_message.reply }}</p>
-                                <!-- Display additional message details as needed -->
+                <h3>Feedbacks</h3>
+                <div id="feedbackCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ul class="carousel-indicators" style=": black;">
+                        {% for feedback in product_feedback %}
+                        <li data-target="#feedbackCarousel" data-slide-to="{{ forloop.counter0 }}"
+                            {% if forloop.first %}class="active" {% endif %}></li>
+                        {% endfor %}
+                    </ul>
+
+                    <!-- Carousel items -->
+                    <div class="carousel-inner" style="background-color: #c9d7ff;">
+                        {% for feedback in product_feedback %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="feedback-item">
+                                <br>
+                                <center><p><b>User:</b> {{ feedback.user.username }}</p>
+                                <p><b>Feedback:</b> {{ feedback.feedback_text }}</p></center>
+                                <br>
                             </div>
+                        </div>
+                        {% empty %}
+                        <div class="carousel-item">
+                            <p>No feedback available for this product yet.</p>
+                        </div>
                         {% endfor %}
                     </div>
+
+                    <!-- Carousel controls with black arrow color -->
+                    <a class="carousel-control-prev" href="#feedbackCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: #0d0d0d;"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#feedbackCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: #0d0d0d"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
+            </div>
+
+            <!-- Feedback form -->
+            <div class="mt-4">
+                <h4>Give your Feedback:</h4>
+                <form method="post" action="{% url 'submit_feedback' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ bk.id }}">
+                    <div class="form-group">
+                        <label for="feedback">Your Feedback:</label>
+                        <textarea class="form-control" rows="4" id="feedback" name="feedback" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </form>
+            </div>
+            <!-- Display chat messages -->
+            <div class="mt-4">
+                <h3>My Chat Messages:</h3>
+                <div id="user-chat-messages">
+                    <!-- Iterate over filtered chat messages -->
+                    {% for chat_message in user_chat_messages %}
+                    <div class="message">
+                        <p><b>Question:</b> {{ chat_message.messages }}</p>
+                        <p><b>Reply Answer:</b> {{ chat_message.reply }}</p>
+                        <!-- Display additional message details as needed -->
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -97,6 +97,10 @@
                     <a class="nav-link" href="{% url 'show_user_products' %}"> <i class="fa-solid fa-store"></i>
                         My Products </a>
                 </li>
+                 <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_user_payment_history' %}"> <i class="fa-solid fa-newspaper"></i>
+                        Payments </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -140,8 +144,10 @@
 
                     </div>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">
+                        Cart <span class="badge badge-pill badge-primary">{{ cartitems|length }}</span>
+                    </a>
                 </li>
 
                 <li class="nav-item active">
