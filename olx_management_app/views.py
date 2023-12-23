@@ -151,8 +151,11 @@ def Addproducts(request):
 def UserAddproducts(request):
     Products = Category.objects.all()
     ca = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'user_add_product.html', {'cartitems': cart_items,'Product': Products, 'ca': ca})
+    return render(request, 'user_add_product.html', {'cartitems': cart_items,'Product': Products, 'ca': ca, 'user_chat_messages': user_chat_messages})
 
 
 @login_required(login_url='index')
@@ -439,38 +442,50 @@ def show_user_products(request):
     Products = Category.objects.all()
     bk = Addproduct.objects.filter(user=request.user)
     ca = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     user_products = Addproduct.objects.filter(user=request.user)
     product_ids = user_products.values_list('id', flat=True)  # Retrieve IDs of user's products
     print(product_ids)
     all_feedback_data = Feedback.objects.filter(product_id__in=product_ids)
     print(all_feedback_data)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'show_user_products.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'all_feedback_data': all_feedback_data})
+    return render(request, 'show_user_products.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'all_feedback_data': all_feedback_data, 'user_chat_messages': user_chat_messages})
 
 @login_required(login_url='index')
 def show_user_payment_history(request):
 
     ca = Category.objects.all()
     Products = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     bk = PaymentHistory.objects.filter(buyer=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'show_user_payments.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca})
+    return render(request, 'show_user_payments.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'user_chat_messages': user_chat_messages})
 
 
 @login_required(login_url='index')
 def edit_user(request):
     ca = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     user_profile = Signup.objects.get(user=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'edit_user.html', {'cartitems': cart_items,'Product': user_profile, 'ca': ca})
+    return render(request, 'edit_user.html', {'cartitems': cart_items,'Product': user_profile, 'ca': ca, 'user_chat_messages':user_chat_messages})
 
 
 @login_required(login_url='index')
 def edit_password_page(request):
     ca = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     user_profile = Signup.objects.get(user=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'edit_password_page.html', {'cartitems': cart_items,'Product': user_profile, 'ca': ca})
+    return render(request, 'edit_password_page.html', {'cartitems': cart_items,'Product': user_profile, 'ca': ca, 'user_chat_messages':user_chat_messages })
 
 
 @login_required(login_url='index')
@@ -526,10 +541,13 @@ def edit_password(request, pk):
 @login_required(login_url='index')
 def view_profile(request):
     ca = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     current_user = request.user.id
     user1 = Signup.objects.get(user_id=current_user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'view_profile.html', {'cartitems': cart_items,'users': user1, 'ca': ca})
+    return render(request, 'view_profile.html', {'cartitems': cart_items,'users': user1, 'ca': ca, 'user_chat_messages':user_chat_messages})
 
 
 @login_required(login_url='index')
@@ -542,8 +560,11 @@ def editProduct(request, pk):
 def edit_user_product(request, pk):
     Products = Addproduct.objects.get(id=pk)
     cat = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'user_products_edit.html', {'cartitems': cart_items,'bk': Products, 'ca': cat})
+    return render(request, 'user_products_edit.html', {'cartitems': cart_items,'bk': Products, 'ca': cat, 'user_chat_messages':user_chat_messages})
 
 @login_required(login_url='index')
 def editProduct_details(request, pk):
@@ -679,15 +700,18 @@ def submit_feedback(request):
 @login_required(login_url='index')
 def categorized_products(request, category_id):
     ca = Category.objects.all()
+    current_user=request.user
+    user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
     categories = Category.objects.filter(id=category_id)
 
     if categories.exists():
         category = categories.first()
         # Filter Addproduct items by category and exclude items added by the current user
-        Products = Addproduct.objects.filter(add=category, is_approved=True).exclude(user=request.user)
+        Products = Addproduct.objects.filter(add=category, is_approved=True).exclude(user=request.user).exclude(qty=0)
         print(Products)
         cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-        return render(request, 'categories.html', {'cartitems': cart_items,'categories': [category], 'Product': Products, 'ca': ca})
+        return render(request, 'categories.html', {'cartitems': cart_items,'categories': [category], 'Product': Products, 'ca': ca, 'user_chat_messages':user_chat_messages})
     else:
 
         return render(request, 'userhome.html')

@@ -316,10 +316,14 @@
                 <!-- <li class="nav-item active">
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'show_requestedProduct' %}"> <i class="fas fa-comment"></i>
-                        Chats </a>
-                </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'show_requestedProduct' %}">
+                    <i class="fas fa-comment"></i>
+                    Chats {% if user_chat_messages %}
+                        <span class="chat-count">{{ user_chat_messages|length }}</span>
+                    {% endif %}
+                </a>
+            </li>
 
 
                 <li class="nav-item dropdown">
