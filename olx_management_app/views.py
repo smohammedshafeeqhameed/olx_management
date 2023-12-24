@@ -58,9 +58,9 @@ def adminhome(request):
     for notification in notifications:
         notification.is_seen = True
         notification.save()
-
+    unapproved_products = Addproduct.objects.filter(is_approved=False)
     return render(request, 'adminhome.html',
-                  {'unread_count': unread_count, 'notifications': notifications, 'overdue_requests': overdue_requests})
+                  {'unread_count': unread_count, 'notifications': notifications, 'overdue_requests': overdue_requests, 'unapproved_products': unapproved_products})
 
 
 #   else:
@@ -444,14 +444,15 @@ def show_user_products(request):
     ca = Category.objects.all()
     current_user=request.user
     user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
-    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products, reply__isnull=True).order_by('-id')
+    user_chat_messages = ChatMessage.objects.filter(Product__in=user_products,reply__isnull=True).order_by('-id')
+    user_chat = ChatMessage.objects.filter(Product__in=user_products).order_by('-id')
     user_products = Addproduct.objects.filter(user=request.user)
     product_ids = user_products.values_list('id', flat=True)  # Retrieve IDs of user's products
     print(product_ids)
     all_feedback_data = Feedback.objects.filter(product_id__in=product_ids)
     print(all_feedback_data)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'show_user_products.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'all_feedback_data': all_feedback_data, 'user_chat_messages': user_chat_messages})
+    return render(request, 'show_user_products.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'all_feedback_data': all_feedback_data, 'user_chat': user_chat, 'user_chat_messages': user_chat_messages})
 
 @login_required(login_url='index')
 def show_user_payment_history(request):

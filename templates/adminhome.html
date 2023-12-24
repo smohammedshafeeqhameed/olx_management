@@ -658,6 +658,26 @@
                 </ul>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <ul class="list-unstyled">
+                    {% for product in unapproved_products %}
+                    <li>
+                        <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
+                            <div>
+                                <strong>User:</strong> {{ product.user.username }}<br>
+                                <strong>Product:</strong> {{ product.Product_name }}<br>
+                                <span>{{ product.user.username }} added a new product awaiting approval</span>
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
         <section class="about-section">
             <div class="container">
                 <div class="row">

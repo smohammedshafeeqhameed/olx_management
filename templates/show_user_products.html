@@ -316,14 +316,14 @@
                 <!-- <li class="nav-item active">
                    <a class="nav-link" href="#">Contact Us</a>
             </li> -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'show_requestedProduct' %}">
-                    <i class="fas fa-comment"></i>
-                    Chats {% if user_chat_messages %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'show_requestedProduct' %}">
+                        <i class="fas fa-comment"></i>
+                        Chats {% if user_chat_messages %}
                         <span class="chat-count">{{ user_chat_messages|length }}</span>
-                    {% endif %}
-                </a>
-            </li>
+                        {% endif %}
+                    </a>
+                </li>
 
 
                 <li class="nav-item dropdown">
@@ -527,20 +527,40 @@
                     <p class="lead fw-normal mb-0" style="font-size: 15px;">{{ b.description }}</p>
                 </td>
             </tr>
-           <tr>
-            <td colspan="7">
-                <p class="small text-muted mb-0">Feedbacks:</p>
-                <ul class="list-unstyled">
-                    {% for feedback in all_feedback_data %}
+            <tr>
+                <td colspan="7">
+                    <p class="small text-muted mb-0">Feedbacks:</p>
+                    <ul class="list-unstyled">
+                        {% for feedback in all_feedback_data %}
                         {% if feedback.product_id == b.id %}
-                            <li>{{feedback.user}} : {{ feedback.feedback_text }}</li>
+                        <li>{{feedback.user}} : {{ feedback.feedback_text }}</li>
                         {% endif %}
-                    {% empty %}
+                        {% empty %}
                         <li>No feedback available for this product.</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <p class="small text-muted mb-0">Chats:</p>
+                    <div class="mt-4">
+                        <h3>Messages:</h3>
+                        <div id="user-chat-messages">
+                            <!-- Iterate over filtered chat messages -->
+                            {% for chat_message in user_chat %}
+                            <div class="message">
+                                <p><b>Question:</b> {{ chat_message.messages }}</p>
+                                <p><b>Reply Answer:</b> {{ chat_message.reply }}</p>
+                                <!-- Display additional message details as needed -->
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
             {% endfor %}
             </tbody>
         </table>
