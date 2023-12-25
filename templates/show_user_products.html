@@ -549,11 +549,13 @@
                         <div id="user-chat-messages">
                             <!-- Iterate over filtered chat messages -->
                             {% for chat_message in user_chat %}
+                            {% if chat_message.Product.id == b.id %}
                             <div class="message">
                                 <p><b>Question:</b> {{ chat_message.messages }}</p>
                                 <p><b>Reply Answer:</b> {{ chat_message.reply }}</p>
                                 <!-- Display additional message details as needed -->
                             </div>
+                            {% endif %}
 
                             {% endfor %}
                         </div>

@@ -41,6 +41,7 @@ urlpatterns = [
     path('delete_user/<int:pk>', views.delete_user, name='delete_user'),
     path('delete_Product/<int:pk>', views.delete_Product, name='delete_Product'),
     path('delete_user_product/<int:pk>', views.delete_user_product, name='delete_user_product'),
+    path('delete_product_by_admin/<int:pk>', views.delete_product_by_admin, name='delete_product_by_admin'),
     path('categorized_products/<int:category_id>/', views.categorized_products, name='categorized_products'),
     path('Productcard/<int:pk>', views.Productcard, name='Productcard'),
     path('request_issue/<int:pk>', views.request_issue, name='request_issue'),

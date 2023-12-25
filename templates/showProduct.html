@@ -243,8 +243,9 @@
                     <span class="nav_name">Approve Users</span>
                 </a>
                 <a href="{% url 'showProduct' %}" class="nav_link active">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="nav_name">Show Products</span>
+
+                    <i class="fa-solid fa-cart-shopping">  <h6>{{ not_approved_chat_count }} </h6></i>
+                    <span class="nav_name">Show Products   </span>
                 </a>
                 <a href="{% url 'payment_history' %}" class="nav_link">
                     <i class="fa-solid fa-newspaper" title="Show Product"></i>
@@ -389,7 +390,7 @@
 
                 </td>
                 <td>
-                    <a href="{% url 'delete_user_product' b.id %}" style="color: black;">
+                    <a href="{% url 'delete_product_by_admin' b.id %}" style="color: black;">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </a>
                 </td>

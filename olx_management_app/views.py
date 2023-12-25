@@ -419,8 +419,9 @@ def logout1(request):
 def showProduct(request):
     Products = Category.objects.all()
     bk = Addproduct.objects.all()
-
-    return render(request, 'showProduct.html', {'bk': Products, 'buk': bk})
+    not_approved_chat_count = Addproduct.objects.filter(is_approved=False).count()
+    print(not_approved_chat_count)
+    return render(request, 'showProduct.html', {'bk': Products, 'buk': bk, 'not_approved_chat_count': not_approved_chat_count})
 
 @login_required(login_url='index')
 def payment_history(request):
@@ -667,6 +668,16 @@ def delete_user_product(request, pk):
         messages.error(request, 'Product not found.')
 
     return redirect('show_user_products')
+
+def delete_product_by_admin(request, pk):
+    try:
+        Product = Addproduct.objects.get(id=pk)
+        Product.delete()
+        messages.success(request, 'Product deleted successfully.')
+    except Addproduct.DoesNotExist:
+        messages.error(request, 'Product not found.')
+
+    return redirect('showProduct')
 
 
 def submit_feedback(request):
