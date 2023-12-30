@@ -541,27 +541,27 @@
                     </ul>
                 </td>
             </tr>
-            <tr>
-                <td colspan="7">
-                    <p class="small text-muted mb-0">Chats:</p>
-                    <div class="mt-4">
-                        <h3>Messages:</h3>
-                        <div id="user-chat-messages">
-                            <!-- Iterate over filtered chat messages -->
-                            {% for chat_message in user_chat %}
-                            {% if chat_message.Product.id == b.id %}
-                            <div class="message">
-                                <p><b>Question:</b> {{ chat_message.messages }}</p>
-                                <p><b>Reply Answer:</b> {{ chat_message.reply }}</p>
-                                <!-- Display additional message details as needed -->
-                            </div>
-                            {% endif %}
+<!--            <tr>-->
+<!--                <td colspan="7">-->
+<!--                    <p class="small text-muted mb-0">Chats:</p>-->
+<!--                    <div class="mt-4">-->
+<!--                        <h3>Messages:</h3>-->
+<!--                        <div id="user-chat-messages">-->
+<!--                            &lt;!&ndash; Iterate over filtered chat messages &ndash;&gt;-->
+<!--                            {% for chat_message in user_chat %}-->
+<!--                            {% if chat_message.Product.id == b.id %}-->
+<!--                            <div class="message">-->
+<!--                                <p><b>Question:</b> {{ chat_message.messages }}</p>-->
+<!--                                <p><b>Reply Answer:</b> {{ chat_message.reply }}</p>-->
+<!--                                &lt;!&ndash; Display additional message details as needed &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            {% endif %}-->
 
-                            {% endfor %}
-                        </div>
-                    </div>
-                </td>
-            </tr>
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
 
             {% endfor %}
             </tbody>

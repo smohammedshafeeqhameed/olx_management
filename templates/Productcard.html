@@ -226,6 +226,7 @@
                 </div>
 
                 <p><strong>Product Name:</strong> {{bk.Product_name}}</p>
+                <p><strong>Seller Name:</strong> {{bk.user.username}}</p>
                 <p><strong>Category:</strong> {{bk.add.cat_name}}</p>
                 <p><strong>Price:</strong> {{bk.price}}</p>
                 <p><strong>Number Of Product: </strong> {{bk.qty}}</p>
@@ -240,13 +241,13 @@
                 </div>
                 {% endif %}
 
-                <form method="post" action="{% url 'chat_message_view' bk.id %}">
-                    {% csrf_token %}
-                    <label for="rental_period">Ask Questions:</label>
-                    <input type="hidden" name="Product_id" value="{{ bk.id }}">
-                    <input type="text" name="chat_box" class="form-control" required><br>
-                    <button type="submit" class="btn btn-success">Send Message</button>
-                </form>
+<!--                <form method="post" action="{% url 'chat_message_view' bk.id %}">-->
+<!--                    {% csrf_token %}-->
+<!--                    <label for="rental_period">Ask Questions:</label>-->
+<!--                    <input type="hidden" name="Product_id" value="{{ bk.id }}">-->
+<!--                    <input type="text" name="chat_box" class="form-control" required><br>-->
+<!--                    <button type="submit" class="btn btn-success">Send Message</button>-->
+<!--                </form>-->
             </div>
             <div class="mt-4">
                 <h3>Feedbacks</h3>
@@ -303,19 +304,19 @@
                 </form>
             </div>
             <!-- Display chat messages -->
-            <div class="mt-4">
-                <h3>My Chat Messages:</h3>
-                <div id="user-chat-messages">
-                    <!-- Iterate over filtered chat messages -->
-                    {% for chat_message in user_chat_messages %}
-                    <div class="message">
-                        <p><b>Question:</b> {{ chat_message.messages }}</p>
-                        <p><b>Reply Answer:</b> {{ chat_message.reply }}</p>
-                        <!-- Display additional message details as needed -->
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+<!--            <div class="mt-4">-->
+<!--                <h3>My Chat Messages:</h3>-->
+<!--                <div id="user-chat-messages">-->
+<!--                    &lt;!&ndash; Iterate over filtered chat messages &ndash;&gt;-->
+<!--                    {% for chat_message in user_chat_messages %}-->
+<!--                    <div class="message">-->
+<!--                        <p><b>Question:</b> {{ chat_message.messages }}</p>-->
+<!--                        <p><b>Reply Answer:</b> {{ chat_message.reply }}</p>-->
+<!--                        &lt;!&ndash; Display additional message details as needed &ndash;&gt;-->
+<!--                    </div>-->
+<!--                    {% endfor %}-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 </div>

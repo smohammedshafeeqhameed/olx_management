@@ -47,10 +47,21 @@ class LoginRequest(models.Model):
 
 class Category(models.Model):
     cat_name=models.CharField(max_length=255)
+    def __str__(self):
+        return f"{self.cat_name}"
+
+
+class SubCategory(models.Model):
+    sub_cat_name = models.CharField(max_length=255)
+    cat_name = models.ForeignKey(Category, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.sub_cat_name}"
+
    
 class Addproduct(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     add=models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
+    subcategory = models.CharField(max_length=255, null=True, blank=True)
     Product_name=models.CharField(max_length=255)
     description=models.CharField(max_length=255) 
     year=models.IntegerField(null=True)
@@ -201,3 +212,14 @@ class ChatMessage(models.Model):
     messages = models.TextField(null=True, blank=True)
     reply = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class ChatMessageData(models.Model):
+    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
+    message = models.TextField()
+    is_seen = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"From {self.sender.username} to {self.receiver.username}"

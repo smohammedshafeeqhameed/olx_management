@@ -18,4 +18,6 @@ admin.site.register(OverdueProductNotification)
 admin.site.register(ChatMessage)
 admin.site.register(PaymentHistory)
 admin.site.register(Feedback)
+admin.site.register(ChatMessageData)
+admin.site.register(SubCategory)
 

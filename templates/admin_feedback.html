@@ -338,6 +338,7 @@
                 <th>User</th>
                 <th>Product Owner</th>
                 <th>Product</th>
+                <th>Image</th>
                 <th>Feedback</th>
 
 
@@ -350,6 +351,15 @@
                 <td>{{ feedback.user.username }}</td>
                 <td>{{ feedback.product.user }}</td>
                 <td>{{ feedback.product.Product_name }}</td>
+                <td>
+                 {% if feedback.product.image %}
+                    <center><img src="{{ feedback.product.image.url }}" class="img-fluid" alt="Product Cover" style="max-width: 100px;">
+                    </center>
+                        {% else %}
+
+                    <p style="height: 100px; width: 100px;"></p>
+                    {% endif %}
+                </td>
                 <td>{{ feedback.feedback_text }}</td>
 
             </tr>
