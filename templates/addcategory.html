@@ -300,6 +300,16 @@
                     <div class="row justify-content-center">
                         <div class="col-md-8">
                             <div class="page-content">
+<!--                                <form action="{% url 'addcat' %}" method="post">-->
+<!--                                    {% csrf_token %}-->
+<!--                                    <div class="mb-3">-->
+<!--                                        <label for="categoryName" class="form-label" style="color: black;">Category-->
+<!--                                            Name</label>-->
+<!--                                        <input type="text" class="form-control" id="categoryName" name="cate"-->
+<!--                                               placeholder="Enter category name" required>-->
+<!--                                    </div>-->
+<!--                                    <button type="submit" class="btn btn-primary">Add Category</button>-->
+<!--                                </form>-->
                                 <form action="{% url 'addcat' %}" method="post">
                                     {% csrf_token %}
                                     <div class="mb-3">
@@ -308,8 +318,15 @@
                                         <input type="text" class="form-control" id="categoryName" name="cate"
                                                placeholder="Enter category name" required>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="subcategoryName" class="form-label" style="color: black;">Subcategory
+                                            Name</label>
+                                        <input type="text" class="form-control" id="subcategoryName" name="sub_cate"
+                                               placeholder="Enter subcategory name">
+                                    </div>
                                     <button type="submit" class="btn btn-primary">Add Category</button>
                                 </form>
+
                             </div>
                         </div>
                     </div>

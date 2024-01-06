@@ -260,6 +260,35 @@
 .alert-fade.fade-out {
     opacity: 0;
 }
+ @media (min-width: 992px){
+		.dropdown-menu .dropdown-toggle:after{
+			border-top: .3em solid transparent;
+		    border-right: 0;
+		    border-bottom: .3em solid transparent;
+		    border-left: .3em solid;
+		}
+
+		.dropdown-menu .dropdown-menu{
+			margin-left:0; margin-right: 0;
+		}
+
+		.dropdown-menu li{
+			position: relative;
+		}
+		.nav-item .submenu{
+			display: none;
+			position: absolute;
+			left:100%; top:-7px;
+		}
+		.nav-item .submenu-left{
+			right:100%; left:auto;
+		}
+
+		.dropdown-menu > li:hover{ background-color: #f1f1f1 }
+		.dropdown-menu > li:hover > .submenu{
+			display: block;
+		}
+	}
 
     </style>
 </head>
@@ -323,18 +352,19 @@
 
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="facilitiesDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Category
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="facilitiesDropdown">
-                        {% for category in ca %}
-                        <a class="dropdown-item" href="{% url 'categorized_products' category.id %}">
-                            {{ category.cat_name }}</a>
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Category </a>
+                    <ul class="dropdown-menu">
+                        {%  for category, subcategories in example_category_dict.items %}
+                        <li><a class="dropdown-item" href="#">{{ category }} &raquo </a>
+                            <ul class="submenu dropdown-menu">
+                                {% for sub_cat in subcategories %}
+                                <li><a class="dropdown-item" href="{% url 'categorized_products' sub_cat %}">{{sub_cat}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
                         {% endfor %}
 
-
-                    </div>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'cart' %}">
@@ -393,18 +423,22 @@
                                required>
                     </div>
 
+
                     <div class="mb-3">
                         <label for="category" class="form-label" style="color: black;">Category</label>
-                        <select class="form-select" name="sel" required>
-                            {% for b in Product %}
-                            <option value="{{ b.id }}">{{ b.cat_name }}</option>
+                        <select class="form-select" id="categorySelect" name="sel" required>
+                            <option value="" disabled selected>Select a category</option>
+                            {% for category, subcategories in example_category_dict.items %}
+                            <option value="{{ category }}">{{ category }}</option>
                             {% endfor %}
                         </select>
                     </div>
+
                     <div class="mb-3">
-                        <label for="ProductName" class="form-label" style="color: black;">Sub Category</label>
-                        <input type="text" class="form-control" id="Sub Category" name="subcat"
-                               placeholder="Enter Sub Category" required>
+                        <label for="subcategory" class="form-label" style="color: black;">Subcategory</label>
+                        <select class="form-select" id="subcategorySelect" name="subcat" required>
+                            <option value="" disabled selected>Select a subcategory</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label" style="color: black;">Description</label>
@@ -444,6 +478,22 @@
     </div>
 </div>
 <script>
+    // JavaScript to populate subcategories based on selected category
+    document.getElementById('categorySelect').addEventListener('change', function () {
+        var selectedCategory = this.value;
+        var subcategorySelect = document.getElementById('subcategorySelect');
+        subcategorySelect.innerHTML = '<option value="" disabled selected>Select a subcategory</option>';
+
+        if (selectedCategory !== '') {
+            var subcategories = {{ example_category_dict | safe }}[selectedCategory];
+            subcategories.forEach(function (subcategory) {
+                var option = document.createElement('option');
+                option.value = subcategory;
+                option.text = subcategory;
+                subcategorySelect.appendChild(option);
+            });
+        }
+    });
     document.addEventListener("DOMContentLoaded", function() {
     // Set the input field value to 1
     document.getElementById("quantity").value = "1";

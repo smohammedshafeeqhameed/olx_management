@@ -61,7 +61,7 @@ class SubCategory(models.Model):
 class Addproduct(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     add=models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
-    subcategory = models.CharField(max_length=255, null=True, blank=True)
+    subcategory = models.ForeignKey(SubCategory,on_delete=models.CASCADE,null=True)
     Product_name=models.CharField(max_length=255)
     description=models.CharField(max_length=255) 
     year=models.IntegerField(null=True)

@@ -130,15 +130,32 @@ def addcategory(request):
     return render(request, 'addcategory.html')
 
 
+# @login_required(login_url='index')
+# def addcat(request):
+#     if request.method == 'POST':
+#         cat = request.POST['cate']
+#
+#         catg = Category(cat_name=cat)
+#         catg.save()
+#         messages.success(request, 'Category Added Successfully')
+#         return redirect('addcategory')
 @login_required(login_url='index')
 def addcat(request):
     if request.method == 'POST':
-        cat = request.POST['cate']
+        cat = request.POST.get('cate')
+        sub_cat = request.POST.get('sub_cate')
 
-        catg = Category(cat_name=cat)
-        catg.save()
-        messages.success(request, 'Category Added Successfully')
+        # Check if subcategory data is provided
+        if sub_cat:
+            cat_instance = Category.objects.create(cat_name=cat)
+            SubCategory.objects.create(sub_cat_name=sub_cat, cat_name=cat_instance)
+            messages.success(request, 'Category and Subcategory Added Successfully')
+        else:
+            Category.objects.create(cat_name=cat)
+            messages.success(request, 'Category Added Successfully')
+
         return redirect('addcategory')
+    return render(request, 'addcategory.html')
 
 
 @login_required(login_url='index')
@@ -147,15 +164,37 @@ def Addproducts(request):
     return render(request, 'Addproducts.html', {'Product': Products})
 
 
+def get_subcategories(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'GET':
+        category_id = request.GET.get('category_id')
+        subcategories = SubCategory.objects.filter(cat_name_id=category_id)
+
+        options = ''
+        for subcategory in subcategories:
+            options += f'<option value="{subcategory.id}">{subcategory.sub_cat_name}</option>'
+
+        return JsonResponse({'user_add_product.html': options})
+    else:
+        return JsonResponse({'error': 'Invalid request'})
+
 @login_required(login_url='index')
 def UserAddproducts(request):
     Products = Category.objects.all()
     ca = Category.objects.all()
+    sbca = SubCategory.objects.all()
     current_user=request.user
     user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
     user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'user_add_product.html', {'cartitems': cart_items,'Product': Products, 'ca': ca, 'user_chat_messages': user_chat_messages})
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+
+    return render(request, 'user_add_product.html', {'cartitems': cart_items,'Product': Products,'sbca':sbca, 'ca': ca, 'user_chat_messages': user_chat_messages, "example_category_dict":example_category_dict})
 
 
 @login_required(login_url='index')
@@ -182,6 +221,7 @@ def addbo(request):
 
 @login_required(login_url='index')
 def useraddbo(request):
+    print(request.POST)
     if request.method == 'POST':
         bk = request.POST['bname']
         des = request.POST['desc']
@@ -191,10 +231,11 @@ def useraddbo(request):
         price = request.POST['price']
         img = request.FILES.get('img')
         sel = request.POST['sel']
-        cat = Category.objects.get(id=sel)
+        cat = Category.objects.get(cat_name=sel)
+        sub_cat = SubCategory.objects.get(sub_cat_name = sb)
         cat.save()
         Product = Addproduct(user=request.user, Product_name=bk, description=des, year=yop, qty=qty, price=price,
-                          image=img, add=cat, subcategory=sb)
+                          image=img, add=cat, subcategory=sub_cat)
         Product.save()
         messages.success(request, 'Product Added Successfully')
         return redirect('UserAddproducts')
@@ -408,7 +449,15 @@ def userhome(request):
     user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
     show = Addproduct.objects.filter(is_approved=True).exclude(user=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'userhome.html', {'cartitems': cart_items,'ca': ca, 'sh': show,'user_chat_messages':user_chat_messages})
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+
+    return render(request, 'userhome.html', {'cartitems': cart_items,'ca': ca, 'sh': show,'user_chat_messages':user_chat_messages, "example_category_dict":example_category_dict})
 
 
 def logout1(request):
@@ -454,7 +503,14 @@ def show_user_products(request):
     all_feedback_data = Feedback.objects.filter(product_id__in=product_ids)
     print(all_feedback_data)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'show_user_products.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'all_feedback_data': all_feedback_data, 'user_chat': user_chat, 'user_chat_messages': user_chat_messages})
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+    return render(request, 'show_user_products.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'all_feedback_data': all_feedback_data, 'user_chat': user_chat, 'user_chat_messages': user_chat_messages, "example_category_dict":example_category_dict})
 
 @login_required(login_url='index')
 def show_user_payment_history(request):
@@ -466,7 +522,14 @@ def show_user_payment_history(request):
     user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
     bk = PaymentHistory.objects.filter(buyer=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'show_user_payments.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'user_chat_messages': user_chat_messages})
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+    return render(request, 'show_user_payments.html', {'cartitems': cart_items,'bk': Products, 'buk': bk, 'ca': ca, 'user_chat_messages': user_chat_messages, "example_category_dict":example_category_dict})
 
 
 @login_required(login_url='index')
@@ -477,7 +540,14 @@ def edit_user(request):
     user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
     user_profile = Signup.objects.get(user=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'edit_user.html', {'cartitems': cart_items,'Product': user_profile, 'ca': ca, 'user_chat_messages':user_chat_messages})
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+    return render(request, 'edit_user.html', {'cartitems': cart_items,'Product': user_profile, 'ca': ca, 'user_chat_messages':user_chat_messages, "example_category_dict":example_category_dict})
 
 
 @login_required(login_url='index')
@@ -488,7 +558,14 @@ def edit_password_page(request):
     user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
     user_profile = Signup.objects.get(user=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'edit_password_page.html', {'cartitems': cart_items,'Product': user_profile, 'ca': ca, 'user_chat_messages':user_chat_messages })
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+    return render(request, 'edit_password_page.html', {'cartitems': cart_items,'Product': user_profile, 'ca': ca, 'user_chat_messages':user_chat_messages, "example_category_dict":example_category_dict})
 
 
 @login_required(login_url='index')
@@ -550,7 +627,14 @@ def view_profile(request):
     current_user = request.user.id
     user1 = Signup.objects.get(user_id=current_user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'view_profile.html', {'cartitems': cart_items,'users': user1, 'ca': ca, 'user_chat_messages':user_chat_messages})
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+    return render(request, 'view_profile.html', {'cartitems': cart_items,'users': user1, 'ca': ca, 'user_chat_messages':user_chat_messages, "example_category_dict":example_category_dict})
 
 
 @login_required(login_url='index')
@@ -567,7 +651,14 @@ def edit_user_product(request, pk):
     user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
     user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-    return render(request, 'user_products_edit.html', {'cartitems': cart_items,'bk': Products, 'ca': cat, 'user_chat_messages':user_chat_messages})
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+    return render(request, 'user_products_edit.html', {'cartitems': cart_items,'bk': Products, 'ca': cat, 'user_chat_messages':user_chat_messages,"example_category_dict":example_category_dict})
 
 @login_required(login_url='index')
 def editProduct_details(request, pk):
@@ -598,7 +689,7 @@ def edit_user_product_details(request, pk):
     if request.method == 'POST':
         eProduct = Addproduct.objects.get(id=pk)
         eProduct.Product_name = request.POST['Productname']
-
+        subcategory = request.POST.get('subcategory')
         eProduct.description = request.POST['description']
 
         eProduct.year = request.POST['year']
@@ -606,6 +697,7 @@ def edit_user_product_details(request, pk):
         eProduct.price = request.POST['price']
         cat = request.POST['category']
         cate = Category.objects.get(id=cat)
+        eProduct.subcategory = SubCategory.objects.get(sub_cat_name=subcategory)
         cate.save()
         eProduct.add = cate
         if 'img' in request.FILES:
@@ -711,20 +803,27 @@ def submit_feedback(request):
     return render(request, 'userhome.html', {'ca': ca, 'sh': show, 'user_chat_messages': user_chat_messages})
 
 @login_required(login_url='index')
-def categorized_products(request, category_id):
+def categorized_products(request, category_name):
     ca = Category.objects.all()
     current_user=request.user
     user_products = Addproduct.objects.filter(user=current_user,is_approved=True)
     user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
-    categories = Category.objects.filter(id=category_id)
+    categories = SubCategory.objects.filter(sub_cat_name=category_name)
 
     if categories.exists():
         category = categories.first()
         # Filter Addproduct items by category and exclude items added by the current user
-        Products = Addproduct.objects.filter(add=category, is_approved=True).exclude(user=request.user).exclude(qty=0)
+        Products = Addproduct.objects.filter(subcategory=category, is_approved=True).exclude(user=request.user).exclude(qty=0)
         print(Products)
         cart_items = Cart.objects.filter(user=request.user).select_related('Product')
-        return render(request, 'categories.html', {'cartitems': cart_items,'categories': [category], 'Product': Products, 'ca': ca, 'user_chat_messages':user_chat_messages})
+        example_category_dict = {}
+        categories = Category.objects.all()
+
+        for category in categories:
+            subcategories = SubCategory.objects.filter(cat_name=category)
+            subcategory_list = [sub.sub_cat_name for sub in subcategories]
+            example_category_dict[category.cat_name] = subcategory_list
+        return render(request, 'categories.html', {'cartitems': cart_items,'categories': [category], 'Product': Products, 'ca': ca, 'user_chat_messages':user_chat_messages,"example_category_dict":example_category_dict})
     else:
 
         return render(request, 'userhome.html')
@@ -773,9 +872,16 @@ def Productcard(request, pk):
     #
     # if existing_request:
     #     messages.warning(request, 'You have already requested this Product. Please wait for approval.')
+    cart_items = Cart.objects.filter(user=request.user).select_related('Product')
+    example_category_dict = {}
+    categories = Category.objects.all()
 
-    return render(request, 'Productcard.html', {'bk': bk, 'user_chat_messages': user_chat_messages, 'ca':ca, 'product': product,
-        'product_feedback': product_feedback,})
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+    return render(request, 'Productcard.html', {'bk': bk, "cart_items":cart_items, 'user_chat_messages': user_chat_messages, 'ca':ca, 'product': product,
+        'product_feedback': product_feedback,"example_category_dict":example_category_dict})
 
 
 def loginusers(request):
@@ -894,7 +1000,14 @@ def cart(request):
     ca = Category.objects.all()
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
     total_price = sum(item.total_price() for item in cart_items)
-    return render(request, 'cart.html', {'cartitems': cart_items, 'totalprice': total_price, 'ca': ca})
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
+    return render(request, 'cart.html', {'cartitems': cart_items, 'totalprice': total_price, 'ca': ca,"example_category_dict":example_category_dict})
 
 
 # def increase_quantity(request, pk):
@@ -1214,6 +1327,13 @@ def chat_with_user(request, user_id):
 
     for i in messages:
         print(i.message)
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
     context = {
         'cartitems': cart_items,
         'user_chat_messages': user_chat_messages,
@@ -1223,7 +1343,8 @@ def chat_with_user(request, user_id):
         'receiver': receiver,
         'messages': messages,
         "current_chat_user":current_chat_user,
-        'categories_with_subcategories': categories_with_subcategories
+        'categories_with_subcategories': categories_with_subcategories,
+        "example_category_dict":example_category_dict
     }
     # print(context)
     return render(request, 'show_requestedProduct.html', context)
@@ -1240,11 +1361,19 @@ def show_requestedProduct(request):
     # user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
     user_chat_messages = ChatMessageData.objects.filter(is_seen=False).exclude(sender=request.user)
     cart_items = Cart.objects.filter(user=request.user).select_related('Product')
+    example_category_dict = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        subcategories = SubCategory.objects.filter(cat_name=category)
+        subcategory_list = [sub.sub_cat_name for sub in subcategories]
+        example_category_dict[category.cat_name] = subcategory_list
     return render(request, 'show_requestedProduct.html', {
         'cartitems': cart_items,
         'user_chat_messages': user_chat_messages,
         'ca': ca,
-        'users': users
+        'users': users,
+        "example_category_dict": example_category_dict
 
     })
 
