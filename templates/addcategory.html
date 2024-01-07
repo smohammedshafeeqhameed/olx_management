@@ -295,36 +295,55 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-
                 <div class="container mt-5" style="background-color: #fff; padding: 20px;">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
                             <div class="page-content">
-<!--                                <form action="{% url 'addcat' %}" method="post">-->
-<!--                                    {% csrf_token %}-->
-<!--                                    <div class="mb-3">-->
-<!--                                        <label for="categoryName" class="form-label" style="color: black;">Category-->
-<!--                                            Name</label>-->
-<!--                                        <input type="text" class="form-control" id="categoryName" name="cate"-->
-<!--                                               placeholder="Enter category name" required>-->
-<!--                                    </div>-->
-<!--                                    <button type="submit" class="btn btn-primary">Add Category</button>-->
-<!--                                </form>-->
                                 <form action="{% url 'addcat' %}" method="post">
                                     {% csrf_token %}
                                     <div class="mb-3">
-                                        <label for="categoryName" class="form-label" style="color: black;">Category
-                                            Name</label>
-                                        <input type="text" class="form-control" id="categoryName" name="cate"
-                                               placeholder="Enter category name" required>
+                                        <label for="categoryName" class="form-label" style="color: black;">Category Name</label>
+                                        <input type="text" class="form-control" id="categoryName" name="cate" placeholder="Enter category name" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add Category</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container mt-5" style="background-color: #fff; padding: 20px;">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="page-content">
+                                <!--                                <form action="{% url 'addcat' %}" method="post">-->
+                                <!--                                    {% csrf_token %}-->
+                                <!--                                    <div class="mb-3">-->
+                                <!--                                        <label for="categoryName" class="form-label" style="color: black;">Category-->
+                                <!--                                            Name</label>-->
+                                <!--                                        <input type="text" class="form-control" id="categoryName" name="cate"-->
+                                <!--                                               placeholder="Enter category name" required>-->
+                                <!--                                    </div>-->
+                                <!--                                    <button type="submit" class="btn btn-primary">Add Category</button>-->
+                                <!--                                </form>-->
+                                <form action="{% url 'add_subcategory' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="categorySelect" class="form-label" style="color: black;">Select
+                                            Category</label>
+                                        <select class="form-select" id="categorySelect" name="cat_name" required>
+                                            <option value="" disabled selected>Select a category</option>
+                                            {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ category.cat_name }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="subcategoryName" class="form-label" style="color: black;">Subcategory
                                             Name</label>
-                                        <input type="text" class="form-control" id="subcategoryName" name="sub_cate"
+                                        <input type="text" class="form-control" id="subcategoryName" name="sub_cat_name"
                                                placeholder="Enter subcategory name">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Add Category</button>
+                                    <button type="submit" class="btn btn-primary">Add Subcategory</button>
                                 </form>
 
                             </div>

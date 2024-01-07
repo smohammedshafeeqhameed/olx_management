@@ -58,6 +58,7 @@ urlpatterns = [
     path('notifications/', views.notifications, name='notifications'),
     path('reject_user/<int:signup_id>/', views.reject_user, name='reject_user'),
     path('cart', views.cart, name='cart'),
+    path('add_subcategory/', views.add_subcategory, name='add_subcategory'),
     path('cart_details/<int:pk>', views.cart_details, name='cart_details'),
     path('removecart<int:pk>', views.removecart, name='removecart'),
     path('proceedpay', views.proceedpay, name='proceedpay'),

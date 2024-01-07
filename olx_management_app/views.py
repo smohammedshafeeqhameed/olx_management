@@ -127,7 +127,8 @@ def adminhome(request):
 
 @login_required(login_url='index')
 def addcategory(request):
-    return render(request, 'addcategory.html')
+    categories = Category.objects.all()
+    return render(request, 'addcategory.html', {'categories': categories})
 
 
 # @login_required(login_url='index')
@@ -993,6 +994,23 @@ def reject_user(request, signup_id):
     messages.warning(request, 'User has been rejected and an email has been sent to the user.')
 
     return redirect('loginusers')
+
+
+def add_subcategory(request):
+    if request.method == 'POST':
+        cat_name = request.POST.get('cat_name')
+        print(cat_name)
+        sub_cat_name = request.POST.get('sub_cat_name')
+        if sub_cat_name:
+            category_instance = Category.objects.get(id=cat_name)
+            SubCategory.objects.create(sub_cat_name=sub_cat_name, cat_name=category_instance)
+            messages.success(request, 'Category and Subcategory Added Successfully') # Redirect to a success page or any other desired URL
+            return redirect('addcategory')  # Redirect to your desired URL after adding
+        else:
+            messages.success(request, 'Subcategory not selected')  # Redirect to a success page or any other desired URL
+            return redirect('addcategory')
+
+    return render(request, 'addcategory.html')
 
 
 # @login_required(login_url='index')
